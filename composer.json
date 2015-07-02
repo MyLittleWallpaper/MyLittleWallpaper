@@ -1,0 +1,6 @@
+{
+    "require": {
+        "phpmailer/phpmailer": "v5.2.9",
+        "razielanarki/hyperlight": "v0.1.2"
+    }
+}

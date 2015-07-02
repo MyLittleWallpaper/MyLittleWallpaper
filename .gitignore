@@ -1,0 +1,9 @@
+/nbproject/
+/.settings
+/.project
+/.buildpath
+/.idea/dictionaries
+/.idea/workspace.xml
+/.idea/dataSources.*
+/vendor
+Thumbs.db

@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /api/
+Disallow: /upload    
+Disallow: /login 
+Disallow: /register 
+Disallow: /forgotpass    
+Disallow: /c/*/api/
+Disallow: /c/*/upload
+Disallow: /c/*/login
+Disallow: /c/*/register
+Disallow: /c/*/forgotpass
