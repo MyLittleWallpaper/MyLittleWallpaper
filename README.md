@@ -15,3 +15,7 @@ TODO: Write description
 * **ImageMagick**, *convert* command line tool used
 * **Clam AntiVirus daemon**
 * **GNU Wget**
+
+# Installation
+
+Todo: write
