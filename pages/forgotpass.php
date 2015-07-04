@@ -97,7 +97,7 @@ if (!$user->getIsAnonymous()) {
 						$phpMailer->From = 'noreply@mylittlewallpaper.com';
 						$phpMailer->FromName = 'My Little Wallpaper';
 						$phpMailer->Body = utf8_decode(
-							'Password reset was requested for your account. To complete this request, go to the following URL: http://www.mylittlewallpaper.com/forgotpass.php?req=' . urlencode($id) . '&key=' . urlencode($thekey) . "\n\n" .
+							'Password reset was requested for your account. To complete this request, go to the following URL: ' . PROTOCOL . SITE_DOMAIN . '/c/all/forgotpass?req=' . urlencode($id) . '&key=' . urlencode($thekey) . "\n\n" .
 							'The URL above will expire in 48 hours.' . "\n\n" .
 							'If you didn\'t request for password reset yourself, you can just ignore this message.' . "\n\n" .
 							'Best regards,' . "\n" .

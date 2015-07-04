@@ -63,7 +63,7 @@ if (!$user->getIsAnonymous()) {
 							'You have opened an account to My Little Wallpaper with the following information:'."\n\n".
 							'Username: '.trim($_POST['username'])."\n".
 							'Password: '.$_POST['password']."\n\n".
-							'To log in, just go to http://www.mylittlewallpaper.com/login.php'."\n\n".
+							'To log in, just go to ' . PROTOCOL . SITE_DOMAIN . '/c/all/login'."\n\n".
 							'Best regards,'."\n".
 							'My Little Wallpaper Team');
 						$phpMailer->Subject = 'My Little Wallpaper account';

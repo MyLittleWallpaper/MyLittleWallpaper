@@ -15,7 +15,7 @@ $page_html .= '<p>My Little Wallpaper offers a REST API for fetching wallpaper i
 
 $page_html .= '<h2>Favourites</h2>';
 $page_html .= '<p>API call to get personal favourites. To use this API call, API token is needed. This can be found on account <a href="' . PUB_PATH_CAT . '/account" target="_blank">settings page</a>.</p>';
-$page_html .= '<p>JSON endpoint for this call is <a href="http://www.mylittlewallpaper.com/c/all/api/v2/favourites.json" target="_blank">http://www.mylittlewallpaper.com/c/all/api/v2/featured.json</a>. This call wil return <strong>all</strong> user\'s favourites regardless of category in the URL.</p>';
+$page_html .= '<p>JSON endpoint for this call is <a href="' . PROTOCOL . SITE_DOMAIN . '/c/all/api/v2/favourites.json" target="_blank">' . PROTOCOL . SITE_DOMAIN . '/c/all/api/v2/featured.json</a>. This call wil return <strong>all</strong> user\'s favourites regardless of category in the URL.</p>';
 $hyperLight = new Hyperlight\Hyperlight('php');
 $page_html .= '<h3 style="margin:24px 0 2px 0;">Request parameters</h3>';
 $page_html .= '<table class="parameter-table">';
@@ -62,8 +62,8 @@ $jsonCode = '"result":[
   {
     "title":"\u307f\u3087\u3093",
     "imageId":"5551868684f4a1.44660109",
-    "downloadURL":"http:\/\/www.mylittlewallpaper.com\/c\/all\/download\/5551868684f4a1.44660109",
-    "fullImageURL":"http:\/\/www.mylittlewallpaper.com\/images\/o_5551868684f4a1.44660109.jpg",
+    "downloadURL":' . json_encode(PROTOCOL . SITE_DOMAIN . '/c/all/download/5551868684f4a1.44660109') . ',
+    "fullImageURL":' . json_encode(PROTOCOL . SITE_DOMAIN . '/images/o_5551868684f4a1.44660109.jpg') . ',
     "dimensions":{"width":3150,"height":2150},
     "authors":["Masaharu (\u96c5\u6625)"],
     "clicks":1,
@@ -72,8 +72,8 @@ $jsonCode = '"result":[
   {
     "title":"89\u306e\u65e52012",
     "imageId":"5551844622e039.44447209",
-    "downloadURL":"http:\/\/www.mylittlewallpaper.com\/c\/all\/download\/5551844622e039.44447209",
-    "fullImageURL":"http:\/\/www.mylittlewallpaper.com\/images\/o_5551844622e039.44447209.jpg",
+    "downloadURL":' . json_encode(PROTOCOL . SITE_DOMAIN . '/c/all/download/5551844622e039.44447209') . ',
+    "fullImageURL":' . json_encode(PROTOCOL . SITE_DOMAIN . '/images/o_5551844622e039.44447209.jpg') . ',
     "dimensions":{"width":2560,"height":1920},
     "authors":["CAFFEIN"],
     "clicks":2,
@@ -93,7 +93,7 @@ $page_html .= '<td class="api-description"><p>Wallpaper title.</p><p>For example
 $page_html .= '</tr>';
 $page_html .= '<tr>';
 $page_html .= '<td class="api-field"><h4>imageId</h4><em>always present</em></td>';
-$page_html .= '<td class="api-description"><p>Wallpaper image identifier.</p><p>This identifier can be used to get thumbnails from the site: <code>http://www.mylittlewallpaper.com/image.php?image=[imageid]</code>, for example</p><div class="source-code">'.$hyperLight->render('"imageId":"504726d1982d86.18038044"').'</div></td>';
+$page_html .= '<td class="api-description"><p>Wallpaper image identifier.</p><p>This identifier can be used to get thumbnails from the site: <code>' . PROTOCOL . SITE_DOMAIN . '/image.php?image=[imageid]</code>, for example</p><div class="source-code">'.$hyperLight->render('"imageId":"504726d1982d86.18038044"').'</div></td>';
 $page_html .= '</tr>';
 $page_html .= '<tr>';
 $page_html .= '<td class="api-field"><h4>downloadURL</h4><em>always present</em></td>';
@@ -101,7 +101,7 @@ $page_html .= '<td class="api-description"><p>Wallpaper download URL.</p><p>For 
 $page_html .= '</tr>';
 $page_html .= '<tr>';
 $page_html .= '<td class="api-field"><h4>fullImageURL</h4><em>always present</em></td>';
-$page_html .= '<td class="api-description"><p>Direct link to wallpaper image.</p><p>For example:</p><div class="source-code">'.$hyperLight->render('"fullImageURL":"http:\/\/www.mylittlewallpaper.com\/images\/o_5551868684f4a1.44660109.jpg"').'</div></td>';
+$page_html .= '<td class="api-description"><p>Direct link to wallpaper image.</p><p>For example:</p><div class="source-code">'.$hyperLight->render('"fullImageURL":' . json_encode(PROTOCOL . SITE_DOMAIN . '/images/o_5551868684f4a1.44660109.jpg')).'</div></td>';
 $page_html .= '</tr>';
 $page_html .= '<tr>';
 $page_html .= '<td class="api-field"><h4>dimensions</h4><em>present if applicable</em></td>';
