@@ -32,7 +32,7 @@ function toggle_info(id) {
 			hide_extra_info("#image_container_" + id + ">div", true);
 		}
 	} else {
-		if (info_open != "" && info_open != id) {
+		if (info_open !== "" && info_open != id) {
 			hide_extra_info("#image_container_" + info_open + ">div", false);
 		}
 		if (!$("#image_container_" + id + ">div").is(":animated")) {
@@ -47,15 +47,16 @@ function toggle_info(id) {
 
 function hide_extra_info(el, hide_all) {
 	var grow_amount = get_grow_amount(el);
+	var animation_hide = {};
 	$(el).css("z-index", "499");
 	$(el).children("div.image_extra_info").css("z-index", "499");
 	if ($(el).children("div.image_basicinfo").offset().left + $(el).children("div.image_basicinfo").width() + grow_amount + 15 > $(window).width()) {
-		var animation_hide = {
+		animation_hide = {
 			left: "+=" + grow_amount,
 			width: "-=" + grow_amount
 		};
 	} else {
-		var animation_hide = {
+		animation_hide = {
 			width: "-=" + grow_amount
 		};
 	}
@@ -77,6 +78,8 @@ function hide_extra_info(el, hide_all) {
 
 function show_extra_info(el) {
 	var grow_amount = get_grow_amount(el);
+	var animation_show = {};
+
 	$(el).parent().height($(el).height());
 	$(el).css("z-index", "500");
 	$(el).children("div.image_extra_info").css("z-index", "500");
@@ -84,14 +87,14 @@ function show_extra_info(el) {
 		$(el).children("div.image_basicinfo").css("float", "right");
 		$(el).children("div.image_extra_info").css("right", (largeWallpaperThumbs ? 478 : 221));
 		$(el).children("div.image_extra_info").css("left", "auto");
-		var animation_show = {
+		animation_show = {
 			left: "-=" + grow_amount,
 			width: "+=" + grow_amount
 		};
 	} else {
 		$(el).children("div.image_extra_info").css("right", "auto");
 		$(el).children("div.image_extra_info").css("left", (largeWallpaperThumbs ? 478 : 221));
-		var animation_show = {
+		animation_show = {
 			width: "+=" + grow_amount
 		};
 	}
@@ -150,7 +153,7 @@ $(document).ready(function(){
 						data: $("#wallpaper_edit_form").serialize(),
 						success: function(data) {
 							if (typeof(data.success) != "undefined") {
-								if (data.success == 0) {
+								if (data.success == '0') {
 									if (userIsAnonymous) {
 										Recaptcha.reload();
 									}
@@ -239,7 +242,7 @@ $(document).ready(function(){
 			return false;
 		}
 	}).data("autocomplete")._renderItem = function(ul, item) {
-		if (item.desc != "") {
+		if (item.desc !== "") {
 			return $("<li>")
 				.data("item.autocomplete", item)
 				.append("<a style=\"line-height:1.1;\">" + item.label + "<br><span class=\"autocomplete_extra\">" + item.desc + "</span></a>")
@@ -279,7 +282,7 @@ $(document).ready(function(){
 			return false;
 		}
 	}).data("autocomplete")._renderItem = function(ul, item) {
-		if (item.desc != "") {
+		if (item.desc !== "") {
 			return $("<li>")
 				.data("item.autocomplete", item)
 				.append("<a style=\"line-height:1.1;\">" + item.label + "<br><span class=\"autocomplete_extra\">" + item.desc + "</span></a>")
