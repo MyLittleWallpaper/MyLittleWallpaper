@@ -1,9 +1,17 @@
+# Ignore IDE project files
 /nbproject/
 /.settings
 /.project
 /.buildpath
+
+# Ignore unneeded PhpStorm project files
+/.idea/copyright
 /.idea/dictionaries
 /.idea/workspace.xml
 /.idea/dataSources.*
+
+# No including of composer packages
 /vendor
+
+# Ah, the so wonderful Windows and its Thumbs.db files
 Thumbs.db
