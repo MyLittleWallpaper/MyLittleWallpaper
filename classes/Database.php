@@ -55,7 +55,7 @@ class Database {
 			throw new PDOException('Database connection failed, missing ' . $miss . '.');
 		} else {
 			$dsn = 'mysql:dbn' . 'ame=' . $database . ';host=' . $host;
-			$this->dbh = new PDO($dsn, $username, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+			$this->dbh = new PDO($dsn, $username, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8mb4\''));
 			$this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 	}
