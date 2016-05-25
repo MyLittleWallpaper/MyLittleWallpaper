@@ -105,7 +105,7 @@ class Response {
 					$this->responseVariables->javaScript .= '</script>';
 				}
 			}
-			$this->responseVariables->javaScriptFiles = array();
+			$this->responseVariables->javaScriptFiles = [];
 			if (method_exists($this->outputClass, 'getJavaScriptFiles')) {
 				$this->responseVariables->javaScriptFiles = $this->outputClass->getJavaScriptFiles();
 			}

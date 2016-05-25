@@ -4,7 +4,7 @@ if (!defined('INDEX')) exit();
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
-DEFINE('ACTIVE_PAGE', 'stats');
+define('ACTIVE_PAGE', 'stats');
 $statspage = new BasicPage();
 $statspage->setPageTitleAddition('Stats');
 
@@ -25,23 +25,23 @@ $tmpd = strtotime("-24 hours");
 $startd = gmmktime(gmdate('H', $tmpd), 0, 0, gmdate('n', $tmpd), gmdate('j', $tmpd), gmdate('Y', $tmpd));
 $endd = $startd + 86400;
 $procd = $startd;
-$timearr = Array();
+$timearr = [];
 while($procd < $endd) {
-	$timearr[gmdate('Y-m-d H:i', $procd)] = Array(0, 0, 0, 0, 0, 0, 0);
+	$timearr[gmdate('Y-m-d H:i', $procd)] = [0, 0, 0, 0, 0, 0, 0];
 	$procd += 300;
 }
-$res = $db->query("SELECT * FROM serverloadstats WHERE `time` BETWEEN ? AND ? ORDER BY `time`", Array(gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))));
+$res = $db->query("SELECT * FROM serverloadstats WHERE `time` BETWEEN ? AND ? ORDER BY `time`", [gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))]);
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-	$timearr[gmdate('Y-m-d H:i', strtotime($row['time'].' UTC'))] = Array($row['avg1'], $row['avg5'], $row['avg15'], $row['users_online'], 0, 0, 0);
+	$timearr[gmdate('Y-m-d H:i', strtotime($row['time'].' UTC'))] = [$row['avg1'], $row['avg5'], $row['avg15'], $row['users_online'], 0, 0, 0];
 }
 $maxld = 0.1;
-$res = $db->query("SELECT * FROM page_loadtime_avg WHERE `time` BETWEEN ? AND ? ORDER BY `time`", Array(gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))));
+$res = $db->query("SELECT * FROM page_loadtime_avg WHERE `time` BETWEEN ? AND ? ORDER BY `time`", [gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))]);
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 	$timearr[gmdate('Y-m-d H:i', strtotime($row['time'].' UTC'))][4] = $row['load_time'];
 	$timearr[gmdate('Y-m-d H:i', strtotime($row['time'].' UTC'))][5] = $row['load_time_max'];
 	if ($row['load_time_max'] > $maxld) $maxld = ceil($row['load_time_max'] * 100) / 100;
 }
-$res = $db->query("SELECT * FROM pageview_stats WHERE `time` BETWEEN ? AND ? ORDER BY `time`", Array(gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))));
+$res = $db->query("SELECT * FROM pageview_stats WHERE `time` BETWEEN ? AND ? ORDER BY `time`", [gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))]);
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 	$timearr[gmdate('Y-m-d H:i', strtotime($row['time'].' UTC'))][6] = $row['views'];
 }
@@ -253,7 +253,7 @@ $pageviews = 600000;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
         $pageviews = 600000 + $row['cnt'];
 }
-$res = $db->query("SELECT count(*) cnt FROM page_loadtime WHERE time BETWEEN ? AND ?", Array(gmdate('Y-m-d H:i:s', $startd), gmdate('Y-m-d H:i:s', $endd)));
+$res = $db->query("SELECT count(*) cnt FROM page_loadtime WHERE time BETWEEN ? AND ?", [gmdate('Y-m-d H:i:s', $startd), gmdate('Y-m-d H:i:s', $endd)]);
 $pageviews24 = 0;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 	$pageviews24 = $row['cnt'];
@@ -264,7 +264,7 @@ $clickcnt = 0;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 	$clickcnt = $row['cnt'];
 }
-$res = $db->query("SELECT count(*) cnt FROM click_log WHERE time BETWEEN ? AND ?", Array(gmdate('Y-m-d H:i:s', $startd), gmdate('Y-m-d H:i:s', $endd)));
+$res = $db->query("SELECT count(*) cnt FROM click_log WHERE time BETWEEN ? AND ?", [gmdate('Y-m-d H:i:s', $startd), gmdate('Y-m-d H:i:s', $endd)]);
 $click24cnt = 0;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 	$click24cnt = $row['cnt'];

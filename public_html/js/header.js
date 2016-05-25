@@ -19,7 +19,7 @@ function change_category(el, pageURI) {
  * @returns {boolean}
  */
 function image_preview(el, id, image, download) {
-	$('body').append('<div id="' + id + '" class="image_loading_animation" style="left:' + $(el).children('img').offset().left + 'px;top:' + $(el).children('img').offset().top + 'px;width:' + $(el).children('img').width() + 'px;height:' + $(el).children('img').height() + 'px"></div>');
+	$('body').append('<div id="' + id + '" class="image_loading_animation" style="left:' + $(el).children('img').offset().left + 'px;top:' + $(el).children('img').offset().top + 'px;width:' + $(el).children('img').width() + 'px;height:' + $(el).children('img').height() + 'px;"></div>');
 	$.ajax({
 		url: image,
 		processData: false,

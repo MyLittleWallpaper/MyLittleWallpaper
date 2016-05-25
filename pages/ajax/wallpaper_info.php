@@ -5,7 +5,7 @@ global $user;
 
 require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
 
-$return = Array();
+$return = [];
 
 if (!empty($_GET['id'])) {
 	$sql = "SELECT id, name, url, no_resolution, direct_with_link FROM wallpaper WHERE id = ? LIMIT 1";

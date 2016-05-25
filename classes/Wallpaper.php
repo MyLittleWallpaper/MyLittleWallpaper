@@ -89,27 +89,27 @@ class Wallpaper {
 	/**
 	 * @var Tag[]
 	 */
-	private $tags = array();
+	private $tags = [];
 	
 	/**
 	 * @var TagAuthor[]
 	 */
-	private $authorTags = array();
+	private $authorTags = [];
 	
 	/**
 	 * @var TagAspect[]
 	 */
-	private $aspectTags = array();
+	private $aspectTags = [];
 
 	/**
 	 * @var TagPlatform[]
 	 */
-	private $platformTags = array();
+	private $platformTags = [];
 	
 	/**
 	 * @var TagColour[]
 	 */
-	private $colourTags = array();
+	private $colourTags = [];
 	
 	/**
 	 * @var Database
@@ -141,7 +141,7 @@ class Wallpaper {
 	 * @return bool
 	 */
 	public function bindDataById($id) {
-		$result = $this->db->query("SELECT * FROM wallpaper WHERE id = ? LIMIT 1", array($id));
+		$result = $this->db->query("SELECT * FROM wallpaper WHERE id = ? LIMIT 1", [$id]);
 		$return = false;
 		while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 			$this->bindData($row);
@@ -154,7 +154,7 @@ class Wallpaper {
 	 * @param array $data wallpaper data
 	 */
 	public function bindData($data) {
-		if (!empty($data['id']) && filter_var($data['id'], FILTER_VALIDATE_INT) !== FALSE) {
+		if (!empty($data['id']) && filter_var($data['id'], FILTER_VALIDATE_INT) !== false) {
 			$this->id = (int) $data['id'];
 		}
 		if (!empty($data['name'])) {
@@ -169,22 +169,22 @@ class Wallpaper {
 		if (!empty($data['file'])) {
 			$this->fileId = (string) $data['file'];
 		}
-		if (!empty($data['width']) && filter_var($data['width'], FILTER_VALIDATE_INT) !== FALSE) {
+		if (!empty($data['width']) && filter_var($data['width'], FILTER_VALIDATE_INT) !== false) {
 			$this->width = (int) $data['width'];
 		}
-		if (!empty($data['height']) && filter_var($data['height'], FILTER_VALIDATE_INT) !== FALSE) {
+		if (!empty($data['height']) && filter_var($data['height'], FILTER_VALIDATE_INT) !== false) {
 			$this->height = (int) $data['height'];
 		}
 		if (!empty($data['mime'])) {
 			$this->mime = (string) $data['mime'];
 		}
-		if (!empty($data['timeadded']) && filter_var($data['timeadded'], FILTER_VALIDATE_INT) !== FALSE) {
+		if (!empty($data['timeadded']) && filter_var($data['timeadded'], FILTER_VALIDATE_INT) !== false) {
 			$this->timeAdded = (int) $data['timeadded'];
 		}
-		if (!empty($data['clicks']) && filter_var($data['clicks'], FILTER_VALIDATE_INT) !== FALSE) {
+		if (!empty($data['clicks']) && filter_var($data['clicks'], FILTER_VALIDATE_INT) !== false) {
 			$this->clicks = (int) $data['clicks'];
 		}
-		if (!empty($data['favs']) && filter_var($data['favs'], FILTER_VALIDATE_INT) !== FALSE) {
+		if (!empty($data['favs']) && filter_var($data['favs'], FILTER_VALIDATE_INT) !== false) {
 			$this->favourites = (int) $data['favs'];
 		}
 		if (!empty($data['no_aspect'])) {
@@ -214,7 +214,7 @@ class Wallpaper {
 				. "JOIN wallpaper_tag_artist wt ON (wt.tag_artist_id = t.id) "
 				. "WHERE wt.wallpaper_id = ? AND t.deleted = 0 "
 				. "ORDER BY t.name";
-		$result = $this->db->query($sql, array($this->id));
+		$result = $this->db->query($sql, [$this->id]);
 		while ($tag = $result->fetch(PDO::FETCH_ASSOC)) {
 			$this->authorTags[] = new TagAuthor($tag);
 		}
@@ -224,7 +224,7 @@ class Wallpaper {
 				. "JOIN wallpaper_tag wt ON (wt.tag_id = t.id) "
 				. "WHERE wt.wallpaper_id = ? "
 				. "ORDER BY t.name";
-		$result = $this->db->query($sql, array($this->id));
+		$result = $this->db->query($sql, [$this->id]);
 		while ($tag = $result->fetch(PDO::FETCH_ASSOC)) {
 			$this->tags[] = new Tag($tag);
 		}
@@ -234,7 +234,7 @@ class Wallpaper {
 				. "JOIN wallpaper_tag_platform wt ON (wt.tag_platform_id = t.id) "
 				. "WHERE wt.wallpaper_id = ? "
 				. "ORDER BY t.name";
-		$result = $this->db->query($sql, array($this->id));
+		$result = $this->db->query($sql, [$this->id]);
 		while ($tag = $result->fetch(PDO::FETCH_ASSOC)) {
 			$this->platformTags[] = new TagPlatform($tag);
 		}
@@ -245,7 +245,7 @@ class Wallpaper {
 					. "JOIN wallpaper_tag_aspect wt ON (wt.tag_aspect_id = t.id) "
 					. "WHERE wt.wallpaper_id = ? "
 					. "ORDER BY t.name";
-			$result = $this->db->query($sql, array($this->id));
+			$result = $this->db->query($sql, [$this->id]);
 			while ($tag = $result->fetch(PDO::FETCH_ASSOC)) {
 				$this->aspectTags[] = new TagAspect($tag);
 			}
@@ -425,7 +425,7 @@ class Wallpaper {
 		if (empty($this->colourTags) && $this->id !== null) {
 			$this->loadColours();
 		}
-		$return = array();
+		$return = [];
 		if (!empty($this->colourTags)) {
 			foreach($this->colourTags as $colour) {
 				if ($colour->getAmount() >= 20) {
@@ -478,7 +478,7 @@ class Wallpaper {
 	 */
 	public function setFile($val = null) {
 		if ($val === null) {
-			$this->fileId = uniqid('', TRUE);
+			$this->fileId = uniqid('', true);
 		} else {
 			$this->fileId = (string) $val;
 		}
@@ -566,7 +566,7 @@ class Wallpaper {
 	public function addColourTag($colour, $amount) {
 		if (is_numeric($amount) && $amount >= 0 && $amount <= 100) {
 			$sql = "SELECT colour FROM wallpaper_tag_colour_similar WHERE similar_colour = ? LIMIT 1";
-			$result = $this->db->query($sql, array($colour));
+			$result = $this->db->query($sql, [$colour]);
 			while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 				$this->colourTags[] = new TagColour($row['colour'], $amount, $colour);
 			}
@@ -692,7 +692,7 @@ class Wallpaper {
 	public function getIsFavourite($userId) {
 		if (!empty($this->id)) {
 			$sql = "SELECT wallpaper_id FROM wallpaper_fav WHERE wallpaper_id = ? AND user_id = ?";
-			$result = $this->db->query($sql, array($this->id, $userId));
+			$result = $this->db->query($sql, [$this->id, $userId]);
 			while($favData = $result->fetch(PDO::FETCH_ASSOC)) {
 				if ((int) $favData['wallpaper_id'] == $this->id) {
 					return true;
@@ -708,7 +708,7 @@ class Wallpaper {
 					. "JOIN wallpaper_tag_colour_similar clt ON (clwt.tag_colour = clt.similar_colour) "
 					. "WHERE clwt.wallpaper_id = ? "
 					. "ORDER BY clwt.amount DESC, clt.colour ASC";
-			$result = $this->db->query($sql, array($this->id));
+			$result = $this->db->query($sql, [$this->id]);
 			while($colour = $result->fetch(PDO::FETCH_ASSOC)) {
 				$this->colourTags[] = new TagColour($colour['colour'], $colour['amount'], $colour['similar_colour']);
 			}

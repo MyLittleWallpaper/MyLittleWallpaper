@@ -42,7 +42,7 @@ class UserRepository {
 	 * @throws PDOException
 	 */
 	public function getUserById($user_id) {
-		$user = $this->db->getRecord('user', Array('field' => 'id', 'value' => $user_id));
+		$user = $this->db->getRecord('user', ['field' => 'id', 'value' => $user_id]);
 		if (!empty($user['id'])) {
 			return new User($user);
 		}
@@ -57,7 +57,7 @@ class UserRepository {
 	 */
 	public function getUserByUsernameAndPassword($username, $password) {
 		$user = null;
-		$result = $this->db->query("SELECT * FROM user WHERE username = ? AND password = ? LIMIT 1", array($username, Format::passwordHash($password, $username)));
+		$result = $this->db->query("SELECT * FROM user WHERE username = ? AND password = ? LIMIT 1", [$username, Format::passwordHash($password, $username)]);
 		while ($userRow = $result->fetch(PDO::FETCH_ASSOC)) {
 			$user = new User($userRow);
 		}
@@ -148,7 +148,7 @@ class User {
 	 * @param array $data
 	 */
 	public function bind($data) {
-		if (!empty($data['id']) && filter_var($data['id'], FILTER_VALIDATE_INT) !== FALSE) {
+		if (!empty($data['id']) && filter_var($data['id'], FILTER_VALIDATE_INT) !== false) {
 			$this->id = (int) $data['id'];
 			$this->setIsAnonymous(false);
 		}

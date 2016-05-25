@@ -7,14 +7,14 @@ global $user, $db;
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 require_once(ROOT_DIR . 'classes/Colours.php');
-DEFINE('ACTIVE_PAGE', 'upload');
+define('ACTIVE_PAGE', 'upload');
 
-$ban = $db->getrecord('ban', Array('field' => 'ip', 'value' => USER_IP));
+$ban = $db->getRecord('ban', ['field' => 'ip', 'value' => USER_IP]);
 if (!empty($ban['ip']) && $ban['ip'] == USER_IP)
-	$banned = TRUE; else $banned = FALSE;
-$redirect = FALSE;
-$error = FALSE;
-$non_other_error = FALSE;
+	$banned = true; else $banned = false;
+$redirect = false;
+$error = false;
+$non_other_error = false;
 
 $submitPage = new BasicPage();
 $submitPage->setPageTitleAddition('Submit');
@@ -34,7 +34,7 @@ if (CATEGORY == 'all') {
 		}
 		if (!$error) {
 			if ((!empty($_POST['url']) && $_POST['upltype'] == 'dA') || ($_POST['upltype'] == 'other')) {
-				$fileid = uniqid('', TRUE);
+				$fileid = uniqid('', true);
 				$theUrl = '';
 				if ($_POST['upltype'] == 'dA') {
 					$url = $_POST['url'];
@@ -65,7 +65,7 @@ if (CATEGORY == 'all') {
 							// And we want it to return the answer
 							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-							$json = @json_decode(curl_exec($ch), TRUE);
+							$json = @json_decode(curl_exec($ch), true);
 							curl_close($ch);
 							if (is_array($json) && $json['type'] == 'photo') {
 								$imageurl = 'http://www.deviantart.com/download/' . urlencode($id) . '/' . basename($json['url']);
@@ -97,7 +97,7 @@ if (CATEGORY == 'all') {
 								$realname = basename($imageurl);
 							}
 						} else {
-							$non_other_error = TRUE;
+							$non_other_error = true;
 							$error = 'Image or title not found (dA) - 2.';
 						}
 					}
@@ -177,11 +177,11 @@ if (CATEGORY == 'all') {
 						if ($user->getIsAdmin()) {
 							$saveauthor = '';
 							$authorlist = explode(',', $_POST['author']);
-							$author_array = Array();
+							$author_array = [];
 							foreach ($authorlist as $tag) {
 								$tag = trim($tag);
 								if (str_replace(' ', '', $tag) != '') {
-									$res = $db->query("SELECT id, name FROM tag_artist WHERE name = ?", Array($tag));
+									$res = $db->query("SELECT id, name FROM tag_artist WHERE name = ?", [$tag]);
 									$found = false;
 									while ($rivi = $res->fetch(PDO::FETCH_ASSOC)) {
 										$found = true;
@@ -190,11 +190,11 @@ if (CATEGORY == 'all') {
 											$saveauthor = $tag;
 									}
 									if (!$found) {
-										$author_array[] = $db->saveArray('tag_artist', Array('name' => $tag));
+										$author_array[] = $db->saveArray('tag_artist', ['name' => $tag]);
 									}
 								}
 							}
-							$data = Array(
+							$data = [
 								'submitter_id' => $user->getId(),
 								'name' => $title,
 								'url' => (!empty($theUrl) ? $theUrl : $_POST['url']),
@@ -209,63 +209,63 @@ if (CATEGORY == 'all') {
 								'status_check' => '200',
 								'last_checked' => gmdate('Y-m-d H:i:s'),
 								'series' => CATEGORY_ID,
-							);
+							];
 							$imageid = $db->saveArray('wallpaper', $data);
 							foreach ($author_array as $auth) {
-								$data = Array(
+								$data = [
 									'tag_artist_id' => $auth,
 									'wallpaper_id' => $imageid,
-								);
+								];
 								$db->saveArray('wallpaper_tag_artist', $data);
 							}
 							$taglist = explode(',', $_POST['tags']);
 							foreach ($taglist as $tag) {
 								$tag = trim($tag);
 								if (str_replace(' ', '', $tag) != '') {
-									$res = $db->query("SELECT id, name FROM tag WHERE name = ?", Array($tag));
+									$res = $db->query("SELECT id, name FROM tag WHERE name = ?", [$tag]);
 									while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-										$data = Array(
+										$data = [
 											'tag_id' => $row['id'],
 											'wallpaper_id' => $imageid,
-										);
+										];
 										$db->saveArray('wallpaper_tag', $data);
 									}
 								}
 							}
 
-							$fields = Array(Array('table' => 'tag', 'field' => 'id'));
-							$join = Array(
-								Array(
+							$fields = [['table' => 'tag', 'field' => 'id']];
+							$join = [
+								[
 									'table' => 'wallpaper_tag',
-									'condition' => Array(
-										Array(
-											Array(
+									'condition' => [
+										[
+											[
 												'table' => 'wallpaper_tag',
 												'field' => 'tag_id',
-											),
-											Array(
+											],
+											[
 												'table' => 'tag',
 												'field' => 'id',
-											),
-										),
-									),
-								),
-							);
-							$conditions = Array();
-							$conditions[] = Array(
+											],
+										],
+									],
+								],
+							];
+							$conditions = [];
+							$conditions[] = [
 								'table' => 'wallpaper_tag',
 								'field' => 'wallpaper_id',
 								'value' => $imageid,
 								'operator' => '=',
-							);
-							$conditions[] = Array(
+							];
+							$conditions[] = [
 								'table' => 'tag',
 								'field' => 'type',
 								'value' => 'character',
 								'operator' => '=',
-							);
-							$order = Array(Array('table' => 'tag', 'field' => 'name'));
-							$taglist = $db->getlist('tag', $fields, $conditions, $order, NULL, $join);
+							];
+							$order = [['table' => 'tag', 'field' => 'name']];
+							$taglist = $db->getList('tag', $fields, $conditions, $order, NULL, $join);
 							$chartags = '';
 							$ct_count = 0;
 							foreach ($taglist as $tag) {
@@ -275,25 +275,25 @@ if (CATEGORY == 'all') {
 								$ct_count++;
 							}
 							if ($ct_count < 16) {
-								$savedata = Array('chartags' => $chartags);
+								$savedata = ['chartags' => $chartags];
 								$db->saveArray('wallpaper', $savedata, $imageid);
 							}
 
-							$noaspect = FALSE;
+							$noaspect = false;
 							$platformlist = explode(',', $_POST['platform']);
 							foreach ($platformlist as $tag) {
 								$tag = trim($tag);
 								if (str_replace(' ', '', $tag) != '') {
-									$res = $db->query("SELECT id, name FROM tag_platform WHERE name = ?", Array($tag));
+									$res = $db->query("SELECT id, name FROM tag_platform WHERE name = ?", [$tag]);
 									while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 										if ($row['name'] == 'Mobile') {
-											$db->saveArray('wallpaper', Array('no_aspect' => 1), $imageid);
-											$noaspect = TRUE;
+											$db->saveArray('wallpaper', ['no_aspect' => 1], $imageid);
+											$noaspect = true;
 										}
-										$data = Array(
+										$data = [
 											'tag_platform_id' => $row['id'],
 											'wallpaper_id' => $imageid,
-										);
+										];
 										$db->saveArray('wallpaper_tag_platform', $data);
 									}
 								}
@@ -308,23 +308,23 @@ if (CATEGORY == 'all') {
 								$tag_r = base_convert(substr($col, 0, 2), 16, 10);
 								$tag_g = base_convert(substr($col, 2, 2), 16, 10);
 								$tag_b = base_convert(substr($col, 4, 2), 16, 10);
-								$savedata = Array('wallpaper_id' => $imageid, 'tag_r' => $tag_r, 'tag_g' => $tag_g, 'tag_b' => $tag_b, 'tag_colour' => $col, 'amount' => round($amnt, 2));
+								$savedata = ['wallpaper_id' => $imageid, 'tag_r' => $tag_r, 'tag_g' => $tag_g, 'tag_b' => $tag_b, 'tag_colour' => $col, 'amount' => round($amnt, 2)];
 								$db->saveArray('wallpaper_tag_colour', $savedata);
 							}
 
 							if (!$noaspect) {
 								$aspect = aspect($source_X, $source_Y);
-								$res = $db->query("SELECT id, name FROM tag_aspect WHERE name = ?", Array($aspect));
+								$res = $db->query("SELECT id, name FROM tag_aspect WHERE name = ?", [$aspect]);
 								while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-									$data = Array(
+									$data = [
 										'tag_aspect_id' => $row['id'],
 										'wallpaper_id' => $imageid,
-									);
+									];
 									$db->saveArray('wallpaper_tag_aspect', $data);
 								}
 							}
-							$_SESSION['success'] = TRUE;
-							$redirect = TRUE;
+							$_SESSION['success'] = true;
+							$redirect = true;
 						} else {
 							if (!empty($_POST['type']) && $_POST['type'] == 'mobile')
 								$type = 'mobile'; else $type = 'desktop';
@@ -334,7 +334,7 @@ if (CATEGORY == 'all') {
 								if ($_POST['mobiletype'] == 'androidlive')
 									$mobiletype = 'androidlive'; else $mobiletype = 'generic';
 							} else $mobiletype = '';
-							$data = Array(
+							$data = [
 								'user_id' => $user->getId(),
 								'name' => $title,
 								'author' => $_POST['author'],
@@ -351,10 +351,10 @@ if (CATEGORY == 'all') {
 								'type' => $type,
 								'mobile_type' => $mobiletype,
 								'series' => CATEGORY_ID,
-							);
+							];
 							$imageid = $db->saveArray('wallpaper_submit', $data);
-							$_SESSION['success'] = TRUE;
-							$redirect = TRUE;
+							$_SESSION['success'] = true;
+							$redirect = true;
 						}
 						header('Location: ' . PUB_PATH_CAT . 'upload');
 					} else {
@@ -550,9 +550,9 @@ if (CATEGORY == 'all') {
 		$type = 'other';
 
 		if ($type == 'dA') {
-			$hide = Array('title', 'image');
+			$hide = ['title', 'image'];
 		} else {
-			$hide = Array();
+			$hide = [];
 		}
 
 		$pageContents .= '<h1>Submit a wallpaper</h1><br />Read the instructions below before submitting:<ul><li><strong>Imake must be in JPEG or PNG format.</strong></li><li><strong>Upload the full-size image (even if the size is huge, like 10000x5625).</strong></li><li><strong>The image size for desktop wallpapers must be at least 1366x768.</strong></li><li>Author(s) -field autocomplete to existing artists to make entering artist easier. If an author doesn\'t exist, just write the author name.</li><li>You can enter more authors than one by separating author names with commas.</li><li>Tags -field autocomplete to existing tags to make entering tags easier. If a tag doesn\'t exist, just write it.</li><li>You can enter more tags than one by separating tags with commas.</li></ul>';

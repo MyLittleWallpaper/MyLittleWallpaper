@@ -80,7 +80,7 @@ class Session {
 		if ($this->getSessionUserId() > 0) {
 			$session_id = $_SESSION[SESSIONPREFIX . '_session_id'];
 			$memcache_key = 'session_' . $session_id . '_' . USER_IP;
-			$this->db->query("DELETE FROM user_session WHERE id = ? AND ip = ?", array($session_id, USER_IP));
+			$this->db->query("DELETE FROM user_session WHERE id = ? AND ip = ?", [$session_id, USER_IP]);
 			$this->memcache->set($memcache_key, 0, 0, 3600 * 30);
 		}
 	}
@@ -93,7 +93,7 @@ class Session {
 			$session_id = $_SESSION[SESSIONPREFIX . '_session_id'];
 			$memcache_key = 'session_' . $session_id . '_' . USER_IP;
 			$this->memcache->set($memcache_key, (int) $userId, 0, 3600 * 30);
-			$this->db->saveArray('user_session', array('id' => $session_id, 'ip' => USER_IP, 'time' => time()));
+			$this->db->saveArray('user_session', ['id' => $session_id, 'ip' => USER_IP, 'time' => time()]);
 		}
 	}
 
@@ -112,7 +112,7 @@ class Session {
 			return (int) $userId;
 		}
 
-		$result = $this->db->query("SELECT user_id FROM user_session WHERE id = ? AND ip = ?", array($session_id, USER_IP));
+		$result = $this->db->query("SELECT user_id FROM user_session WHERE id = ? AND ip = ?", [$session_id, USER_IP]);
 		while ($session_data = $result->fetch(PDO::FETCH_ASSOC)) {
 			$this->memcache->set($memcache_key, (int) $session_data['user_id'], 0, 3600 * 30);
 			return (int) $session_data['user_id'];
@@ -126,6 +126,6 @@ class Session {
 	 * Removes session data that is older than a month from database.
 	 */
 	private function removeOldSessionData() {
-		$this->db->query("DELETE FROM user_session WHERE time < ?", array(strtotime('-30 days')));
+		$this->db->query("DELETE FROM user_session WHERE time < ?", [strtotime('-30 days')]);
 	}
 }

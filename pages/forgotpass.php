@@ -7,15 +7,15 @@ global $user, $db;
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
-DEFINE('ACTIVE_PAGE', 'forgotpass');
-$ban = $db->getrecord('ban', Array('field' => 'ip', 'value' => USER_IP));
+define('ACTIVE_PAGE', 'forgotpass');
+$ban = $db->getRecord('ban', ['field' => 'ip', 'value' => USER_IP]);
 if (!empty($ban['ip']) && $ban['ip'] == USER_IP) {
-	$banned = TRUE;
+	$banned = true;
 } else {
-	$banned = FALSE;
+	$banned = false;
 }
-$redirect = FALSE;
-$error = FALSE;
+$redirect = false;
+$error = false;
 
 if (!$user->getIsAnonymous()) {
 	header('Location: ' . PUB_PATH_CAT);
@@ -23,7 +23,7 @@ if (!$user->getIsAnonymous()) {
 	$resetPasswordPage = new BasicPage();
 	$resetPasswordPage->setPageTitleAddition('Reset password');
 
-	$db->query("DELETE FROM user_forgotpass WHERE time < ?", Array(gmdate('Y-m-d H:i:s', strtotime("-2 days"))));
+	$db->query("DELETE FROM user_forgotpass WHERE time < ?", [gmdate('Y-m-d H:i:s', strtotime("-2 days"))]);
 
 	$resetPasswordPage->setJavascript('var RecaptchaOptions = {
 		lang : \'en\',
@@ -44,17 +44,17 @@ if (!$user->getIsAnonymous()) {
 					$error = 'Password and its confirmation don\'t match.';
 				}
 				if (!$error) {
-					$reset_rec = $db->getrecord('user_forgotpass', Array('field' => 'id', 'value' => $_GET['req']));
+					$reset_rec = $db->getRecord('user_forgotpass', ['field' => 'id', 'value' => $_GET['req']]);
 					if (!empty($reset_rec) && strcmp(Format::passwordHash($_GET['key'], $_GET['req']), $reset_rec['keyhash']) === 0) {
-						$userinf = $db->getrecord('user', Array('field' => 'id', 'value' => $reset_rec['user_id']));
+						$userinf = $db->getRecord('user', ['field' => 'id', 'value' => $reset_rec['user_id']]);
 						if (!empty($userinf)) {
-							$data = Array(
+							$data = [
 								'password' => Format::passwordHash($_POST['password'], trim($userinf['username'])),
-							);
+							];
 							$db->saveArray('user', $data, $userinf['id']);
-							$db->query("DELETE FROM user_forgotpass WHERE user_id = ?", Array($reset_rec['user_id']));
-							$redirect = TRUE;
-							$_SESSION['success'] = TRUE;
+							$db->query("DELETE FROM user_forgotpass WHERE user_id = ?", [$reset_rec['user_id']]);
+							$redirect = true;
+							$_SESSION['success'] = true;
 							header('Location: ' . PUB_PATH_CAT . 'forgotpass?req=1&key=1');
 						} else $error = 'Invalid request.';
 					} else $error = 'Invalid request.';
@@ -81,17 +81,18 @@ if (!$user->getIsAnonymous()) {
 				if (!$resp->is_valid) {
 					$error = 'Invalid CAPTCHA.';
 				} else {
-					$reset_user = $db->getrecord('user', Array('field' => 'email', 'value' => $_POST['email']));
+					$reset_user = $db->getRecord('user', ['field' => 'email', 'value' => $_POST['email']]);
 					if (!empty($reset_user)) {
-						$db->query("DELETE FROM user_forgotpass WHERE user_id = ?", Array($reset_user['id']));
+						$db->query("DELETE FROM user_forgotpass WHERE user_id = ?", [$reset_user['id']]);
 						$thekey = generate_password();
 						$id = uid();
-						$data = Array(
+						$data = [
 							'id' => $id,
 							'user_id' => $reset_user['id'],
 							'keyhash' => Format::passwordHash($thekey, trim($id)),
 							'time' => gmdate('Y-m-d H:i:s'),
-						);
+						];
+						
 						$db->saveArray('user_forgotpass', $data);
 						$phpMailer = new PHPMailer();
 						$phpMailer->From = 'noreply@mylittlewallpaper.com';
@@ -104,10 +105,10 @@ if (!$user->getIsAnonymous()) {
 							'My Little Wallpaper Team');
 						$phpMailer->Subject = 'My Little Wallpaper account password reset';
 						$phpMailer->Encoding = 'quoted-printable';
-						$phpMailer->AddAddress($_POST['email']);
-						$phpMailer->Send();
-						$_SESSION['success'] = TRUE;
-						$redirect = TRUE;
+						$phpMailer->addAddress($_POST['email']);
+						$phpMailer->send();
+						$_SESSION['success'] = true;
+						$redirect = true;
 						header('Location: ' . PUB_PATH_CAT . 'forgotpass');
 					} else $error = 'Invalid email.';
 				}

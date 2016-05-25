@@ -4,7 +4,7 @@ if (!defined('INDEX')) exit();
 
 require_once(ROOT_DIR . 'classes/output/WallpaperList.php');
 
-DEFINE('ACTIVE_PAGE', 'random');
+define('ACTIVE_PAGE', 'random');
 
 $wallpaper_list = new WallpaperList();
 $wallpaper_list->setWallpapersPerPage(15);

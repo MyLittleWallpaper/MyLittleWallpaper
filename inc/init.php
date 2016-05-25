@@ -16,7 +16,7 @@ define('SITE_DOMAIN', $_SERVER['SERVER_NAME']);
 // We want all possible errors, but not to show them
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', '0');
-ini_set('log_errors', TRUE);
+ini_set('log_errors', true);
 
 require_once(ROOT_DIR . 'classes/Exceptions.php');
 require_once(ROOT_DIR . 'classes/RecaptchaLib.php');
@@ -44,7 +44,7 @@ $memcache->connect('localhost', 11211);
 
 require_once(ROOT_DIR . 'inc/functions.php');
 
-DEFINE("USER_IP", getRealIpAddr());
+define("USER_IP", getRealIpAddr());
 
 $session = new Session($db, $memcache);
 $user = $session->loadUser();
@@ -109,15 +109,15 @@ define('PUB_PATH_CAT', PUB_PATH . (CATEGORY != '' ? 'c/'.CATEGORY.'/' : ''));
 $visits = $db->getRecord('visits', Array('field' => 'id', 'value' => 1));
 
 if (!empty($_SERVER['HTTP_USER_AGENT']) && is_bot($_SERVER['HTTP_USER_AGENT']) === 0) {
-	$data = Array(
+	$data = [
 		'count' => $visits['count'] + 1,
-	);
+	];
 	$db->saveArray('visits', $data, 1);
-	$data = Array(
+	$data = [
 		'ip' => USER_IP,
 		'url' => $_SERVER['REQUEST_URI'],
 		'time' => gmdate('Y-m-d H:i:s'),
 		'user_agent' => $_SERVER['HTTP_USER_AGENT'],
-	);
+	];
 	$db->saveArray('visit_log', $data);
 }

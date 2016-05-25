@@ -7,19 +7,19 @@ global $session, $user, $db;
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
-DEFINE('ACTIVE_PAGE', 'login');
+define('ACTIVE_PAGE', 'login');
 $loginPage = new BasicPage();
 $loginPage->setPageTitleAddition('Login');
 
-$ban = $db->getrecord('ban', Array('field' => 'ip', 'value' => USER_IP));
+$ban = $db->getRecord('ban', Array('field' => 'ip', 'value' => USER_IP));
 if (!empty($ban['ip']) && $ban['ip'] == USER_IP)
-	$banned = TRUE; else $banned = FALSE;
+	$banned = true; else $banned = false;
 
 $ipCount = 0;
-$captchaError = FALSE;
+$captchaError = false;
 
 $db->query("DELETE FROM login_attempt WHERE time < ?", Array(strtotime("-1 hour")));
-$result = $db->query("SELECT COUNT(*) cnt FROM login_attempt WHERE ip = ?", Array(USER_IP));
+$result = $db->query("SELECT COUNT(*) cnt FROM login_attempt WHERE ip = ?", [USER_IP]);
 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 	$ipCount = $row['cnt'];
 }
@@ -27,13 +27,13 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 if (!$user->getIsAnonymous()) {
 	header('Location: ' . PUB_PATH_CAT);
 } else {
-	$login_failed = FALSE;
+	$login_failed = false;
 	if (isset($_POST['username']) && !$banned) {
 		if ($ipCount > 4) {
 			$resp = recaptcha_check_answer(RECAPTCHA_PRIVATE, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
 			if (!$resp->is_valid) {
-				$login_failed = TRUE;
-				$captchaError = TRUE;
+				$login_failed = true;
+				$captchaError = true;
 			}
 		}
 		if (!$login_failed) {
@@ -43,8 +43,8 @@ if (!$user->getIsAnonymous()) {
 				if (!$loginUser->getIsBanned()) {
 					$session->logUserIn($loginUser->getId());
 					header('Location: ' . PUB_PATH_CAT);
-				} else $login_failed = TRUE;
-			} else $login_failed = TRUE;
+				} else $login_failed = true;
+			} else $login_failed = true;
 		}
 
 		if ($login_failed) {

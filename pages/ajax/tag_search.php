@@ -4,7 +4,7 @@ if (!defined('INDEX')) exit();
 
 require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
 
-$return = Array();
+$return = [];
 $srch = (!empty($_GET['term']) ? "%".$_GET['term']."%" : '');
 $srch2 = (!empty($_GET['term']) ? $_GET['term']."%" : '');
 $assigned = Array(

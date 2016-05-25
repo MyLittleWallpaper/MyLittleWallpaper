@@ -1,11 +1,11 @@
 <?php
 // Check that correct entry point was used
 if (!defined('INDEX')) exit();
-global $user, $image;
+global $db, $user, $image;
 $imageFound = false;
 
 if (!empty($image)) {
-	$file = $db->getrecord('wallpaper_submit', Array('field' => 'file', 'value' => $image));
+	$file = $db->getRecord('wallpaper_submit', Array('field' => 'file', 'value' => $image));
 	if (!empty($file['id'])) {
 		if (file_exists(ROOT_DIR . FILE_FOLDER.'moderate/'.$file['file'])) {
 			$res_w = 960;
@@ -24,7 +24,7 @@ if (!empty($image)) {
 						$image = imagecreatefrompng(ROOT_DIR . FILE_FOLDER.'moderate/'.$file['file']);
 						break;
 					default:
-						$image = FALSE;
+						$image = false;
 				}
 			}
 			if ($image) {

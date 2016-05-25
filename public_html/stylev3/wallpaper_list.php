@@ -13,7 +13,7 @@ if (!defined('INDEX')) {
 global $response, $user;
 
 echo "\n" . '		<!-- Wallpaper edit dialog -->' . "\n";
-echo '		<div id="wallpaper_edit" style="display:none" title="Edit wallpaper information">' . "\n";
+echo '		<div id="wallpaper_edit" style="display:none;" title="Edit wallpaper information">' . "\n";
 echo '			<form class="labelForm" id="wallpaper_edit_form" method="post" accept-charset="utf-8" action="' . PUB_PATH_CAT . 'ajax/wallpaper_edit" style="padding-top:10px;">' . "\n";
 echo '				<p style="padding-bottom:10px;">Please read the submission <a href="' . PUB_PATH_CAT . 'upload" target="_blank">instructions</a> before editing.</p>' . "\n";
 echo '				<div><label>Name:</label><input type="hidden" name="id" id="wallid" value="" /><input type="text" autocomplete="off" name="name" id="name" style="width:300px;" value=""/></div>' . "\n";
@@ -93,6 +93,7 @@ echo '				<div id="submit">&nbsp;<br /><input type="submit" id="searchsubmit" va
 echo '			</form>' . "\n";
 echo '			<div style="position:absolute;bottom:16px;right:16px;font-size:11px;"><img src="' . PUB_PATH . THEME . '/images/fin.png" alt="Finland" /> &nbsp; Made in Finland</div>' . "\n";
 echo '			<div style="position:absolute;top:16px;right:16px;"><label id="rss">RSS' . ($response->responseVariables->rss_search != '' ? ' for this search' : '') . ':</label> <a href="' . PUB_PATH_CAT . 'feed/' . $response->responseVariables->rss_search . '">link</a></div>' . "\n";
+echo '			<p><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.mylittlewallpaper.com" target="_blank">TLS</a> has been enabled and there might be a few parts of the site that won\'t work properly.<br />Please file <a href="https://github.com/MyLittleWallpaper/MyLittleWallpaper/issues" target="_blank">a bug report</a> or send an email in case you have problems.</p>';
 echo '			<p>Help needed with tagging and adding new wallpapers! If you\'re interested, come to #mylittlewallpaper @ Freenode.</p>' . "\n";
 echo '			<div style="clear:both;"></div>' . "\n";
 echo '		</div>' . "\n";

@@ -9,7 +9,7 @@ if (PHP_SAPI == 'cli') {
 	$_SERVER['REMOTE_ADDR'] = '';
 
 	$time_start = microtime(true);
-	define('INDEX', TRUE);
+	define('INDEX', true);
 	require_once(ROOT_DIR . 'classes/Format.php');
 	require_once(ROOT_DIR . 'inc/init.php');
 

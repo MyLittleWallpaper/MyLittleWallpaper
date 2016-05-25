@@ -10,7 +10,7 @@ if (PHP_SAPI == 'cli') {
 		return abs ($a);
 	}
 
-	define('INDEX', TRUE);
+	define('INDEX', true);
 
 	require_once('../config.php');
 	require_once('../lib/db.inc.php');

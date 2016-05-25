@@ -16,7 +16,7 @@ class GetCommonColours {
 	private $PREVIEW_WIDTH = 768;
 	private $PREVIEW_HEIGHT = 768;
 
-	private $colours = Array(
+	private $colours = [
 		// Group #1 (black - dark gray)
 		'000000' => 1,
 		'333333' => 1,
@@ -188,7 +188,7 @@ class GetCommonColours {
 		'ffabd8' => 28,
 		'aa5683' => 28,
 		'c898b2' => 28,
-	);
+	];
 
 	/**
 	 * Not used?
@@ -216,8 +216,8 @@ class GetCommonColours {
 			$imgWidth = imagesx($im);
 			$imgHeight = imagesy($im);
 			$total_pixel_count = 0;
-			$colourList = Array();
-			$tempGroups = Array();
+			$colourList = [];
+			$tempGroups = [];
 			for ($y = 0; $y < $imgHeight; $y++) {
 				for ($x = 0; $x < $imgWidth; $x++) {
 					$total_pixel_count++;
@@ -240,13 +240,13 @@ class GetCommonColours {
 			}
 			imagedestroy($im);
 			natcasesort($colourList);
-			$colourList = array_reverse($colourList, TRUE);
+			$colourList = array_reverse($colourList, true);
 			natcasesort($tempGroups);
-			$tempGroups = array_reverse($tempGroups, TRUE);
-			$groups = Array();
+			$tempGroups = array_reverse($tempGroups, true);
+			$groups = [];
 			foreach ($tempGroups as $key => $val) {
 				if ($val / $total_pixel_count >= 0.0075) {
-					$groups[$key] = Array('percent' => round($val / $total_pixel_count * 100, 2), 'pixels' => $val, 'colours' => Array());
+					$groups[$key] = ['percent' => round($val / $total_pixel_count * 100, 2), 'pixels' => $val, 'colours' => []];
 				}
 			}
 			foreach ($colourList as $colour => $amount) {
@@ -258,12 +258,12 @@ class GetCommonColours {
 			}
 			foreach ($groups as $gk => $gv) {
 				natcasesort($groups[$gk]['colours']);
-				$groups[$gk]['colours'] = array_reverse($groups[$gk]['colours'], TRUE);
+				$groups[$gk]['colours'] = array_reverse($groups[$gk]['colours'], true);
 			}
 			unlink($tempName);
 			return $groups;
 		} else trigger_error('No image!');
 		unlink($tempName);
-		return FALSE;
+		return false;
 	}
 }

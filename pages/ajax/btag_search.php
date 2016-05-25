@@ -4,7 +4,7 @@ if (!defined('INDEX')) exit();
 
 require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
 
-$return = Array();
+$return = [];
 
 $sql = "SELECT name, alternate FROM tag WHERE name LIKE ? OR alternate LIKE ? ORDER BY name LIMIT 50";
 $srch = (!empty($_GET['term']) ? "%".$_GET['term']."%" : '');

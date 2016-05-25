@@ -43,7 +43,7 @@ if (CATEGORY_NAME == '') {
 $menu = '			<div id="menu">'."\n";
 $menu .= '				<nav>'."\n";
 $menu .= '					<ul>'."\n";
-$activeSubMenu = array();
+$activeSubMenu = [];
 foreach($navigation->getNavigationElements() as $key => $menuElement) {
 	$active = false;
 	$subMenuItems = $menuElement->getSubMenuItems();

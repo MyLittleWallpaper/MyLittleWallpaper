@@ -34,9 +34,9 @@ if (isset($_GET['url'])) {
 	if ($theurl == '') {
 		if (!empty($_GET['url'])) {
 			$sim_res = $db->query("SELECT * FROM `wallpaper` WHERE deleted = 0 AND url = ? LIMIT 1", Array($_GET['url']));
-			$in_db = FALSE;
+			$in_db = false;
 			while ($indbrow = $sim_res->fetch(PDO::FETCH_ASSOC)) {
-				$in_db = TRUE;
+				$in_db = true;
 			}
 			if ($in_db) {
 				$return['result'] = 'Found';
@@ -45,9 +45,9 @@ if (isset($_GET['url'])) {
 	} else {
 		$id = preg_replace("/^http:\\/\\/[^.]*\\.deviantart\\.com\\/art\\/.*-([0-9]*?)$/", "$1", $theurl);
 		$sim_res = $db->query("SELECT * FROM `wallpaper` WHERE deleted = 0 AND url like ? LIMIT 1", Array('http://%.deviantart.com/art/%-'.$id));
-		$in_db = FALSE;
+		$in_db = false;
 		while ($indbrow = $sim_res->fetch(PDO::FETCH_ASSOC)) {
-			$in_db = TRUE;
+			$in_db = true;
 		}
 		if ($in_db) {
 			$return['result'] = 'Found';
@@ -59,9 +59,9 @@ if (isset($_GET['url'])) {
 		if ($theurl == '') {
 			if (!empty($_GET['url'])) {
 				$sim_res = $db->query("SELECT * FROM `wallpaper_submit` WHERE url = ? LIMIT 1", Array($_GET['url']));
-				$in_db = FALSE;
+				$in_db = false;
 				while ($indbrow = $sim_res->fetch(PDO::FETCH_ASSOC)) {
-					$in_db = TRUE;
+					$in_db = true;
 				}
 				if ($in_db) {
 					$return['result'] = 'Queue';
@@ -70,9 +70,9 @@ if (isset($_GET['url'])) {
 		} else {
 			$id = preg_replace("/^http:\\/\\/[^.]*\\.deviantart\\.com\\/art\\/.*-([0-9]*?)$/", "$1", $theurl);
 			$sim_res = $db->query("SELECT * FROM `wallpaper_submit` WHERE url like ? LIMIT 1", Array('http://%.deviantart.com/art/%-'.$id));
-			$in_db = FALSE;
+			$in_db = false;
 			while ($indbrow = $sim_res->fetch(PDO::FETCH_ASSOC)) {
-				$in_db = TRUE;
+				$in_db = true;
 			}
 			if ($in_db) {
 				$return['result'] = 'Queue';

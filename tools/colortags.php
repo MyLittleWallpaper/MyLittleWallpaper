@@ -8,7 +8,7 @@ class GetCommonColors {
 		// Group #1 (black - dark gray)
 		'000000' => 1,
 		'333333' => 1,
-		'666666' => 1,
+		//'666666' => 1,
 
 		// Group #2 (light gray - white)
 		'666666' => 2,
@@ -195,13 +195,14 @@ class GetCommonColors {
 		if ($size[2] == 1) $im = imagecreatefromgif("../temp/".$tempnam);
 		elseif ($size[2] == 2) $im = imagecreatefromjpeg("../temp/".$tempnam);
 		elseif ($size[2] == 3) $im = imagecreatefrompng("../temp/".$tempnam);
-		
+		else $im = false;
+
 		if ($im) {
 			$imgWidth = imagesx($im);
 			$imgHeight = imagesy($im);
 			$total_pixel_count = 0;
-			$colourlist = Array();
-			$groupstemp = Array();
+			$colourlist = [];
+			$groupstemp = [];
 			for ($y=0; $y < $imgHeight; $y++) {
 				for ($x=0; $x < $imgWidth; $x++) {
 					$total_pixel_count++;
@@ -214,13 +215,13 @@ class GetCommonColors {
 			}
 			imagedestroy($im);
 			natcasesort($colourlist);
-			$colourlist = array_reverse($colourlist, TRUE);
+			$colourlist = array_reverse($colourlist, true);
 			natcasesort($groupstemp);
-			$groupstemp = array_reverse($groupstemp, TRUE);
-			$groups = Array();
+			$groupstemp = array_reverse($groupstemp, true);
+			$groups = [];
 			foreach ($groupstemp as $key => $val) {
 				if ($val / $total_pixel_count >= 0.0075) {
-					$groups[$key] = Array('percent' => round($val / $total_pixel_count * 100, 2), 'pixels' => $val, 'colours' => Array());
+					$groups[$key] = Array('percent' => round($val / $total_pixel_count * 100, 2), 'pixels' => $val, 'colours' => []);
 				}
 			}
 			foreach($colourlist as $cl => $amnt) {
@@ -232,19 +233,19 @@ class GetCommonColors {
 			}
 			foreach ($groups as $gk => $gv) {
 				natcasesort($groups[$gk]['colours']);
-				$groups[$gk]['colours'] = array_reverse($groups[$gk]['colours'], TRUE);
+				$groups[$gk]['colours'] = array_reverse($groups[$gk]['colours'], true);
 			}
 			unlink("../temp/".$tempnam);
 			return $groups;
 		}
 		unlink("../temp/".$tempnam);
-		return FALSE;
+		return false;
 	}
 }
 
 if (PHP_SAPI == 'cli') {
 	$time_start = microtime(true);
-	define('INDEX', TRUE);
+	define('INDEX', true);
 	
 	require_once('../config.php');
 	require_once('../lib/db.inc.php');

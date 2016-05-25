@@ -134,7 +134,7 @@ class WallpaperList extends Output {
 	/**
 	 * @var Wallpaper[]
 	 */
-	private $wallpapers = array();
+	private $wallpapers = [];
 	
 	/**
 	 * How many total wallpapers the search finds.
@@ -162,107 +162,107 @@ class WallpaperList extends Output {
 	/**
 	 * @var string[]
 	 */
-	private $searchTags = array();
+	private $searchTags = [];
 	
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsCharacter = array();
+	private $searchTagsCharacter = [];
 	
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsAuthor = array();
+	private $searchTagsAuthor = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsAspect = array();
+	private $searchTagsAspect = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsPlatform = array();
+	private $searchTagsPlatform = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsColour = array();
+	private $searchTagsColour = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsMajorColour = array();
+	private $searchTagsMajorColour = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsAny = array();
+	private $searchTagsAny = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsAnyCharacter = array();
+	private $searchTagsAnyCharacter = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsAnyAuthor = array();
+	private $searchTagsAnyAuthor = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsAnyAspect = array();
+	private $searchTagsAnyAspect = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsAnyPlatform = array();
+	private $searchTagsAnyPlatform = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsAnyColour = array();
+	private $searchTagsAnyColour = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsAnyMajorColour = array();
+	private $searchTagsAnyMajorColour = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsExclude = array();
+	private $searchTagsExclude = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsExcludeCharacter = array();
+	private $searchTagsExcludeCharacter = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsExcludeAuthor = array();
+	private $searchTagsExcludeAuthor = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsExcludeAspect = array();
+	private $searchTagsExcludeAspect = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsExcludePlatform = array();
+	private $searchTagsExcludePlatform = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsExcludeColour = array();
+	private $searchTagsExcludeColour = [];
 
 	/**
 	 * @var string[]
 	 */
-	private $searchTagsExcludeMajorColour = array();
+	private $searchTagsExcludeMajorColour = [];
 
 	/**
 	 * @var bool
@@ -319,7 +319,7 @@ class WallpaperList extends Output {
 	/**
 	 * @var array
 	 */
-	private $sqlData = Array();
+	private $sqlData = [];
 
 	
 	/**
@@ -344,7 +344,7 @@ class WallpaperList extends Output {
 	public function loadSearchFromRequest() {
 		$getValues = $_GET;
 		
-		if (isset($getValues['page']) && filter_var($getValues['page'], FILTER_VALIDATE_INT) !== FALSE && $getValues['page'] > 1) {
+		if (isset($getValues['page']) && filter_var($getValues['page'], FILTER_VALIDATE_INT) !== false && $getValues['page'] > 1) {
 			$this->pageNumber = (int) $getValues['page'];
 		}
 
@@ -373,7 +373,7 @@ class WallpaperList extends Output {
 			$this->searchAddTagsExclude($tagList);
 		}
 
-		if (!empty($getValues['size']) && filter_var($getValues['size'], FILTER_VALIDATE_INT) !== FALSE) {
+		if (!empty($getValues['size']) && filter_var($getValues['size'], FILTER_VALIDATE_INT) !== false) {
 			$this->searchAddSize((int) $getValues['size']);
 		}
 			
@@ -724,7 +724,7 @@ class WallpaperList extends Output {
 
 		$this->sqlJoins = "";
 		$this->sqlWhere = "";
-		$this->sqlData = Array();
+		$this->sqlData = [];
 
 		$this->pageTitleSearch = '';
 		$this->metaTags = '';
@@ -833,9 +833,9 @@ class WallpaperList extends Output {
 		$colourJoinCount = 0;
 		$majorColourJoinCount = 0;
 
-		$allSearchTags = array();
-		$allSearchTagIds = array();
-		$tagInArray = array();
+		$allSearchTags = [];
+		$allSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTags as $tag) {
 			if ($tagIn != '') {
@@ -853,9 +853,9 @@ class WallpaperList extends Output {
 			}
 		}
 
-		$allAuthorSearchTags = Array();
-		$allAuthorSearchTagIds = Array();
-		$tagInArray = array();
+		$allAuthorSearchTags = [];
+		$allAuthorSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsAuthor as $tag) {
 			if ($tagIn != '') {
@@ -873,9 +873,9 @@ class WallpaperList extends Output {
 			}
 		}
 
-		$allPlatformSearchTags = Array();
-		$allPlatformSearchTagIds = Array();
-		$tagInArray = array();
+		$allPlatformSearchTags = [];
+		$allPlatformSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsPlatform as $tag) {
 			if ($tagIn != '') {
@@ -893,9 +893,9 @@ class WallpaperList extends Output {
 			}
 		}
 
-		$allAspectSearchTags = Array();
-		$allAspectSearchTagIds = Array();
-		$tagInArray = array();
+		$allAspectSearchTags = [];
+		$allAspectSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsAspect as $tag) {
 			if ($tagIn != '') {
@@ -1027,8 +1027,8 @@ class WallpaperList extends Output {
 		}
 
 		if (!empty($this->searchTagsCharacter)) {
-			$allCharacterSearchTagIds = array();
-			$tagInArray = array();
+			$allCharacterSearchTagIds = [];
+			$tagInArray = [];
 			$tagIn = '';
 			foreach($this->searchTagsCharacter as $tag) {
 				if ($tagIn != '') {
@@ -1072,9 +1072,9 @@ class WallpaperList extends Output {
 	 * Adds tag search to query
 	 */
 	private function loadWallpapersTagAnySearch() {
-		$allSearchTags = array();
-		$allSearchTagIds = array();
-		$tagInArray = array();
+		$allSearchTags = [];
+		$allSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsAny as $tag) {
 			if ($tagIn != '') {
@@ -1092,9 +1092,9 @@ class WallpaperList extends Output {
 			}
 		}
 
-		$allAuthorSearchTags = Array();
-		$allAuthorSearchTagIds = Array();
-		$tagInArray = array();
+		$allAuthorSearchTags = [];
+		$allAuthorSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsAnyAuthor as $tag) {
 			if ($tagIn != '') {
@@ -1112,9 +1112,9 @@ class WallpaperList extends Output {
 			}
 		}
 
-		$allPlatformSearchTags = Array();
-		$allPlatformSearchTagIds = Array();
-		$tagInArray = array();
+		$allPlatformSearchTags = [];
+		$allPlatformSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsAnyPlatform as $tag) {
 			if ($tagIn != '') {
@@ -1132,9 +1132,9 @@ class WallpaperList extends Output {
 			}
 		}
 
-		$allAspectSearchTags = Array();
-		$allAspectSearchTagIds = Array();
-		$tagInArray = array();
+		$allAspectSearchTags = [];
+		$allAspectSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsAnyAspect as $tag) {
 			if ($tagIn != '') {
@@ -1234,8 +1234,8 @@ class WallpaperList extends Output {
 		}
 
 		if (!empty($this->searchTagsAnyCharacter)) {
-			$allCharacterSearchTagIds = array();
-			$tagInArray = array();
+			$allCharacterSearchTagIds = [];
+			$tagInArray = [];
 			$tagIn = '';
 			foreach($this->searchTagsAnyCharacter as $tag) {
 				if ($tagIn != '') {
@@ -1281,9 +1281,9 @@ class WallpaperList extends Output {
 	 * Adds tag search to query
 	 */
 	private function loadWallpapersTagExcludeSearch() {
-		$allSearchTags = array();
-		$allSearchTagIds = array();
-		$tagInArray = array();
+		$allSearchTags = [];
+		$allSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsExclude as $tag) {
 			if ($tagIn != '') {
@@ -1301,9 +1301,9 @@ class WallpaperList extends Output {
 			}
 		}
 
-		$allAuthorSearchTags = Array();
-		$allAuthorSearchTagIds = Array();
-		$tagInArray = array();
+		$allAuthorSearchTags = [];
+		$allAuthorSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsExcludeAuthor as $tag) {
 			if ($tagIn != '') {
@@ -1321,9 +1321,9 @@ class WallpaperList extends Output {
 			}
 		}
 
-		$allPlatformSearchTags = Array();
-		$allPlatformSearchTagIds = Array();
-		$tagInArray = array();
+		$allPlatformSearchTags = [];
+		$allPlatformSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsExcludePlatform as $tag) {
 			if ($tagIn != '') {
@@ -1341,9 +1341,9 @@ class WallpaperList extends Output {
 			}
 		}
 
-		$allAspectSearchTags = Array();
-		$allAspectSearchTagIds = Array();
-		$tagInArray = array();
+		$allAspectSearchTags = [];
+		$allAspectSearchTagIds = [];
+		$tagInArray = [];
 		$tagIn = '';
 		foreach($this->searchTagsExcludeAspect as $tag) {
 			if ($tagIn != '') {
@@ -1443,8 +1443,8 @@ class WallpaperList extends Output {
 		}
 
 		if (!empty($this->searchTagsExcludeCharacter)) {
-			$allCharacterSearchTagIds = array();
-			$tagInArray = array();
+			$allCharacterSearchTagIds = [];
+			$tagInArray = [];
 			$tagIn = '';
 			foreach($this->searchTagsExcludeCharacter as $tag) {
 				if ($tagIn != '') {
@@ -1538,7 +1538,7 @@ class WallpaperList extends Output {
 	 * @return string[]
 	 */
 	public function getSearchTagsWithType() {
-		$return = array();
+		$return = [];
 		foreach($this->searchTagsCharacter as $tag) {
 			$return[] = '=' . $tag;
 		}

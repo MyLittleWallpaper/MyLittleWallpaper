@@ -39,8 +39,8 @@ class Format {
 	 * @return string
 	 */
 	public static function escapeQuotes($string, $quoteTypes = self::QUOTE_TYPES_SINGLE) {
-		$replace = array('\\\\');
-		$pattern = array('\\');
+		$replace = ['\\\\'];
+		$pattern = ['\\'];
 		if ($quoteTypes === self::QUOTE_TYPES_SINGLE || $quoteTypes == self::QUOTE_TYPES_BOTH) {
 			$replace[] = '\'';
 			$pattern[] = '\\\'';

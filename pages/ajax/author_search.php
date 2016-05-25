@@ -4,7 +4,7 @@ if (!defined('INDEX')) exit();
 
 require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
 
-$return = Array();
+$return = [];
 
 $sql = "SELECT name, oldname FROM tag_artist WHERE (name LIKE ? OR oldname LIKE ?) AND deleted = 0 ORDER BY name LIMIT 50";
 $searchString = (!empty($_GET['term']) ? "%".$_GET['term']."%" : '');

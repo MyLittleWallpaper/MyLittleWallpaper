@@ -7,7 +7,7 @@ if ($user->getIsAnonymous()) {
 } else {
 	require_once(ROOT_DIR . 'classes/output/WallpaperList.php');
 
-	DEFINE('ACTIVE_PAGE', 'favourites');
+	define('ACTIVE_PAGE', 'favourites');
 
 	$wallpaper_list = new WallpaperList();
 	$wallpaper_list->setWallpapersPerPage(25);

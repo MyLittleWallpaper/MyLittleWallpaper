@@ -2,7 +2,7 @@
 <?php
 if (PHP_SAPI == 'cli') {
         $time_start = microtime(true);
-        define('INDEX', TRUE);
+        define('INDEX', true);
 
         require_once('../config.php');
         require_once('../lib/db.inc.php');
@@ -11,7 +11,7 @@ if (PHP_SAPI == 'cli') {
         $res = $db->query("SELECT * FROM `wallpaper` WHERE url like 'http://speedymclight%';");
 
 	while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-		$savedata = Array('url' => str_replace('http://speedymclight.', 'http://evoraflux.', $row['url']));
+		$savedata = ['url' => str_replace('http://speedymclight.', 'http://evoraflux.', $row['url'])];
 		print_r($savedata);
 		$db->saveArray('wallpaper', $savedata, $row['id']);
 	}

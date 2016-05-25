@@ -5,12 +5,12 @@ global $user;
 
 // @todo Rewrite
 /*$time_start = microtime(true);
-define('INDEX', TRUE);
+define('INDEX', true);
 
 // We want all possible errors, but not to show them
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', '0');
-ini_set('log_errors', TRUE);
+ini_set('log_errors', true);
 
 // Conficuration and initialization
 require_once('../config.php');
@@ -29,7 +29,7 @@ if ($user->getIsAdmin()) {
 	$sql = "SELECT * FROM wallpaper_edit WHERE discarded = ? ORDER BY id LIMIT 1";
 	$data = Array(0);
 	$res = $db->query($sql, $data);
-	$wallpaper_data = Array();
+	$wallpaper_data = [];
 	while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 		$wallpaper_data = $row;
 	}
@@ -37,7 +37,7 @@ if ($user->getIsAdmin()) {
 		$sql = "SELECT * FROM wallpaper WHERE id = ? ORDER BY id LIMIT 1";
 		$data = Array($wallpaper_data['wallpaper_id']);
 		$res = $db->query($sql, $data);
-		$wallpaper_info = Array();
+		$wallpaper_info = [];
 		while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 			$wallpaper_info = $row;
 		}
@@ -49,7 +49,7 @@ if ($user->getIsAdmin()) {
 		if (!empty($_POST['name']) && !empty($_POST['author']) && !empty($_POST['url'])) {
 			$saveauthor = '';
 			$authorlist = explode(',', $_POST['author']);
-			$author_array = Array();
+			$author_array = [];
 			foreach($authorlist as $tag) {
 				$tag = trim($tag);
 				if (str_replace(' ', '', $tag) != '') {
@@ -113,7 +113,7 @@ if ($user->getIsAdmin()) {
 					),
 				),
 			);
-			$conditions = Array();
+			$conditions = [];
 			$conditions[] = Array(
 				'table' => 'wallpaper_tag',
 				'field' => 'wallpaper_id',
@@ -140,7 +140,7 @@ if ($user->getIsAdmin()) {
 				$db->saveArray('wallpaper', $savedata, $imageid);
 			}
 	
-			$noaspect = FALSE;
+			$noaspect = false;
 			$platformlist = explode(',', $_POST['platform']);
 			foreach($platformlist as $tag) {
 				$tag = trim($tag);
@@ -149,7 +149,7 @@ if ($user->getIsAdmin()) {
 					while($row = $res->fetch(PDO::FETCH_ASSOC)) {
 						if ($row['name'] == 'Mobile') {
 							$db->saveArray('wallpaper', Array('no_aspect' => 1), $imageid);
-							$noaspect = TRUE;
+							$noaspect = true;
 						}
 						$data = Array(
 							'tag_platform_id' => $row['id'],
@@ -182,15 +182,15 @@ echo '<h1>Wallpaper edits</h1>';
 if ($user->getIsAdmin()) {
 	if (!empty($wallpaper_data)) {
 		$authorlist = explode(',', $wallpaper_data['author']);
-		$author_array = Array();
-		$new_author_array = Array();
+		$author_array = [];
+		$new_author_array = [];
 		foreach($authorlist as $tag) {
 			$tag = trim($tag);
 			if (str_replace(' ', '', $tag) != '') {
 				$res = $db->query("SELECT id, name FROM tag_artist WHERE name = ?", Array($tag));
-				$found = FALSE;
+				$found = false;
 				while($row = $res->fetch(PDO::FETCH_ASSOC)) {
-					$found = TRUE;
+					$found = true;
 					$author_array[] = $row['name'];
 				}
 				if (!$found) $new_author_array[] = $tag;
@@ -198,15 +198,15 @@ if ($user->getIsAdmin()) {
 		}
 	
 		$taglist = explode(',', $wallpaper_data['tags']);
-		$tag_array = Array();
-		$new_tag_array = Array();
+		$tag_array = [];
+		$new_tag_array = [];
 		foreach($taglist as $tag) {
 			$tag = trim($tag);
 			if (str_replace(' ', '', $tag) != '') {
 				$res = $db->query("SELECT id, name FROM tag WHERE name = ?", Array($tag));
-				$found = FALSE;
+				$found = false;
 				while($row = $res->fetch(PDO::FETCH_ASSOC)) {
-					$found = TRUE;
+					$found = true;
 					$tag_array[] = $row['name'];
 				}
 				if (!$found) $new_tag_array[] = $tag;

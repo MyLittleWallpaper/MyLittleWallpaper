@@ -1,8 +1,10 @@
 <?php
 // Check that correct entry point was used
-if (!defined('INDEX'))
+if (!defined('INDEX')) {
 	exit();
-global $page;
+}
+
+global $db, $page;
 
 $html = '';
 $javaScript = '';
@@ -18,7 +20,7 @@ if (!empty($page)) {
 
 				$wallpaper = new Wallpaper($file);
 
-				$first_tag = TRUE;
+				$first_tag = true;
 				$artists = '';
 				$artists_header = '';
 				$tag_authors = $wallpaper->getAuthorTags();
@@ -91,7 +93,7 @@ if (!empty($page)) {
 				}
 
 				$html .= '				</div>' . "\n";
-				$html .= '			<div style="clear:both"></div>' . "\n";
+				$html .= '			<div style="clear:both;"></div>' . "\n";
 				$html .= '			<div class="dldtags">' . "\n";
 
 				$html .= '				<h2>Tags</h2>' . "\n";

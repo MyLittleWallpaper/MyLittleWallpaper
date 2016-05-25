@@ -10,7 +10,7 @@ if (!defined('INDEX')) exit();
 global $response, $user;
 
 echo "\n".'		<!-- Wallpaper edit dialog -->'."\n";
-echo '		<div id="wallpaper_edit" style="display:none" title="Edit wallpaper information">'."\n";
+echo '		<div id="wallpaper_edit" style="display:none;" title="Edit wallpaper information">'."\n";
 echo '			<form class="labelForm" id="wallpaper_edit_form" method="post" accept-charset="utf-8" action="'.PUB_PATH_CAT.'ajax/wallpaper_edit" style="padding-top:10px;">'."\n";
 echo '				<p style="padding-bottom:10px;">Please read the submission <a href="'.PUB_PATH_CAT.'upload" target="_blank">instructions</a> before editing.</p>'."\n";
 echo '				<div><label>Name:</label><input type="hidden" name="id" id="wallid" value="" /><input type="text" autocomplete="off" name="name" id="name" style="width:300px;" value=""/></div>'."\n";

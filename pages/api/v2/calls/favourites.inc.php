@@ -26,24 +26,24 @@ if (!empty($_GET['requestId']) && !empty($_GET['hash']) && !empty($_GET['userNam
 }
 
 if (!$requestAllowed) {
-	return array('error' => 'Unauthorised access', 'amount' => 0, 'result' => array());
+	return array('error' => 'Unauthorised access', 'amount' => 0, 'result' => []);
 } else {
 	$db->saveArray('user_api_requests', array('userId' => $userId, 'requestId' => $_GET['requestId']));
 	$wallpaperList = new WallpaperList();
-	if (!empty($_GET['limit']) && filter_var($_GET['limit'], FILTER_VALIDATE_INT) !== FALSE && $_GET['limit'] >= 1) {
+	if (!empty($_GET['limit']) && filter_var($_GET['limit'], FILTER_VALIDATE_INT) !== false && $_GET['limit'] >= 1) {
 		if ($_GET['limit'] > 20)
 			$limit = 20; else $limit = (int) $_GET['limit'];
 	} else $limit = 10;
 	$wallpaperList->setWallpapersPerPage($limit);
 	if (!empty($_GET['sort']) && $_GET['sort'] == 'popularity') {
 		$wallpaperList->setDisplayOrder(WallpaperList::ORDER_POPULARITY);
-		if (!empty($_GET['offset']) && filter_var($_GET['offset'], FILTER_VALIDATE_INT) !== FALSE && $_GET['offset'] >= 0) {
+		if (!empty($_GET['offset']) && filter_var($_GET['offset'], FILTER_VALIDATE_INT) !== false && $_GET['offset'] >= 0) {
 			$wallpaperList->setOffset($_GET['offset']);
 		}
 	} elseif (!empty($_GET['sort']) && $_GET['sort'] == 'random') {
 		$wallpaperList->setDisplayOrder(WallpaperList::ORDER_RANDOM);
 	} else {
-		if (!empty($_GET['offset']) && filter_var($_GET['offset'], FILTER_VALIDATE_INT) !== FALSE && $_GET['offset'] >= 0) {
+		if (!empty($_GET['offset']) && filter_var($_GET['offset'], FILTER_VALIDATE_INT) !== false && $_GET['offset'] >= 0) {
 			$wallpaperList->setOffset($_GET['offset']);
 		}
 	}
@@ -51,11 +51,11 @@ if (!$requestAllowed) {
 	$wallpaperList->loadWallpapers();
 	$wallpapers = $wallpaperList->getWallpapers();
 
-	$returnData = array('amount' => 0, 'result' => array());
+	$returnData = array('amount' => 0, 'result' => []);
 	$amount = 0;
 	foreach ($wallpapers as $wallpaper) {
 		$amount++;
-		$wallpaperData = Array();
+		$wallpaperData = [];
 		$wallpaperData['title'] = $wallpaper->getName();
 		$wallpaperData['imageId'] = $wallpaper->getFileId();
 		$wallpaperData['downloadURL'] = $wallpaper->getDirectDownloadLink();
@@ -63,7 +63,7 @@ if (!$requestAllowed) {
 		if ($wallpaper->getHasResolution()) {
 			$wallpaperData['dimensions'] = Array('width' => $wallpaper->getWidth(), 'height' => $wallpaper->getHeight());
 		}
-		$wallpaperData['authors'] = Array();
+		$wallpaperData['authors'] = [];
 		$tagList = $wallpaper->getAuthorTags();
 		foreach ($tagList as $tag) {
 			$wallpaperData['authors'][] = $tag->getName();

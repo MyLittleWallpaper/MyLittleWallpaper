@@ -8,19 +8,19 @@ global $user, $category_repository;
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 require_once(ROOT_DIR . 'classes/Colours.php');
-DEFINE('ACTIVE_PAGE', 'wallpaper-queue');
+define('ACTIVE_PAGE', 'wallpaper-queue');
 
 $wallpaperQueuePage = new BasicPage();
 $wallpaperQueuePage->setPageTitleAddition('Submitted wallpapers');
 
-$notFound = FALSE;
+$notFound = false;
 if ($user->getIsAdmin()) {
 	if (isset($_POST['name'])) {
 		if (!empty($_POST['name']) && !empty($_POST['author'])) {
 			$sql = "SELECT * FROM wallpaper_submit WHERE discarded = 0 AND id = ? ORDER BY id LIMIT 1";
 			$data = Array($_POST['id']);
 			$res = $db->query($sql, $data);
-			$wallpaperData = Array();
+			$wallpaperData = [];
 			while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 				$wallpaperData = $row;
 			}
@@ -28,7 +28,7 @@ if ($user->getIsAdmin()) {
 				if (rename(ROOT_DIR . FILE_FOLDER . 'moderate/' . $wallpaperData['file'], ROOT_DIR . FILE_FOLDER . $wallpaperData['file'])) {
 					$saveAuthor = '';
 					$authorList = explode(',', $_POST['author']);
-					$author_array = Array();
+					$author_array = [];
 					foreach ($authorList as $tag) {
 						$tag = trim($tag);
 						if (str_replace(' ', '', $tag) != '') {
@@ -103,7 +103,7 @@ if ($user->getIsAdmin()) {
 							),
 						),
 					);
-					$conditions = Array();
+					$conditions = [];
 					$conditions[] = Array(
 						'table' => 'wallpaper_tag',
 						'field' => 'wallpaper_id',
@@ -117,7 +117,7 @@ if ($user->getIsAdmin()) {
 						'operator' => '=',
 					);
 					$order = Array(Array('table' => 'tag', 'field' => 'name'));
-					$tagList = $db->getlist('tag', $fields, $conditions, $order, NULL, $join);
+					$tagList = $db->getList('tag', $fields, $conditions, $order, NULL, $join);
 					$characterTags = '';
 					$ct_count = 0;
 					foreach ($tagList as $tag) {
@@ -131,7 +131,7 @@ if ($user->getIsAdmin()) {
 						$db->saveArray('wallpaper', $saveData, $imageId);
 					}
 
-					$noAspect = FALSE;
+					$noAspect = false;
 					$platformList = explode(',', $_POST['platform']);
 					foreach ($platformList as $tag) {
 						$tag = trim($tag);
@@ -140,7 +140,7 @@ if ($user->getIsAdmin()) {
 							while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 								if ($row['name'] == 'Mobile') {
 									$db->saveArray('wallpaper', Array('no_aspect' => 1), $imageId);
-									$noAspect = TRUE;
+									$noAspect = true;
 								}
 								$data = Array(
 									'tag_platform_id' => $row['id'],
@@ -179,7 +179,7 @@ if ($user->getIsAdmin()) {
 				}
 				header('Location: ' . PUB_PATH_CAT . 'moderate/wallpaper-queue');
 			} else {
-				$notFound = TRUE;
+				$notFound = true;
 			}
 		}
 	}
@@ -211,26 +211,26 @@ if ($user->getIsAdmin()) {
 		});
 	});';
 
-	$pageContents .= '<div id="error_dialog" title="Error" style="display:none"><p style="font-size:12px;"><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><span class="dialogtext"></span></p></div>';
+	$pageContents .= '<div id="error_dialog" title="Error" style="display:none;"><p style="font-size:12px;"><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><span class="dialogtext"></span></p></div>';
 	$sql = "SELECT * FROM wallpaper_submit WHERE discarded = ? ORDER BY id LIMIT 1";
 	$data = Array(0);
 	$res = $db->query($sql, $data);
-	$wallpaperData = Array();
+	$wallpaperData = [];
 	while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 		$wallpaperData = $row;
 	}
 	if (!empty($wallpaperData)) {
 		$theUrl = '';
 		$authorList = explode(',', $wallpaperData['author']);
-		$author_array = Array();
-		$new_author_array = Array();
+		$author_array = [];
+		$new_author_array = [];
 		foreach ($authorList as $tag) {
 			$tag = trim($tag);
 			if (str_replace(' ', '', $tag) != '') {
 				$res = $db->query("SELECT id, name FROM tag_artist WHERE name = ?", Array($tag));
-				$found = FALSE;
+				$found = false;
 				while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-					$found = TRUE;
+					$found = true;
 					$author_array[] = $row['name'];
 				}
 				if (!$found)
@@ -239,15 +239,15 @@ if ($user->getIsAdmin()) {
 		}
 
 		$tagList = explode(',', $wallpaperData['tags']);
-		$tag_array = Array();
-		$new_tag_array = Array();
+		$tag_array = [];
+		$new_tag_array = [];
 		foreach ($tagList as $tag) {
 			$tag = trim($tag);
 			if (str_replace(' ', '', $tag) != '') {
 				$res = $db->query("SELECT id, name FROM tag WHERE name = ?", Array($tag));
-				$found = FALSE;
+				$found = false;
 				while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-					$found = TRUE;
+					$found = true;
 					$tag_array[] = $row['name'];
 				}
 				if (!$found)
@@ -277,7 +277,7 @@ if ($user->getIsAdmin()) {
 		}
 
 		// Check if found on the database
-		$foundWallpapers = Array();
+		$foundWallpapers = [];
 		if ($theUrl == '') {
 			if (!empty($wallpaperData['url'])) {
 				$sim_res = $db->query("SELECT file FROM `wallpaper` WHERE deleted = 0 AND url = ?", Array($wallpaperData['url']));
@@ -438,7 +438,7 @@ if ($user->getIsAdmin()) {
 				]
 			});
 		});';
-		$pageContents .= '<div id="deny_dialog" title="Deny submission" style="display:none"><p>Deny reason:<br /><br /><select id="denyreason">';
+		$pageContents .= '<div id="deny_dialog" title="Deny submission" style="display:none;"><p>Deny reason:<br /><br /><select id="denyreason">';
 		$pageContents .= '<option value="quality">Wallpaper isn\'t good enough</option>';
 		$pageContents .= '<option value="duplicate"' . (!empty($foundWallpapers) ? ' selected="selected"' : '') . '>Wallpaper already in database</option>';
 		$pageContents .= '<option value="size"' . ($wallpaperData['width'] < 1366 || $wallpaperData['height'] < 768 ? ' selected="selected"' : '') . '>Wallpaper doesn\'t meet the size requirements</option>';

@@ -16,7 +16,7 @@ class Navigation {
 	/**
 	 * @var NavigationElement[]
 	 */
-	private $navigationElements = array();
+	private $navigationElements = [];
 	
 	public function __construct() {
 		global $user;
@@ -64,7 +64,7 @@ class NavigationElement {
 	/**
 	 * @var NavigationElement[]
 	 */
-	private $subMenuItems = array();
+	private $subMenuItems = [];
 	
 	/**
 	 * @param string $url

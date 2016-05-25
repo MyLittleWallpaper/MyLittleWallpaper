@@ -38,7 +38,7 @@ class CategoryRepository {
 	 * @return Category[]
 	 */
 	public function getCategoryList() {
-		$return = array();
+		$return = [];
 		$sql = "SELECT * FROM category ORDER BY name";
 		$res = $this->db->query($sql);
 		while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
@@ -53,7 +53,7 @@ class CategoryRepository {
 	 */
 	public function getCategoryByUrlName($urlName) {
 		$sql = "SELECT * FROM category WHERE urlname = ?";
-		$data = array((string) $urlName);
+		$data = [(string) $urlName];
 		
 		return $this->selectCategory($sql, $data);
 	}
@@ -64,7 +64,7 @@ class CategoryRepository {
 	 */
 	public function getCategoryById($id) {
 		$sql = "SELECT * FROM category WHERE id = ?";
-		$data = array((int) $id);
+		$data = [(int) $id];
 		
 		return $this->selectCategory($sql, $data);
 	}
@@ -198,7 +198,7 @@ class Category {
 	 * @param array $data category data
 	 */
 	public function bindData($data) {
-		if (!empty($data['id']) && filter_var($data['id'], FILTER_VALIDATE_INT) !== FALSE) {
+		if (!empty($data['id']) && filter_var($data['id'], FILTER_VALIDATE_INT) !== false) {
 			$this->id = (int) $data['id'];
 		}
 		if (!empty($data['name'])) {

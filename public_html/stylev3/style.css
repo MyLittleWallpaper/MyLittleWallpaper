@@ -2,12 +2,12 @@
 @font-face{font-family:'Linear';src:url('fonts/linear-by-braydon-fuller.ttf') format('truetype');font-weight:normal;font-style:normal;}
 
 /* Base styles */
-body,html{padding:0;margin:0;font-family:Arial,Verdana,Sans-Serif;font-size:16px;color:#444;}
+body,html{padding:0;margin:0;font-family:Arial,Verdana,sans-serif;font-size:16px;color:#444;}
 body{background:#fff;padding-top:65px;}
 a:link,a:visited,a:active{color:#0056cc;text-decoration:none;}
 a:hover{text-decoration:underline;}
 a img{border:none;}
-h1, h2, h3, h4{font-family:Linear,Arial,Verdana,Sans-Serif;font-weight:normal;}
+h1, h2, h3, h4{font-family:Linear,Arial,Verdana,sans-serif;font-weight:normal;}
 h1{margin:0;font-size:40px;color:#612976;}
 h2{font-size:35px;color:#612976;margin:28px 0 8px 0;}
 h3{font-size:30px;color:#612976;margin:18px 0;}
@@ -70,7 +70,7 @@ div.image_info>div label{width:60px;text-transform:uppercase;display:inline-bloc
 div.image_container_large div.image_info{padding-top:8px;}
 div.clicks_and_favs{font-size:11px;}
 div.actions{padding-top:6px;}
-div.image_container_large div.actions{float:right;padding:0px 10px 0 0;font-size:13px;}
+div.image_container_large div.actions{float:right;padding:0 10px 0 0;font-size:13px;}
 div.actions>a,a.button{background-color:#1F3D5C;color:#fff;display:inline-block;margin:0 auto;text-transform:uppercase;text-align:center;}
 div.actions>a{padding:8px 0;}
 div.actions>a.favourite{margin-top:4px;width:195px;}

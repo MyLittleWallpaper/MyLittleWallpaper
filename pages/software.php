@@ -4,7 +4,7 @@ if (!defined('INDEX')) exit();
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
-DEFINE('ACTIVE_PAGE', 'software');
+define('ACTIVE_PAGE', 'software');
 $softwarePage = new BasicPage();
 $softwarePage->setPageTitleAddition('Software');
 

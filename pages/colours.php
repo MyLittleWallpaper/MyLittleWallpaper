@@ -31,7 +31,7 @@ if (!defined('INDEX')) exit();
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
 $html = '';
-$colours = Array(
+$colours = [
 	'ffffff' => 'ffffff',
 	'cccccc' => 'cccccc',
 	'666666' => '666666',
@@ -56,7 +56,7 @@ $colours = Array(
 	'95009a' => '95009a',
 	'f868fe' => 'f868fe',
 	'fe68b9' => 'fe68b9',
-);
+];
 $cnt = 0;
 $html .= '<h2 style="padding:6px 6px 4px 6px;">Colours</h2>';
 foreach($colours as $scol => $dcol) {

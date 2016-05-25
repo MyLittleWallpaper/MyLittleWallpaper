@@ -139,7 +139,7 @@ class ReCaptchaResponse {
   * @param array $extra_params an array of extra variables to post to the server
   * @return ReCaptchaResponse
   */
-function recaptcha_check_answer ($privkey, $remoteip, $challenge, $response, $extra_params = array()) {
+function recaptcha_check_answer ($privkey, $remoteip, $challenge, $response, $extra_params = []) {
 	if ($privkey == null || $privkey == '') {
 		die ("To use reCAPTCHA you must get an API key from <a href='https://www.google.com/recaptcha/admin/create'>https://www.google.com/recaptcha/admin/create</a>");
 	}
@@ -157,12 +157,12 @@ function recaptcha_check_answer ($privkey, $remoteip, $challenge, $response, $ex
 	}
 
 	$response = _recaptcha_http_post (RECAPTCHA_VERIFY_SERVER, "/recaptcha/api/verify",
-		array (
+		[
 			'privatekey' => $privkey,
 			'remoteip' => $remoteip,
 			'challenge' => $challenge,
 			'response' => $response
-		) + $extra_params
+		] + $extra_params
 	);
 
 	$answers = explode ("\n", $response [1]);
@@ -186,7 +186,7 @@ function recaptcha_check_answer ($privkey, $remoteip, $challenge, $response, $ex
  * @return string
  */
 function recaptcha_get_signup_url ($domain = null, $appname = null) {
-	return "https://www.google.com/recaptcha/admin/create?" .  _recaptcha_qsencode (array ('domains' => $domain, 'app' => $appname));
+	return "https://www.google.com/recaptcha/admin/create?" .  _recaptcha_qsencode (['domains' => $domain, 'app' => $appname]);
 }
 
 /**

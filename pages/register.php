@@ -7,15 +7,15 @@ global $user, $db;
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
-DEFINE('ACTIVE_PAGE', 'register');
-$ban = $db->getrecord('ban', Array('field' => 'ip', 'value' => USER_IP));
+define('ACTIVE_PAGE', 'register');
+$ban = $db->getRecord('ban', Array('field' => 'ip', 'value' => USER_IP));
 if (!empty($ban['ip']) && $ban['ip'] == USER_IP) {
-	$banned = TRUE;
+	$banned = true;
 } else {
-	$banned = FALSE;
+	$banned = false;
 }
-$redirect = FALSE;
-$error = FALSE;
+$redirect = false;
+$error = false;
 
 if (!$user->getIsAnonymous()) {
 	header('Location: '.PUB_PATH_CAT);
@@ -31,7 +31,7 @@ if (!$user->getIsAnonymous()) {
 			if (trim($_POST['username']) == '') {
 				$error = 'Please give a username.';
 			}
-			if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === FALSE) {
+			if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false) {
 				if ($error) $error .= '<br />Incorrect email.';
 				else $error = 'Incorrect email.';
 			}
@@ -43,8 +43,8 @@ if (!$user->getIsAnonymous()) {
 				else $error = 'Password and its confirmation don\'t match.';
 			}
 			if (!$error) {
-				$username_exists = $db->getrecord('user', Array('field' => 'username', 'value' => $_POST['username']));
-				$email_exists = $db->getrecord('user', Array('field' => 'email', 'value' => $_POST['email']));
+				$username_exists = $db->getRecord('user', Array('field' => 'username', 'value' => $_POST['username']));
+				$email_exists = $db->getRecord('user', Array('field' => 'email', 'value' => $_POST['email']));
 				if (!empty($username_exists)) {
 					$error = 'Given username is already in use.';
 				}
@@ -68,17 +68,17 @@ if (!$user->getIsAnonymous()) {
 							'My Little Wallpaper Team');
 						$phpMailer->Subject = 'My Little Wallpaper account';
 						$phpMailer->Encoding = 'quoted-printable';
-						$phpMailer->AddAddress($_POST['email']);
-						$phpMailer->Send();
+						$phpMailer->addAddress($_POST['email']);
+						$phpMailer->send();
 						
-						$saveData = Array(
+						$saveData = [
 							'username' => trim($_POST['username']),
 							'password' => Format::passwordHash($_POST['password'], trim($_POST['username'])),
 							'email' => $_POST['email'],
-						);
+						];
 						$db->saveArray('user', $saveData);
-						$_SESSION['success'] = TRUE;
-						$redirect = TRUE;
+						$_SESSION['success'] = true;
+						$redirect = true;
 						header('Location: '.PUB_PATH_CAT.'register');
 					} else {
 						$error = 'Registration blocked, IP or email in blacklist.';

@@ -4,7 +4,7 @@ if (!defined('INDEX')) exit();
 global $user;
 
 // @todo Rewrite
-/*$visits = $db->getrecord('visits', Array('field' => 'id', 'value' => 1));
+/*$visits = $db->getRecord('visits', Array('field' => 'id', 'value' => 1));
 
 if (!empty($_SERVER['HTTP_USER_AGENT']) && is_bot($_SERVER['HTTP_USER_AGENT']) === 0) {
 	$data = Array(
@@ -20,11 +20,11 @@ if (!empty($_SERVER['HTTP_USER_AGENT']) && is_bot($_SERVER['HTTP_USER_AGENT']) =
 	$db->saveArray('visit_log', $data);
 }
 
-$ban = $db->getrecord('ban', Array('field' => 'ip', 'value' => USER_IP));
+$ban = $db->getRecord('ban', Array('field' => 'ip', 'value' => USER_IP));
 
-if (!empty($ban['ip']) && $ban['ip'] == USER_IP) $banned = TRUE; else $banned = FALSE;
-$redirect = FALSE;
-$error = FALSE;
+if (!empty($ban['ip']) && $ban['ip'] == USER_IP) $banned = true; else $banned = false;
+$redirect = false;
+$error = false;
 //if ($banned) exit();
 if (isset($_POST['name']) && !$banned) {
 	if ($user->getIsAnonymous()) {
@@ -60,8 +60,8 @@ if (isset($_POST['name']) && !$banned) {
 					'time' => gmdate('Y-m-d H:i:s'),
 				);
 				$db->saveArray('feedback', $savedata);
-				$_SESSION['success'] = TRUE;
-				$redirect = TRUE;
+				$_SESSION['success'] = true;
+				$redirect = true;
 				header('Location: '.$pubpath.'feedback.php');
 			}
 		} else $error = 'Please give any feedback before sending.';

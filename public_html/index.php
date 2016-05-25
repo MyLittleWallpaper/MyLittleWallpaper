@@ -1,7 +1,7 @@
 <?php
-define('DOC_DIR', __DIR__.'/');
+define('DOC_DIR', __DIR__ . '/');
 define('ROOT_DIR', __DIR__ . '/../');
-define('INDEX', TRUE);
+define('INDEX', true);
 define('PUB_PATH', str_replace($_SERVER['DOCUMENT_ROOT'], '', DOC_DIR));
 
 require_once(ROOT_DIR . 'classes/Format.php');
@@ -176,14 +176,14 @@ if (strcmp($pageType, 'images') === 0) {
 	} elseif (strcmp($pageType, 'feed') === 0) {
 		require_once(ROOT_DIR . 'pages/feed/' . $page . '.php');
 	} elseif (strcmp($pageType, 'api') === 0) {
-		$output_data = Array();
-		$output_data = require_once(ROOT_DIR . 'pages/api/'.$apiVersion.'/calls/'.$page.'.inc.php');
+		$output_data = [];
+		$output_data = require_once(ROOT_DIR . 'pages/api/' . $apiVersion . '/calls/' . $page . '.inc.php');
 		if (isset($_GET['debug'])) {
 			$time_end = microtime(true);
 			$time = $time_end - $time_start;
 			$output_data['generate_time'] = round($time, 4);
 		}
-		require_once(ROOT_DIR . 'pages/api/'.$apiVersion.'/output/'.$apiOutputFormat.'.inc.php');
+		require_once(ROOT_DIR . 'pages/api/' . $apiVersion . '/output/' . $apiOutputFormat . '.inc.php');
 	} elseif (strcmp($pageType, 'link') === 0) {
 		require_once(ROOT_DIR . 'pages/link.php');
 	} elseif (strcmp($pageType, 'download') === 0) {

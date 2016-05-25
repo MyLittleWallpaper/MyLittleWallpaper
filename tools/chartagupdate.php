@@ -2,7 +2,7 @@
 <?php
 if (PHP_SAPI == 'cli') {
 	$time_start = microtime(true);
-	define('INDEX', TRUE);
+	define('INDEX', true);
 	
 	require_once('../config.php');
 	require_once('../lib/db.inc.php');
@@ -28,7 +28,7 @@ if (PHP_SAPI == 'cli') {
 				),
 			),
 		);
-		$conditions = Array();
+		$conditions = [];
 		$conditions[] = Array(
 			'table' => 'wallpaper_tag',
 			'field' => 'wallpaper_id',
@@ -60,4 +60,3 @@ if (PHP_SAPI == 'cli') {
 		
 	}
 }
-?>

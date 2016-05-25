@@ -3,8 +3,11 @@
 if (PHP_SAPI == 'cli') {
 	exit();
 	$time_start = microtime(true);
-	define('INDEX', TRUE);
-	require_once(ROOT_DIR . 'inc/init.php');
+	define('INDEX', true);
+
+	require_once('../config.php');
+	require_once('../lib/db.inc.php');
+	$db = new Database(DBUSER, DBPASS, DBNAME, DBHOST);
 
 	$res = $db->query("SELECT * FROM wallpaper WHERE deleted = 0 AND direct_with_link = 0 ORDER BY last_checked, id LIMIT 13");
 
@@ -28,11 +31,11 @@ if (PHP_SAPI == 'cli') {
 		if (isset($retVal['Location'])) {
 			if (substr($retVal['Location'], 0, 7) === 'http://' || substr($retVal['Location'], 0, 8) === 'https://' || substr($retVal['Location'], 0, 6) === 'ftp://') {
 				$tries = 0;
-				$done = FALSE;
+				$done = false;
 				while(!$done) {
 					$http = curl_init($retVal['Location']);
-					curl_setopt($http, CURLOPT_RETURNTRANSFER, TRUE);
-					curl_setopt($http, CURLOPT_HEADER, TRUE);
+					curl_setopt($http, CURLOPT_RETURNTRANSFER, true);
+					curl_setopt($http, CURLOPT_HEADER, true);
 					$result = curl_exec($http);
 					$http_status = curl_getinfo($http, CURLINFO_HTTP_CODE);
 					curl_close($http);
@@ -58,11 +61,11 @@ if (PHP_SAPI == 'cli') {
 
 	while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 		$tries = 0;
-		$done = FALSE;
+		$done = false;
 		while(!$done) {
 			$http = curl_init($row['url']);
-			curl_setopt($http, CURLOPT_RETURNTRANSFER, TRUE);
-			curl_setopt($http, CURLOPT_HEADER, TRUE);
+			curl_setopt($http, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($http, CURLOPT_HEADER, true);
 			$result = curl_exec($http);
 			$http_status = curl_getinfo($http, CURLINFO_HTTP_CODE);
 			curl_close($http);
@@ -72,27 +75,27 @@ if (PHP_SAPI == 'cli') {
 			if ($http_status && $http_status != '500') {
 				if ($http_status == '301') {
 					$new_location = parseredirect($result, $row['url']);
-					if ($new_location === FALSE) {
-						$savedata = Array('status_check' => '404', 'deleted' => 1, 'last_checked' => gmdate('Y-m-d H:i:s'));
+					if ($new_location === false) {
+						$savedata = ['status_check' => '404', 'deleted' => 1, 'last_checked' => gmdate('Y-m-d H:i:s')];
 						echo '      NEWLOC 404'."\n";
 					} else {
-						$savedata = Array('status_check' => '200', 'url' => $new_location, 'last_checked' => gmdate('Y-m-d H:i:s'));
+						$savedata = ['status_check' => '200', 'url' => $new_location, 'last_checked' => gmdate('Y-m-d H:i:s')];
 						echo '      NEWLOC '.$new_location."\n";
 					}
 					$db->saveArray('wallpaper', $savedata, $row['id']);
-					$done = TRUE;
+					$done = true;
 				} elseif ($http_status == '404') {
-					$savedata = Array('status_check' => $http_status, 'deleted' => 1, 'last_checked' => gmdate('Y-m-d H:i:s'));
+					$savedata = ['status_check' => $http_status, 'deleted' => 1, 'last_checked' => gmdate('Y-m-d H:i:s')];
 					$db->saveArray('wallpaper', $savedata, $row['id']);
-					$done = TRUE;
+					$done = true;
 				} else {
-					$savedata = Array('status_check' => $http_status, 'last_checked' => gmdate('Y-m-d H:i:s'));
+					$savedata = ['status_check' => $http_status, 'last_checked' => gmdate('Y-m-d H:i:s')];
 					$db->saveArray('wallpaper', $savedata, $row['id']);
-					$done = TRUE;
+					$done = true;
 				}
 			}
 			$tries ++;
-			if ($tries > 3) $done = TRUE;
+			if ($tries > 3) $done = true;
 		}
 		sleep(1);
 	}

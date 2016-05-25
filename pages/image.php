@@ -1,7 +1,10 @@
 <?php
 // Check that correct entry point was used
-if (!defined('INDEX')) exit();
-global $image, $resize, $original;
+if (!defined('INDEX')) {
+	exit();
+}
+
+global $db, $image, $resize, $original;
 
 if (!empty($image)) {
 	$last_modified = filemtime(ROOT_DIR . FILE_FOLDER . $image);

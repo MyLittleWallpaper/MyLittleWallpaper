@@ -59,7 +59,7 @@ class TagBase {
 	 * @param array $data tag data
 	 */
 	public function bindData($data) {
-		if (!empty($data['id']) && filter_var($data['id'], FILTER_VALIDATE_INT) !== FALSE) {
+		if (!empty($data['id']) && filter_var($data['id'], FILTER_VALIDATE_INT) !== false) {
 			$this->id = (int) $data['id'];
 		}
 		if (!empty($data['name'])) {
@@ -74,7 +74,7 @@ class TagBase {
 		if ($this->tableName !== '') {
 			$query = "SELECT ";
 			$query .= "* FROM `" . $this->tableName . "` WHERE `id` = ? LIMIT 1";
-			$result = $this->db->query($query, array($id));
+			$result = $this->db->query($query, [$id]);
 			while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 				$this->bindData($row);
 			}
@@ -88,7 +88,7 @@ class TagBase {
 		if ($this->tableName !== '') {
 			$query = "SELECT ";
 			$query .= "* FROM `" . $this->tableName . "` WHERE `name` = ? ORDER BY `name` LIMIT 1";
-			$result = $this->db->query($query, array($name));
+			$result = $this->db->query($query, [$name]);
 			while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 				$this->bindData($row);
 			}
@@ -121,9 +121,9 @@ class TagBase {
 	 */
 	public function save() {
 		if ($this->tableName !== '') {
-			$saveData = array(
+			$saveData = [
 				'name' => $this->name
-			);
+			];
 			if ($this->id === null) {
 				$this->db->saveArray($this->tableName, $saveData);
 			} else {
@@ -209,11 +209,11 @@ class Tag extends TagBase {
 	 */
 	public function save() {
 		if ($this->tableName !== '') {
-			$saveData = array(
+			$saveData = [
 				'name' => $this->name,
 				'alternate' => $this->alternate,
 				'type' => $this->type
-			);
+			];
 			if ($this->id === null) {
 				$this->db->saveArray($this->tableName, $saveData);
 			} else {
@@ -288,11 +288,11 @@ class TagAuthor extends TagBase {
 	 */
 	public function save() {
 		if ($this->tableName !== '') {
-			$saveData = array(
+			$saveData = [
 				'name' => $this->name,
 				'oldname' => $this->oldName,
 				'deleted' => ($this->isDeleted ? 1 : 0)
-			);
+			];
 			if ($this->id === null) {
 				$this->db->saveArray($this->tableName, $saveData);
 			} else {

@@ -10,7 +10,7 @@ if ($user->getIsAnonymous()) {
 	$wallpaper_list = new WallpaperList();
 	$wallpaper_list->setWallpapersPerPage(25);
 	$wallpaper_list->setSearchFavouritesUserId($user->getId());
-	if (isset($_GET['page']) && filter_var($_GET['page'], FILTER_VALIDATE_INT) !== FALSE && $_GET['page'] > 1) {
+	if (isset($_GET['page']) && filter_var($_GET['page'], FILTER_VALIDATE_INT) !== false && $_GET['page'] > 1) {
 		$wallpaper_list->setPageNumber((int) $_GET['page']);
 	}
 	$wallpaper_list->loadWallpapers();

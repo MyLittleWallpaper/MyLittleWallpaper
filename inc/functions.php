@@ -166,15 +166,15 @@ function check_forumspam($ip, $email = '') {
 
 	if ($return['success']) {
 		if ($return['ip']['frequency'] >= 2)
-			return FALSE;
-	} else return FALSE;
+			return false;
+	} else return false;
 
 	if (!empty($email)) {
 		if ($return['email']['frequency'] >= 4)
-			return FALSE;
+			return false;
 	}
 	//trigger_error($data);
-	return TRUE;
+	return true;
 }
 
 /**
@@ -198,7 +198,7 @@ function calc_thumb_size($w, $h, $max_x, $max_y) {
 		$nw = round($w / ($h / $max_y));
 		$nh = $max_y;
 	}
-	return Array($nw, $nh);
+	return [$nw, $nh];
 }
 
 /**
@@ -209,17 +209,17 @@ function generate_password() {
 	$validchars[1] = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 	$validchars[2] = "23456789";
 
-	$used = Array(FALSE, FALSE, FALSE);
+	$used = [false, false, false];
 
-	$done = FALSE;
+	$done = false;
 	$generated_pass = '';
 	while (!$done) {
 		$which = rand(0, 2);
-		$used[$which] = TRUE;
+		$used[$which] = true;
 		$generated_pass .= substr($validchars[$which], rand(0, strlen($validchars[$which]) - 1), 1);
 		if (strlen($generated_pass) == 8) {
 			if ($used[0] && $used[1] && $used[2])
-				$done = TRUE;
+				$done = true;
 			else
 				$generated_pass = '';
 		}

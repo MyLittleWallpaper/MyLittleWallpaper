@@ -9,9 +9,9 @@ $currentletter = '';
 
 $sql = "SELECT `name`, type FROM tag".(CATEGORY_ID > 0 ? " WHERE series IS NULL OR series = ?" : "")." ORDER BY `name`";
 if (CATEGORY_ID > 0) {
-	$data = array(CATEGORY_ID);
+	$data = [CATEGORY_ID];
 } else {
-	$data = array();
+	$data = [];
 }
 $result = $db->query($sql, $data);
 while($tag = $result->fetch(PDO::FETCH_ASSOC)) {

@@ -8,8 +8,8 @@ global $db, $user;
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 define('ACTIVE_PAGE', 'account');
 
-$redirect = FALSE;
-$error = FALSE;
+$redirect = false;
+$error = false;
 
 if ($user->getIsAnonymous()) {
 	require_once(ROOT_DIR . 'pages/errors/403.php');
@@ -22,7 +22,7 @@ if ($user->getIsAnonymous()) {
 		if (strcmp(Format::passwordHash($_POST['old_password'], $user->getUsername()), $user->getPasswordHash()) !== 0) {
 			$error = 'Old password incorrect.';
 		}
-		if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === FALSE) {
+		if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false) {
 			if ($error) $error .= '<br />Incorrect email.';
 			else $error = 'Incorrect email.';
 		}
@@ -46,8 +46,8 @@ if ($user->getIsAnonymous()) {
 					$saveData['password'] = Format::passwordHash($_POST['password'], $user->getUsername());
 				}
 				$db->saveArray('user', $saveData, $user->getId());
-				$_SESSION['success'] = TRUE;
-				$redirect = TRUE;
+				$_SESSION['success'] = true;
+				$redirect = true;
 				header('Location: '.PUB_PATH.'account');
 			}
 		}

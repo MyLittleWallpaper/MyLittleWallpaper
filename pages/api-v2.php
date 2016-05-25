@@ -6,7 +6,7 @@ if (!defined('INDEX')) {
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
-DEFINE('ACTIVE_PAGE', 'api-v2');
+define('ACTIVE_PAGE', 'api-v2');
 $apiV1Page = new BasicPage();
 $apiV1Page->setPageTitleAddition('API v2');
 

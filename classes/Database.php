@@ -55,7 +55,7 @@ class Database {
 			throw new PDOException('Database connection failed, missing ' . $miss . '.');
 		} else {
 			$dsn = 'mysql:dbn' . 'ame=' . $database . ';host=' . $host;
-			$this->dbh = new PDO($dsn, $username, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8mb4\''));
+			$this->dbh = new PDO($dsn, $username, $password, [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8mb4\'']);
 			$this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 	}
@@ -72,10 +72,10 @@ class Database {
 		$query = " SELECT ";
 		$query .= "id FROM `" . $table . "` WHERE `" . $field . "` = ?";
 		if (empty($id)) {
-			$sth = $this->query($query, Array($value));
+			$sth = $this->query($query, [$value]);
 		} else {
 			$query .= " AND `id` != ?";
-			$sth = $this->query($query, Array($value, $id));
+			$sth = $this->query($query, [$value, $id]);
 		}
 		$data = $sth->fetch(PDO::FETCH_ASSOC);
 		if (!empty($data['id'])) {
@@ -95,9 +95,9 @@ class Database {
 	 * @return array
 	 * @throws PDOException
 	 */
-	public function getList($table, $fields = Array(), $conditions = Array(), $order = Array(), $limit = Array(), $join = Array(), $group = false) {
-		$return = Array();
-		$assign_data = Array();
+	public function getList($table, $fields = [], $conditions = [], $order = [], $limit = [], $join = [], $group = false) {
+		$return = [];
+		$assign_data = [];
 		$select = "";
 		if (!empty($fields)) {
 			foreach ($fields as $field) {
@@ -272,9 +272,9 @@ class Database {
 	 * @return int
 	 * @throws PDOException
 	 */
-	public function getCount($table, $conditions = Array(), $join = Array()) {
-		$return = Array();
-		$assign_data = Array();
+	public function getCount($table, $conditions = [], $join = []) {
+		$return = [];
+		$assign_data = [];
 		$select = "SELECT ";
 		$select .= "COUNT(1) cnt FROM (SELECT DISTINCT `" . $table . "`.`id` FROM `" . $table . "` ";
 		if (!empty($join)) {
@@ -399,7 +399,7 @@ class Database {
 	 * @return array
 	 * @throws PDOException
 	 */
-	public function getRecord($table, $id, $fields = Array(), $join = Array()) {
+	public function getRecord($table, $id, $fields = [], $join = []) {
 		$select = "";
 		if (!empty($fields)) {
 			foreach ($fields as $field) {
@@ -427,7 +427,7 @@ class Database {
 			$id_sel = $id['value'];
 		}
 
-		$sth = $this->query($select, Array($id_sel));
+		$sth = $this->query($select, [$id_sel]);
 		$return = $sth->fetch(PDO::FETCH_ASSOC);
 		return $return;
 	}
@@ -451,7 +451,7 @@ class Database {
 		if (!empty($recordData['id'])) {
 			$query = "DELETE ";
 			$query .= "FROM `" . $table . "` " . $where;
-			$this->query($query, Array($whereId));
+			$this->query($query, [$whereId]);
 			return true;
 		}
 		return false;
@@ -471,7 +471,7 @@ class Database {
 				if (empty($id)) { // Saves a new record
 					$insert_fields = '';
 					$insert_data = '';
-					$insert_data_array = Array();
+					$insert_data_array = [];
 
 					// Statement input parameters
 					foreach ($data as $field => $value) {
@@ -497,7 +497,7 @@ class Database {
 					return $return_id;
 				} else { // Updates an existing record
 					$update_data = '';
-					$update_data_array = Array();
+					$update_data_array = [];
 
 					// Statement input parameters
 					foreach ($data as $field => $value) {
@@ -530,7 +530,7 @@ class Database {
 	 * @return PDOStatement Returns the PDO Statement on success, false on failure
 	 * @throws PDOException
 	 */
-	public function query($sql, $data = Array()) {
+	public function query($sql, $data = []) {
 		$sth = $this->dbh->prepare($sql);
 
 		if (!empty($data)) {

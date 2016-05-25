@@ -7,11 +7,11 @@ require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
 
 $return = Array('success' => 0, 'error' => 'Wallpaper not found.');
 
-$banned = FALSE;
+$banned = false;
 $sql = "SELECT ip FROM ban WHERE ip = ?";
 $result = $db->query($sql, Array(USER_IP));
 while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-	$banned = TRUE;
+	$banned = true;
 }
 
 if ($banned) {
@@ -29,9 +29,9 @@ if ($banned) {
 				}
 			}
 			if (empty($return['error'])) {
-				$notchanged = TRUE;
+				$notchanged = true;
 				
-				$newauthors = Array();
+				$newauthors = [];
 				$authorstmp = explode(',', $_POST['author']);
 				foreach($authorstmp as $k => $v) {
 					if (trim($v) != '') {
@@ -42,7 +42,7 @@ if ($banned) {
 				asort($newauthors);
 				$cleanauthors = implode(', ', $newauthors);
 				
-				$newtags = Array();
+				$newtags = [];
 				$tagstmp = explode(',', $_POST['tags']);
 				foreach($tagstmp as $k => $v) {
 					if (trim($v) != '') {
@@ -53,7 +53,7 @@ if ($banned) {
 				asort($newtags);
 				$cleantags = implode(', ', $newtags);
 				
-				$newplatforms = Array();
+				$newplatforms = [];
 				$platformstmp = explode(',', $_POST['platform']);
 				foreach($platformstmp as $k => $v) {
 					if (trim($v) != '') {
@@ -67,24 +67,24 @@ if ($banned) {
 				if (trim($_POST['name']) == '' || empty($newauthors) || empty($newtags) || empty($newplatforms)) {
 					$return['error'] = 'Please fill all the fields.';
 				} else {
-					if (strcmp(trim($row['name']), trim($_POST['name'])) !== 0) $notchanged = FALSE;
-					if (strcmp(trim($row['url']), trim($_POST['url'])) !== 0) $notchanged = FALSE;
+					if (strcmp(trim($row['name']), trim($_POST['name'])) !== 0) $notchanged = false;
+					if (strcmp(trim($row['url']), trim($_POST['url'])) !== 0) $notchanged = false;
 					
-					$tags = Array();
+					$tags = [];
 					$sql = "SELECT t.name FROM tag t JOIN wallpaper_tag wt ON (t.id = wt.tag_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
 					$res = $db->query($sql, Array($row['id']));
 					while($tag = $res->fetch(PDO::FETCH_ASSOC)) {
 						$tags[] = mb_strtolower($tag['name'], 'utf-8');
 					}
 					
-					$authors = Array();
+					$authors = [];
 					$sql = "SELECT t.name FROM tag_artist t JOIN wallpaper_tag_artist wt ON (t.id = wt.tag_artist_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
 					$res = $db->query($sql, Array($row['id']));
 					while($tag = $res->fetch(PDO::FETCH_ASSOC)) {
 						$authors[] = mb_strtolower($tag['name'], 'utf-8');
 					}
 					
-					$platforms = Array();
+					$platforms = [];
 					$sql = "SELECT t.name FROM tag_platform t JOIN wallpaper_tag_platform wt ON (t.id = wt.tag_platform_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
 					$res = $db->query($sql, Array($row['id']));
 					while($tag = $res->fetch(PDO::FETCH_ASSOC)) {
@@ -97,7 +97,7 @@ if ($banned) {
 							unset($newauthors[$v]);
 						}
 					}
-					if (!empty($authors) || !empty($newauthors)) $notchanged = FALSE;
+					if (!empty($authors) || !empty($newauthors)) $notchanged = false;
 
 					foreach($tags as $k => $v) {
 						if (!empty($newtags[$v])) {
@@ -105,7 +105,7 @@ if ($banned) {
 							unset($newtags[$v]);
 						}
 					}
-					if (!empty($tags) || !empty($newtags)) $notchanged = FALSE;
+					if (!empty($tags) || !empty($newtags)) $notchanged = false;
 					
 					foreach($platforms as $k => $v) {
 						if (!empty($newplatforms[$v])) {
@@ -113,9 +113,9 @@ if ($banned) {
 							unset($newplatforms[$v]);
 						}
 					}
-					if (!empty($platforms) || !empty($newplatforms)) $notchanged = FALSE;
+					if (!empty($platforms) || !empty($newplatforms)) $notchanged = false;
 					if ($user->getIsAdmin()) {
-						if ((!empty($_POST['no_resolution']) && $_POST['no_resolution'] == '1' && $row['no_resolution'] == '0') || (empty($_POST['no_resolution']) && $row['no_resolution'])) $notchanged = FALSE;
+						if ((!empty($_POST['no_resolution']) && $_POST['no_resolution'] == '1' && $row['no_resolution'] == '0') || (empty($_POST['no_resolution']) && $row['no_resolution'])) $notchanged = false;
 					}
 					if ($notchanged) {
 						$return['error'] = 'Please change some information before submitting.';
@@ -123,7 +123,7 @@ if ($banned) {
 						if ($user->getIsAdmin()) {
 							$saveauthor = '';
 							$authorlist = explode(',', $_POST['author']);
-							$author_array = Array();
+							$author_array = [];
 							foreach($authorlist as $tag) {
 								$tag = trim($tag);
 								if (str_replace(' ', '', $tag) != '') {
@@ -146,7 +146,7 @@ if ($banned) {
 								'no_resolution' => (!empty($_POST['no_resolution']) && $_POST['no_resolution'] == '1' ? 1 : 0),
 							);
 								
-							$olddata = Array();
+							$olddata = [];
 							$olddata['name'] = $row['name'];
 							$olddata['tags'] = '';
 							$sql = "SELECT t.name FROM tag t JOIN wallpaper_tag wt ON (t.id = wt.tag_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
@@ -226,7 +226,7 @@ if ($banned) {
 									),
 								),
 							);
-							$conditions = Array();
+							$conditions = [];
 							$conditions[] = Array(
 								'table' => 'wallpaper_tag',
 								'field' => 'wallpaper_id',
@@ -253,7 +253,7 @@ if ($banned) {
 								$db->saveArray('wallpaper', $savedata, $imageid);
 							}
 							
-							$noaspect = FALSE;
+							$noaspect = false;
 							$platformlist = explode(',', $_POST['platform']);
 							foreach($platformlist as $tag) {
 								$tag = trim($tag);
@@ -262,7 +262,7 @@ if ($banned) {
 									while($rivi = $res->fetch(PDO::FETCH_ASSOC)) {
 										if ($rivi['name'] == 'Mobile') {
 											$db->saveArray('wallpaper', Array('no_aspect' => 1), $imageid);
-											$noaspect = TRUE;
+											$noaspect = true;
 										}
 										$data = Array(
 											'tag_platform_id' => $rivi['id'],
