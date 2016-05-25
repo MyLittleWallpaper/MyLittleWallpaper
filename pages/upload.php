@@ -395,7 +395,7 @@ if (CATEGORY == 'all') {
 				this.value = terms.join(", ");
 				return false;
 			}
-		}).data("autocomplete")._renderItem = function(ul, item) {
+		}).autocomplete("instance")._renderItem = function(ul, item) {
 			if (item.desc != "") {
 				return $("<li>")
 					.data("item.autocomplete", item)
@@ -435,7 +435,7 @@ if (CATEGORY == 'all') {
 				this.value = terms.join(", ");
 				return false;
 			}
-		}).data("autocomplete")._renderItem = function(ul, item) {
+		}).autocomplete("instance")._renderItem = function(ul, item) {
 			if (item.desc != "") {
 				return $("<li>")
 					.data("item.autocomplete", item)
