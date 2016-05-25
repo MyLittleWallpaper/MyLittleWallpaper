@@ -8,11 +8,11 @@ define('ACTIVE_PAGE', 'stats');
 $statspage = new BasicPage();
 $statspage->setPageTitleAddition('Stats');
 
-$html = '<script type="text/javascript" src="'.PUB_PATH.'js/jquery.jqplot-1.0.8.min.js"></script>';
-$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.canvasTextRenderer-1.0.8.min.js"></script>';
-$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.canvasAxisTickRenderer-1.0.8.min.js"></script>';
-$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.highlighter-1.0.8.min.js"></script>';
-$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.dateAxisRenderer-1.0.8.min.js"></script>';
+$html = '<script type="text/javascript" src="'.PUB_PATH.'js/jquery.jqplot-1.0.9.min.js"></script>';
+$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.canvasAxisTickRenderer-1.0.9.js"></script>';
+$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.canvasTextRenderer-1.0.9.js"></script>';
+$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.highlighter-1.0.9.js"></script>';
+$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.dateAxisRenderer-1.0.9.js"></script>';
 $javascript = '$(document).ready(function(){
 	var l5P = [];
 	var l15P = [];

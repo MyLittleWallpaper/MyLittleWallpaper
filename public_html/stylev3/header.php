@@ -98,13 +98,14 @@ echo '<!DOCTYPE html>
 		'.$response->responseVariables->rss.'
 		<title>'.$response->responseVariables->titleAddition.(CATEGORY_NAME != '' ? Format::htmlEntities(CATEGORY_NAME).' | ' : '').'My Little Wallpaper - Wallpapers are Magic</title>
 		<link type="text/css" rel="stylesheet" href="'.PUB_PATH.'stylev3/style.css?v='.urlencode($version).'" media="all">
-		<link type="text/css" rel="stylesheet" href="'.PUB_PATH.'stylev3/jquery-ui-1.9.2.css?v='.urlencode($version).'" media="all">
-		<script type="text/javascript" src="'.PUB_PATH.'js/jquery-1.11.1.min.js?v='.urlencode($version).'"></script>
-		<script type="text/javascript" src="'.PUB_PATH.'js/jquery.lazyload-1.9.3.min.js?v='.urlencode($version).'"></script>
-		<script type="text/javascript" src="'.PUB_PATH.'js/perfect-scrollbar-0.4.10.with-mousewheel.min.js?v='.urlencode($version).'"></script>
+		<link type="text/css" rel="stylesheet" href="'.PUB_PATH.'stylev3/jquery-ui-1.11.4.structure.min.css?v='.urlencode($version).'" media="all">
+		<link type="text/css" rel="stylesheet" href="'.PUB_PATH.'stylev3/jquery-ui-1.11.4.theme.css?v='.urlencode($version).'" media="all">
+		<script type="text/javascript" src="'.PUB_PATH.'js/jquery-1.12.4.min.js?v='.urlencode($version).'"></script>
+		<script type="text/javascript" src="'.PUB_PATH.'js/jquery.lazyload-1.9.6.min.js?v='.urlencode($version).'"></script>
+		<script type="text/javascript" src="'.PUB_PATH.'js/perfect-scrollbar.jquery-0.6.11.min.js?v='.urlencode($version).'"></script>
 		<script type="text/javascript" src="'.PUB_PATH.'js/jquery.tagsinput-1.3.3.js?v='.urlencode($version).'"></script>
 		<script type="text/javascript" src="'.PUB_PATH.'js/vex.combined-2.0.1.js?v='.urlencode($version).'"></script>
-		<script type="text/javascript" src="'.PUB_PATH.'js/jquery-ui-1.9.2.custom.min.js?v='.urlencode($version).'"></script>
+		<script type="text/javascript" src="'.PUB_PATH.'js/jquery-ui-1.11.4.min.js?v='.urlencode($version).'"></script>
 		<script type="text/javascript" src="'.PUB_PATH.'js/header.js?v='.urlencode($version).'"></script>'.$javaScriptIncludes.'
 		'.$response->responseVariables->javaScript.'
 	</head>

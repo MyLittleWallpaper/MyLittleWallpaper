@@ -12,7 +12,7 @@ function change_category(el, pageURI) {
 }
 
 /**
- * @param string el
+ * @param {string} el
  * @param id
  * @param image
  * @param download

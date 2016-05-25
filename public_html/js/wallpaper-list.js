@@ -241,7 +241,7 @@ $(document).ready(function(){
 			this.value = terms.join(", ");
 			return false;
 		}
-	}).data("autocomplete")._renderItem = function(ul, item) {
+	}).autocomplete("instance")._renderItem = function(ul, item) {
 		if (item.desc !== "") {
 			return $("<li>")
 				.data("item.autocomplete", item)
@@ -281,7 +281,7 @@ $(document).ready(function(){
 			this.value = terms.join(", ");
 			return false;
 		}
-	}).data("autocomplete")._renderItem = function(ul, item) {
+	}).autocomplete("instance")._renderItem = function(ul, item) {
 		if (item.desc !== "") {
 			return $("<li>")
 				.data("item.autocomplete", item)
