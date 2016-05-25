@@ -3,10 +3,10 @@
 if (!defined('INDEX')) {
 	exit();
 }
-global $user;
+global $db, $user;
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
-DEFINE('ACTIVE_PAGE', 'account');
+define('ACTIVE_PAGE', 'account');
 
 $redirect = FALSE;
 $error = FALSE;
@@ -36,18 +36,16 @@ if ($user->getIsAnonymous()) {
 			}
 		}
 		if (!$error) {
-			$email_exists = $db->getRecord('user', Array('field' => 'email', 'value' => $_POST['email']));
+			$email_exists = $db->getRecord('user', ['field' => 'email', 'value' => $_POST['email']]);
 			if (!empty($email_exists) && $email_exists['id'] != $user->getId()) {
 				$error = 'Given email is already in use.';
 			}
 			if (!$error) {
-				$savedata = Array(
-					'email' => $_POST['email'],
-				);
+				$saveData = ['email' => $_POST['email']];
 				if ($_POST['password'] != '') {
-					$savedata['password'] = Format::passwordHash($_POST['password'], $user->getUsername());
+					$saveData['password'] = Format::passwordHash($_POST['password'], $user->getUsername());
 				}
-				$db->saveArray('user', $savedata, $user->getId());
+				$db->saveArray('user', $saveData, $user->getId());
 				$_SESSION['success'] = TRUE;
 				$redirect = TRUE;
 				header('Location: '.PUB_PATH.'account');
@@ -55,17 +53,35 @@ if ($user->getIsAnonymous()) {
 		}
 	}
 
-	$pageContents = '<div id="content"><div>';
+	$pageContents = '<script type="text/javascript">
+		function resetAPIToken() {
+			if (confirm("Are you sure you want to reset your API token?")) {
+				$.ajax({
+					"url": "' . PUB_PATH_CAT . 'ajax/reset_api_token",
+					"cache": false,
+					"success": function(data) {
+						if (data.token != null) {
+							$("#APITokenInput").val(data.token);
+						} else {
+							alert("Resetting API token failed, please log in again.");
+						}
+					}
+				});
+			}
+		}
+	</script>';
+	$pageContents .= '<div id="content"><div>';
 	$pageContents .= '<h1>Account</h1>';
 	if ($user->getToken() === null) {
 		$user->setToken(uid());
-		$db->saveArray('user', array('token' => $user->getToken()), $user->getId());
+		$db->saveArray('user', ['token' => $user->getToken()], $user->getId());
 	}
 	$pageContents .= '<form class="labelForm" style="padding:5px 0 0 0;" action="'.PUB_PATH_CAT.'account" method="post" accept-charset="utf-8">';
 	if ($error) $pageContents .= '<div class="error">'.$error.'</div>';
 	if (!empty($_SESSION['success'])) $pageContents .= '<div class="success">Account information updated successfully.</div>';
 	$pageContents .= '<p>Some API calls require a user token, the one below is your personal user token.</p>';
-	$pageContents .= '<div><label>API token:</label><input type="text" readonly="readonly" style="width:300px;background:#f4f4f4;cursor:text;" value="' . $user->getToken() . '" /></div>';
+	$pageContents .= '<div><label>API token:</label><input type="text" id="APITokenInput" readonly="readonly" style="width:300px;background:#f4f4f4;cursor:text;" value="' . $user->getToken() . '" />';
+	$pageContents .= ' <input type="button" value="Reset token" onclick="resetAPIToken();" /></div>';
 	$pageContents .= '<p>Old password is required for changing your account information.</p>';
 	$pageContents .= '<div><label>Email:</label><input type="text" autocomplete="off" name="email" style="width:300px;" value="'.(!empty($_POST['email']) ? Format::htmlEntities($_POST['email']) : Format::htmlEntities($user->getEmail())).'" /></div>';
 	$pageContents .= '<div><label>Old password:<br /></label><input type="password" name="old_password" style="width:300px;" /></div>';
