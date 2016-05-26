@@ -44,7 +44,8 @@ class WallpaperList extends Output {
 	const RESOLUTION_1920X1080 = 2;
 	const RESOLUTION_1920X1200 = 1;
 	const RESOLUTION_2560X1600 = 5;
-	const RESOLUTION_2560x1440 = 6;
+	const RESOLUTION_2560X1440 = 6;
+	const RESOLUTION_3840X2160 = 7;
 
 	/**
 	 * @param int $val Use self::RESOLUTION_*
@@ -66,11 +67,14 @@ class WallpaperList extends Output {
 			case self::RESOLUTION_1920X1200:
 				$return .= '1920x1200';
 				break;
-			case self::RESOLUTION_2560x1440:
+			case self::RESOLUTION_2560X1440:
 				$return .= '2560x1440';
 				break;
 			case self::RESOLUTION_2560X1600:
 				$return .= '2560x1600';
+				break;
+			case self::RESOLUTION_3840X2160:
+				$return .= '3840x2160';
 				break;
 			default:
 				throw new Exception('Invalid resolution search parameter');
@@ -520,8 +524,9 @@ class WallpaperList extends Output {
 			case self::RESOLUTION_1680X1050:
 			case self::RESOLUTION_1920X1080:
 			case self::RESOLUTION_1920X1200:
-			case self::RESOLUTION_2560x1440:
+			case self::RESOLUTION_2560X1440:
 			case self::RESOLUTION_2560X1600:
+			case self::RESOLUTION_3840X2160:
 				$this->searchSize = $val;
 				break;
 		}
@@ -739,10 +744,13 @@ class WallpaperList extends Output {
 			$order = "ORDER BY w.id DESC ";
 		}
 
-		if ($this->searchSize == self::RESOLUTION_2560X1600) {
+		if ($this->searchSize == self::RESOLUTION_3840X2160) {
+			if ($this->sqlWhere != "") $this->sqlWhere .= " AND "; else $this->sqlWhere .= "WHERE ";
+			$this->sqlWhere .= "w.width >= 3840 AND w.height >= 2160 ";
+		} elseif ($this->searchSize == self::RESOLUTION_2560X1600) {
 			if ($this->sqlWhere != "") $this->sqlWhere .= " AND "; else $this->sqlWhere .= "WHERE ";
 			$this->sqlWhere .= "w.width >= 2560 AND w.height >= 1600 ";
-		} elseif ($this->searchSize == self::RESOLUTION_2560x1440) {
+		} elseif ($this->searchSize == self::RESOLUTION_2560X1440) {
 			if ($this->sqlWhere != "") $this->sqlWhere .= " AND "; else $this->sqlWhere .= "WHERE ";
 			$this->sqlWhere .= "w.width >= 2560 AND w.height >= 1440 ";
 		} elseif ($this->searchSize == self::RESOLUTION_1920X1200) {

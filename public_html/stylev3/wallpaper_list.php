@@ -56,7 +56,7 @@ echo '					<div id="res">' . "\n";
 echo '						<label>Resolution: </label><br />' . "\n";
 echo '						<select name="size">' . "\n";
 echo '							<option value="0">All sizes</option>' . "\n";
-$resolutions = array(WallpaperList::RESOLUTION_2560X1600, WallpaperList::RESOLUTION_2560x1440, WallpaperList::RESOLUTION_1920X1200, WallpaperList::RESOLUTION_1920X1080, WallpaperList::RESOLUTION_1680X1050, WallpaperList::RESOLUTION_1366X768);
+$resolutions = array(WallpaperList::RESOLUTION_3840X2160, WallpaperList::RESOLUTION_2560X1600, WallpaperList::RESOLUTION_2560X1440, WallpaperList::RESOLUTION_1920X1200, WallpaperList::RESOLUTION_1920X1080, WallpaperList::RESOLUTION_1680X1050, WallpaperList::RESOLUTION_1366X768);
 foreach ($resolutions as $resolution) {
 	echo '							<option value="' . $resolution . '"' . (isset($_GET['size']) && $_GET['size'] == $resolution ? ' selected="selected"' : '') . '>' . WallpaperList::GET_RESOLUTION_TITLE($resolution) . '</option>' . "\n";
 }
