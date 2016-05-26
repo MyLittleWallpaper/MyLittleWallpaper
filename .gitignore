@@ -13,5 +13,8 @@
 # No including of composer packages
 /vendor
 
+# Exclude javascript dev files, those can be downloaded manually
+/jsDev
+
 # Ah, the so wonderful Windows and its Thumbs.db files
 Thumbs.db

@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="jQuery 1.12.4" type="javaScript">
+    <properties>
+      <option name="frameworkName" value="jQuery" />
+      <option name="frameworkVersion" value="1.12.4" />
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/jsDev/jquery-1.12.4.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/jsDev/jquery-1.12.4.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
