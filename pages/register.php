@@ -88,12 +88,6 @@ if (!$user->getIsAnonymous()) {
 		}
 	}
 
-
-	$registerPage->setJavascript('var RecaptchaOptions = {
-		lang : \'en\',
-		theme : \'clean\'
-	};');
-
 	$pageContents = '<div id="content"><div>';
 	$pageContents .= '<h1>Register</h1>';
 	if ($banned) {

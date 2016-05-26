@@ -30,8 +30,8 @@ foreach($wallpapers as $wallpaper) {
 
 	$actions = '						<div class="actions">'."\n";
 	$actions .= '							<a class="download piwik_download" id="dld_a_'.$wallpaper->getId().'" href="' . Format::htmlEntities($wallpaper->getDownloadLink()) . '" target="_blank">Download</a>';
-	$actions .= '<a href="#info" class="wallinfo" onclick="return toggle_info(\''.$wallpaper->getId().'_'.$rand_id.'\');">Info</a>';
-	$actions .= '<a href="#edit" class="editwall" onclick="return edit_wall('.$wallpaper->getId().');">Edit</a>'."\n";
+	$actions .= '<a href="#info" class="wallinfo" data-id="'.$wallpaper->getId().'_'.$rand_id.'"">Info</a>';
+	$actions .= '<a href="#edit" class="editwall" data-id="'.$wallpaper->getId().'">Edit</a>'."\n";
 
 	if (!$user->getIsAnonymous()) {
 		$isFav = $wallpaper->getIsFavourite($user->getId());

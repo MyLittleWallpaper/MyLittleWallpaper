@@ -25,10 +25,6 @@ if (!$user->getIsAnonymous()) {
 
 	$db->query("DELETE FROM user_forgotpass WHERE time < ?", [gmdate('Y-m-d H:i:s', strtotime("-2 days"))]);
 
-	$resetPasswordPage->setJavascript('var RecaptchaOptions = {
-		lang : \'en\',
-		theme : \'clean\'
-	};');
 	$pageContents = '<div id="content"><div>';
 	$pageContents .= '<h1>Reset password</h1>';
 

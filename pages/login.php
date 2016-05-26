@@ -53,10 +53,6 @@ if (!$user->getIsAnonymous()) {
 		}
 	}
 
-	$loginPage->setJavascript('var RecaptchaOptions = {
-		lang : \'en\',
-		theme : \'clean\'
-	};');
 	$loginPage->setPageTitleAddition('Log in');
 
 	$pageContents = '<div id="content"><div>';

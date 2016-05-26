@@ -75,7 +75,7 @@ if (!empty($_GET['searchAny']) || !empty($_GET['searchExclude'])) {
 	$advancedSearch = false;
 }
 
-echo '					<input id="toggleAdvanced" type="button" value="' . ($advancedSearch ? 'Hide' : 'Show') . ' advanced search" onclick="toggleAdvancedSearch($(this));" />';
+echo '					<input id="toggleAdvanced" type="button" value="' . ($advancedSearch ? 'Hide' : 'Show') . ' advanced search" />';
 echo '				</div>' . "\n";
 
 

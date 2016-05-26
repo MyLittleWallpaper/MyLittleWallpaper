@@ -521,10 +521,6 @@ if (CATEGORY == 'all') {
 		});
 	});
 	var preventform = true;
-	var RecaptchaOptions = {
-		lang : \'en\',
-		theme : \'clean\'
-	};
 
 	function changeupltype(el) {
 		$(".upl_type_legend").hide();

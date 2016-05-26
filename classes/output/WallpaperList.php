@@ -1591,35 +1591,18 @@ class WallpaperList extends Output {
 	public function getJavaScript() {
 		global $user;
 
-		return '			nextpage = '.($this->pageNumber + 1).';
-			userIsAnonymous = ' . ($user->getIsAnonymous() ? 'true' : 'false') .'
-			basePathUrl = \'' . PUB_PATH_CAT . '\'
-			largeWallpaperThumbs = ' . ($this->largeWallpaperThumbs ? 'true' : 'false') . '
-
-			$(window).scroll(function() {
-				if ($("body").height() <= ($(window).height() + $(window).scrollTop() + 190)) {
-					if (alreadyloading == false && nomore == false) {
-						alreadyloading = true;
-						$.ajax({
-							url: "'.PUB_PATH_CAT.'ajax/'.$this->ajaxLoadMorePage.$this->redirect.($this->redirect != '' ? '&' : '?').'page=" + nextpage,
-							success: function(data) {
-								if (data == "") {
-									nomore = true;
-								} else {
-									nextpage ++;
-									$("#cleardiv").before(data);
-									page_triggers();
-								}
-								alreadyloading = false;
-							}
-						});
-					}
-				}
-			});';
+		return '$(document).ready(function() {window.wallpaperList = WallpaperList({' .
+			'"ajaxLoadMorePage": \'' . Format::escapeQuotes($this->ajaxLoadMorePage) . '\', ' .
+			'"ajaxRedirect": \'' . Format::escapeQuotes($this->redirect) . '\', ' .
+			'"basePathUrl": \'' . Format::escapeQuotes(PUB_PATH_CAT) . '\', ' .
+			'"largeWallpaperThumbs": ' . ($this->largeWallpaperThumbs ? 'true' : 'false') . ', ' .
+			'"nextPage": ' . ($this->pageNumber + 1) . ', ' .
+			'"userIsAnonymous": ' . ($user->getIsAnonymous() ? 'true' : 'false') .
+		'});});';
 	}
 
 	public function getJavaScriptFiles() {
-		return array('wallpaper-list.js');
+		return array('wallpaper-list-2.0.js');
 	}
 	
 	/**

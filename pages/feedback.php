@@ -75,13 +75,6 @@ $rss = '';
 
 require_once('lib/header.php');
 
-echo '<script type="text/javascript">
-var RecaptchaOptions = {
-	lang : \'en\',
-	theme : \'clean\'
-};
-</script>';
-
 echo '<div id="content"><div>';
 echo '<h1>Submit feedback</h1>';
 if (!$banned) {
