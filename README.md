@@ -5,7 +5,7 @@ TODO: Write description
 # Requirements
 
 * **Linux OS**, will not run on Windows
-* **PHP 5.4+**
+* **PHP 5.5+**
 	* **php5-curl**
 	* **php5-mcrypt**
 	* **php5-mysql** or **php5-mysqlnd**
