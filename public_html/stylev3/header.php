@@ -89,7 +89,6 @@ echo '<!DOCTYPE html>
 	<head>
 		<meta charset="utf-8">
 		<meta name="description" content="Searchable listing of '.$allCategories.' wallpapers.">
-		<meta name="keywords" content="'.$categoriesMeta.', wallpaper, wallpapers, My Little Wallpaper'.$response->responseVariables->metaTags.'">
 		<link rel="shortcut icon" href="'.PUB_PATH.'favicon.ico">
 		<meta name="twitter:title" content="'.$response->responseVariables->titleAddition.(CATEGORY_NAME != '' ? Format::htmlEntities(CATEGORY_NAME).' | ' : '').'My Little Wallpaper - Wallpapers are Magic">
 		<meta name="twitter:domain" content="'.$_SERVER['SERVER_NAME'].'">
@@ -141,7 +140,9 @@ if (!$user->getIsAnonymous()) {
 	}
 	echo '<br /><br />';
 }
-echo '<div class="links" style="border:2px solid #bbb;background:#ddd;padding:8px;"><strong>IRC:</strong><br />
+echo '<div class="links" style="border:2px solid #bbb;background:#ddd;padding:8px;"><strong>GitHub:</strong><br />
+<a href="https://github.com/MyLittleWallpaper/MyLittleWallpaper" target="_blank">Issue tracker and source code</a><br /><br />
+<strong>IRC:</strong><br />
 <a href="irc://irc.freenode.net/mylittlewallpaper">#mylittlewallpaper @ Freenode</a><br /><br />
 <strong>Related wallpaper sites:</strong><br />
 <a href="http://www.reddit.com/r/ponypapers/" target="_blank">PonyPapers @ Reddit</a><br />
