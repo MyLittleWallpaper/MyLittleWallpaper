@@ -1,5 +1,6 @@
 <?php
 // Check that correct entry point was used
+use MyLittleWallpaper\classes\Password;
 use PHPMailer\PHPMailer\PHPMailer;
 
 if (!defined('INDEX')) {
@@ -84,7 +85,7 @@ if (!$user->getIsAnonymous()) {
 
                     $saveData = [
                         'username' => trim($_POST['username']),
-                        'password' => Format::passwordHash($_POST['password'], trim($_POST['username'])),
+                        'password' => Password::hashPassword($_POST['password']),
                         'email'    => $_POST['email'],
                     ];
                     $db->saveArray('user', $saveData);

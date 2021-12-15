@@ -1,6 +1,8 @@
 <?php
 
 // Check that correct entry point was used
+use MyLittleWallpaper\classes\Password;
+
 if (!defined('INDEX')) {
     exit();
 }
@@ -20,7 +22,7 @@ if ($user->getIsAnonymous()) {
 
     if (isset($_POST['email'])) {
         if (
-            strcmp(Format::passwordHash($_POST['old_password'], $user->getUsername()), $user->getPasswordHash()) !== 0
+            !Password::checkPassword($_POST['old_password'], $user->getPasswordHash(), $user->getUsername())
         ) {
             $error = 'Old password incorrect.';
         }
@@ -54,7 +56,7 @@ if ($user->getIsAnonymous()) {
             if (!$error) {
                 $saveData = ['email' => $_POST['email']];
                 if ($_POST['password'] != '') {
-                    $saveData['password'] = Format::passwordHash($_POST['password'], $user->getUsername());
+                    $saveData['password'] = Password::hashPassword($_POST['password']);
                 }
                 $db->saveArray('user', $saveData, $user->getId());
                 $_SESSION['success'] = true;

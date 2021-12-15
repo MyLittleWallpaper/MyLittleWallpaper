@@ -74,22 +74,4 @@ class Format
     {
         return pathinfo($string, PATHINFO_FILENAME);
     }
-
-    /**
-     * @param string $password
-     * @param string $salt
-     *
-     * @return string
-     */
-    public static function passwordHash(string $password, string $salt): string
-    {
-        $saltProcess = '';
-        for ($a = 0, $aMax = mb_strlen($salt, 'utf-8'); $a < $aMax; $a++) {
-            if ($a % 3 === 0 || $a % 5 === 0) {
-                $saltProcess .= mb_strtolower(mb_substr($salt, $a, 1, 'utf-8'));
-            }
-        }
-        $data = base64_encode(gzcompress($password . $saltProcess));
-        return hash_hmac('whirlpool', $data, HASHKEY);
-    }
 }

@@ -15,5 +15,10 @@
         "roave/security-advisories": "dev-latest",
         "slevomat/coding-standard": "^7.0.17",
         "squizlabs/php_codesniffer": "^3.6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "MyLittleWallpaper\\classes\\": "classes"
+        }
     }
 }

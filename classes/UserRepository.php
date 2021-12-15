@@ -1,5 +1,7 @@
 <?php
 
+use MyLittleWallpaper\classes\Password;
+
 /**
  * User repository class.
  * Used for loading users.
@@ -52,13 +54,33 @@ class UserRepository
     {
         $user   = null;
         $result = $this->db->query(
-            "SELECT * FROM user WHERE username = ? AND password = ? LIMIT 1",
-            [$username, Format::passwordHash($password, $username)]
+            "SELECT * FROM `user` WHERE username = ? LIMIT 1",
+            [$username]
         );
-        while ($userRow = $result->fetch(PDO::FETCH_ASSOC)) {
-            $user = new User($userRow);
+        if (($userRow = $result->fetch(PDO::FETCH_ASSOC)) !== false) {
+            if (Password::checkPassword($password, $userRow['password'], $username)) {
+                $user = new User($userRow);
+            }
+            if ($user === null) {
+                return null;
+            }
+            if (Password::doesPasswordNeedRehash($userRow['password'])) {
+                $this->updatePassword($userRow['id'], $password);
+            }
+            return null;
         }
         return $user;
+    }
+
+    /**
+     * @param int    $userId
+     * @param string $password
+     *
+     * @return void
+     */
+    private function updatePassword(int $userId, string $password): void
+    {
+        $this->db->query('UPDATE `user` SET password = ? WHERE id = ?', [Password::hashPassword($password), $userId]);
     }
 }
 

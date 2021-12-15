@@ -2,6 +2,7 @@
 
 global $user, $db;
 
+use MyLittleWallpaper\classes\Password;
 use PHPMailer\PHPMailer\PHPMailer;
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
@@ -39,12 +40,12 @@ if (!$user->getIsAnonymous()) {
                     $reset_rec = $db->getRecord('user_forgotpass', ['field' => 'id', 'value' => $_GET['req']]);
                     if (
                         !empty($reset_rec) &&
-                        strcmp(Format::passwordHash($_GET['key'], $_GET['req']), $reset_rec['keyhash']) === 0
+                        Password::checkPassword($_GET['key'], $reset_rec['keyhash'], $_GET['req'])
                     ) {
                         $userinf = $db->getRecord('user', ['field' => 'id', 'value' => $reset_rec['user_id']]);
                         if (!empty($userinf)) {
                             $data = [
-                                'password' => Format::passwordHash($_POST['password'], trim($userinf['username'])),
+                                'password' => Password::hashPassword($_POST['password']),
                             ];
                             $db->saveArray('user', $data, $userinf['id']);
                             $db->query("DELETE FROM user_forgotpass WHERE user_id = ?", [$reset_rec['user_id']]);
@@ -86,7 +87,7 @@ if (!$user->getIsAnonymous()) {
                     $data   = [
                         'id'      => $id,
                         'user_id' => $reset_user['id'],
-                        'keyhash' => Format::passwordHash($thekey, trim($id)),
+                        'keyhash' => Password::hashPassword($thekey),
                         'time'    => gmdate('Y-m-d H:i:s'),
                     ];
 
