@@ -1,13 +1,10 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-global $user, $db;
+use MyLittleWallpaper\classes\output\BasicJSON;
+use MyLittleWallpaper\classes\Response;
+use MyLittleWallpaper\classes\Wallpaper;
 
-require_once(ROOT_DIR . 'classes/Wallpaper.php');
-require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
+global $user, $db;
 
 $return = ['favCount' => '', 'favCountNumber' => 0, 'favButtonText' => ''];
 if (!empty($_GET['wallpaperId']) && !$user->getIsAnonymous()) {

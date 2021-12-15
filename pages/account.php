@@ -1,14 +1,12 @@
 <?php
 
-// Check that correct entry point was used
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Password;
+use MyLittleWallpaper\classes\Response;
 
-if (!defined('INDEX')) {
-    exit();
-}
 global $db, $user;
 
-require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 define('ACTIVE_PAGE', 'account');
 
 $redirect = false;

@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace MyLittleWallpaper\classes\output;
+
 /**
  * Abstract class for output classes used by Response class.
  */

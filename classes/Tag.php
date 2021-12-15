@@ -1,5 +1,7 @@
 <?php
 
+use MyLittleWallpaper\classes\Database;
+
 /**
  * Basic tag class.
  * This class is only used as a base for different tag types.

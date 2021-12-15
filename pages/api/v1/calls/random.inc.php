@@ -1,11 +1,6 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-
-require_once(ROOT_DIR . 'classes/output/WallpaperList.php');
+use MyLittleWallpaper\classes\output\WallpaperList;
 
 $wallpaperList = new WallpaperList();
 $wallpaperList->loadSearchFromRequest();

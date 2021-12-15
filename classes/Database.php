@@ -1,14 +1,16 @@
 <?php
-/**
- * @author     Petri Haikonen <sharkmachine@ecxol.net>
- * @package    MyLittleWallpaper
- * @subpackage Classes
- */
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
+declare(strict_types=1);
+
+namespace MyLittleWallpaper\classes;
+
+use InvalidParametersException;
+use PDO;
+use PDOException;
+use PDOStatement;
+
+use function is_array;
+use function strcasecmp;
 
 /**
  * Database class.
@@ -28,11 +30,14 @@ class Database
      * @param string $database Database name
      * @param string $host     Database server hostname
      * @param string $port     Database server port
-     *
-     * @throws PDOException
      */
-    public function __construct(string $username, string $password, string $database, string $host = 'localhost', string $port = '3306')
-    {
+    public function __construct(
+        string $username,
+        string $password,
+        string $database,
+        string $host = 'localhost',
+        string $port = '3306'
+    ) {
         if (empty($username) || empty($password) || empty($database) || empty($host)) {
             $miss = '';
             if (empty($username)) {
@@ -71,7 +76,6 @@ class Database
      * @param int    $id
      *
      * @return bool
-     * @throws PDOException
      */
     public function checkUnique(string $value, string $table, string $field, int $id = 0): bool
     {
@@ -109,14 +113,14 @@ class Database
         array $order = [],
         array $limit = [],
         array $join = [],
-        bool $group
+        bool $group = false
     ): array {
         $return      = [];
         $assign_data = [];
         $select      = "";
         if (!empty($fields)) {
             foreach ($fields as $field) {
-                if ($select != '') {
+                if ($select !== '') {
                     $select .= ', ';
                 } else {
                     $select = "SELECT ";
@@ -159,7 +163,7 @@ class Database
         if (!empty($conditions)) {
             $conditionsString = "";
             foreach ($conditions as $condition) {
-                if ($conditionsString != '') {
+                if ($conditionsString !== '') {
                     $conditionsString .= " AND ";
                 } else {
                     $conditionsString .= "WHERE ";
@@ -286,7 +290,6 @@ class Database
      * @param array  $join
      *
      * @return int
-     * @throws PDOException
      */
     public function getCount(string $table, array $conditions = [], array $join = [])
     {
@@ -413,7 +416,6 @@ class Database
      * @param array     $join
      *
      * @return array
-     * @throws PDOException
      */
     public function getRecord(string $table, $id, array $fields = [], array $join = []): array
     {
@@ -451,12 +453,12 @@ class Database
     }
 
     /**
-     * @param string $table
-     * @param int    $id
+     * @param string    $table
+     * @param int|array $id
      *
      * @return bool
      */
-    public function deleteRecord(string $table, int $id): bool
+    public function deleteRecord(string $table, $id): bool
     {
         if (is_array($id)) {
             $where   = "WHERE `" . $id['field'] . "` = ?";
@@ -484,7 +486,6 @@ class Database
      *
      * @return int|null
      * @throws InvalidParametersException
-     * @throws PDOException
      */
     public function saveArray(string $table, array $data, int $id = 0): ?int
     {
@@ -542,9 +543,8 @@ class Database
 
                 // Return the record ID
                 return $id;
-            } else {
-                throw new InvalidParametersException('No data');
             }
+            throw new InvalidParametersException('No data');
         } else {
             throw new InvalidParametersException('No database table given');
         }
@@ -558,9 +558,8 @@ class Database
      *                     being executed.
      *
      * @return PDOStatement Returns the PDO Statement on success, false on failure
-     * @throws PDOException
      */
-    public function query(string $sql, array $data = []): \PDOStatement
+    public function query(string $sql, array $data = []): PDOStatement
     {
         $sth = $this->dbh->prepare($sql);
 

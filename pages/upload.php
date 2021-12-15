@@ -1,13 +1,12 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\GetCommonColours;
+use MyLittleWallpaper\classes\output\BasicPage;
+use MyLittleWallpaper\classes\Response;
+
 global $user, $db;
 
-require_once(ROOT_DIR . 'classes/output/BasicPage.php');
-require_once(ROOT_DIR . 'classes/Colours.php');
 define('ACTIVE_PAGE', 'upload');
 
 $ban = $db->getRecord('ban', ['field' => 'ip', 'value' => USER_IP]);
@@ -54,35 +53,33 @@ if (CATEGORY == 'all') {
                     }
                     if ($theUrl == '') {
                         $error = 'Not a valid deviantART URL.';
-                    } else {
-                        if (preg_match("/^http:\\/\\/[^.]*\\.deviantart\\.com\\/art\\/.*-[0-9]*$/", $theUrl)) {
-                            $id = preg_replace(
-                                "/^http:\\/\\/[^.]*\\.deviantart\\.com\\/art\\/.*-([0-9]*?)$/",
-                                "$1",
-                                $theUrl
-                            );
-                            $ch = curl_init();
-                            // URL
-                            curl_setopt(
-                                $ch,
-                                CURLOPT_URL,
-                                'http://backend.deviantart.com/oembed?url=' . urlencode($theUrl)
-                            );
-                            // And we want it to return the answer
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    } elseif (preg_match("/^http:\\/\\/[^.]*\\.deviantart\\.com\\/art\\/.*-[0-9]*$/", $theUrl)) {
+                        $id = preg_replace(
+                            "/^http:\\/\\/[^.]*\\.deviantart\\.com\\/art\\/.*-([0-9]*?)$/",
+                            "$1",
+                            $theUrl
+                        );
+                        $ch = curl_init();
+                        // URL
+                        curl_setopt(
+                            $ch,
+                            CURLOPT_URL,
+                            'http://backend.deviantart.com/oembed?url=' . urlencode($theUrl)
+                        );
+                        // And we want it to return the answer
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-                            $json = @json_decode(curl_exec($ch), true);
-                            curl_close($ch);
-                            if (is_array($json) && $json['type'] == 'photo') {
-                                $imageurl = 'http://www.deviantart.com/download/' . urlencode($id) . '/' .
-                                    basename($json['url']);
-                                $title    = $json['title'];
-                            } else {
-                                $error = 'Unable to get data from deviantART (1).';
-                            }
+                        $json = @json_decode(curl_exec($ch), true);
+                        curl_close($ch);
+                        if (is_array($json) && $json['type'] == 'photo') {
+                            $imageurl = 'http://www.deviantart.com/download/' . urlencode($id) . '/' .
+                                basename($json['url']);
+                            $title    = $json['title'];
                         } else {
-                            $error = 'Unable to get data from deviantART (2).';
+                            $error = 'Unable to get data from deviantART (1).';
                         }
+                    } else {
+                        $error = 'Unable to get data from deviantART (2).';
                     }
                     if (!$error) {
                         if ($user->getIsAdmin()) {
@@ -109,67 +106,65 @@ if (CATEGORY == 'all') {
                             $error           = 'Image or title not found (dA) - 2.';
                         }
                     }
-                } else {
-                    if (!empty($_FILES)) {
-                        if ($_FILES['Filedata']['error'] == UPLOAD_ERR_OK) {
-                            if ($user->getIsAdmin()) {
-                                $target = ROOT_DIR . FILE_FOLDER . $fileid;
+                } elseif (!empty($_FILES)) {
+                    if ($_FILES['Filedata']['error'] == UPLOAD_ERR_OK) {
+                        if ($user->getIsAdmin()) {
+                            $target = ROOT_DIR . FILE_FOLDER . $fileid;
+                        } else {
+                            $target = ROOT_DIR . FILE_FOLDER . 'moderate/' . $fileid;
+                        }
+                        if (move_uploaded_file($_FILES['Filedata']['tmp_name'], $target)) {
+                            // I would recommend clamav just in case
+                            /*$virus_scan = exec('clamdscan --remove ' . escapeshellarg($target) . ' | grep Infected');
+                            $parts = explode(':', $virus_scan);
+                            $infected = trim($parts[1]);*/
+                            $infected = '0';
+                            if ($infected != '0') {
+                                @unlink($target);
+                                $error = 'Virus found in the image.';
                             } else {
-                                $target = ROOT_DIR . FILE_FOLDER . 'moderate/' . $fileid;
-                            }
-                            if (move_uploaded_file($_FILES['Filedata']['tmp_name'], $target)) {
-                                // I would recommend clamav just in case
-                                /*$virus_scan = exec('clamdscan --remove ' . escapeshellarg($target) . ' | grep Infected');
-                                $parts = explode(':', $virus_scan);
-                                $infected = trim($parts[1]);*/
-                                $infected = '0';
-                                if ($infected != '0') {
-                                    @unlink($target);
-                                    $error = 'Virus found in the image.';
-                                } else {
-                                    $realname = mb_convert_encoding(
-                                        $_FILES['Filedata']['name'],
-                                        "UTF-8",
-                                        "UTF-8,ISO-8859-1"
-                                    );
-                                    $title    = $_POST['name'];
-                                }
-                            } else {
-                                $error = 'File upload failed.';
+                                $realname = mb_convert_encoding(
+                                    $_FILES['Filedata']['name'],
+                                    "UTF-8",
+                                    "UTF-8,ISO-8859-1"
+                                );
+                                $title    = $_POST['name'];
                             }
                         } else {
-                            switch ($_FILES['Filedata']['error']) {
-                                case UPLOAD_ERR_FORM_SIZE:
-                                    $error = 'The file is too big, limit ' . FILESIZE_FORMAT($_POST['MAX_FILE_SIZE']) .
-                                        '.';
-                                    break;
-                                case UPLOAD_ERR_INI_SIZE:
-                                    $error = 'The file is too big, limit ' .
-                                        FILESIZE_FORMAT(FILESIZE_BYTES(ini_get('upload_max_filesize'))) . '.';
-                                    break;
-                                case UPLOAD_ERR_PARTIAL:
-                                    $error = 'Only part of the file was sent.';
-                                    break;
-                                case UPLOAD_ERR_NO_FILE:
-                                    $error = 'No file.';
-                                    break;
-                                case UPLOAD_ERR_NO_TMP_DIR:
-                                    $error = 'Cannot find the file upload temporary folder.';
-                                    break;
-                                case UPLOAD_ERR_CANT_WRITE:
-                                    $error = 'Unable to write the file.';
-                                    break;
-                                case UPLOAD_ERR_EXTENSION:
-                                    $error = 'PHP prevented file upload.';
-                                    break;
-                            }
-                            if (!empty($_FILES['Filedata']['tmp_name'])) {
-                                @unlink($_FILES['Filedata']['tmp_name']);
-                            }
+                            $error = 'File upload failed.';
                         }
                     } else {
-                        $error = 'No file.';
+                        switch ($_FILES['Filedata']['error']) {
+                            case UPLOAD_ERR_FORM_SIZE:
+                                $error = 'The file is too big, limit ' . FILESIZE_FORMAT($_POST['MAX_FILE_SIZE']) .
+                                    '.';
+                                break;
+                            case UPLOAD_ERR_INI_SIZE:
+                                $error = 'The file is too big, limit ' .
+                                    FILESIZE_FORMAT(FILESIZE_BYTES(ini_get('upload_max_filesize'))) . '.';
+                                break;
+                            case UPLOAD_ERR_PARTIAL:
+                                $error = 'Only part of the file was sent.';
+                                break;
+                            case UPLOAD_ERR_NO_FILE:
+                                $error = 'No file.';
+                                break;
+                            case UPLOAD_ERR_NO_TMP_DIR:
+                                $error = 'Cannot find the file upload temporary folder.';
+                                break;
+                            case UPLOAD_ERR_CANT_WRITE:
+                                $error = 'Unable to write the file.';
+                                break;
+                            case UPLOAD_ERR_EXTENSION:
+                                $error = 'PHP prevented file upload.';
+                                break;
+                        }
+                        if (!empty($_FILES['Filedata']['tmp_name'])) {
+                            @unlink($_FILES['Filedata']['tmp_name']);
+                        }
                     }
+                } else {
+                    $error = 'No file.';
                 }
                 if (!$error) {
                     $imgdata = @getimagesize($target);

@@ -1,14 +1,12 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-
 global $user, $category_repository;
 
-require_once(ROOT_DIR . 'classes/output/BasicPage.php');
-require_once(ROOT_DIR . 'classes/Colours.php');
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\GetCommonColours;
+use MyLittleWallpaper\classes\output\BasicPage;
+use MyLittleWallpaper\classes\Response;
+
 define('ACTIVE_PAGE', 'wallpaper-queue');
 
 $wallpaperQueuePage = new BasicPage();

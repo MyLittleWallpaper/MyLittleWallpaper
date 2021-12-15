@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+namespace MyLittleWallpaper\classes;
+
+use Exception;
+use Memcache;
+use MyLittleWallpaper\classes\User\User;
+use MyLittleWallpaper\classes\User\UserRepository;
+use PDO;
+
 /**
  * Session class.
  * Used for loading and saving session information.

@@ -1,9 +1,7 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
+use MyLittleWallpaper\classes\Wallpaper;
+
 global $page;
 
 require_once(ROOT_DIR . 'classes/Wallpaper.php');

@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+namespace MyLittleWallpaper\classes;
+
+use MyLittleWallpaper\classes\output\Output;
+use stdClass;
+
+use function is_object;
+
 /**
  * Response class
  */
@@ -8,7 +17,7 @@ class Response
     /**
      * @var Output
      */
-    private $outputClass;
+    private Output $outputClass;
 
     /**
      * @var string
@@ -36,9 +45,9 @@ class Response
     public stdClass $responseVariables;
 
     /**
-     * @param mixed $class
+     * @param Output|null $class
      */
-    public function __construct($class)
+    public function __construct(?Output $class)
     {
         if (is_object($class)) {
             $this->outputClass = $class;
@@ -48,6 +57,8 @@ class Response
 
     /**
      * Disables header and footer.
+     *
+     * @return void
      */
     public function setDisableHeaderAndFooter(): void
     {
@@ -56,6 +67,8 @@ class Response
 
     /**
      * @param int|string $httpCode
+     *
+     * @return void
      */
     public function setHttpCode($httpCode): void
     {
@@ -64,6 +77,8 @@ class Response
 
     /**
      * Outputs the page contents
+     *
+     * @return void
      */
     public function output(): void
     {
@@ -76,6 +91,9 @@ class Response
         $this->footer_output();
     }
 
+    /**
+     * @return void
+     */
     private function headerOutput(): void
     {
         global $category_repository;
@@ -94,7 +112,7 @@ class Response
                 $this->responseVariables->meta = $this->outputClass->getMeta();
             }
             $this->responseVariables->javaScript = '';
-            if (method_exists($this->outputClass, 'getJavaScript') && $this->outputClass->getJavaScript() != '') {
+            if (method_exists($this->outputClass, 'getJavaScript') && $this->outputClass->getJavaScript() !== '') {
                 $this->responseVariables->javaScript = '<script type="text/javascript">';
                 $this->responseVariables->javaScript .= $this->outputClass->getJavaScript();
                 $this->responseVariables->javaScript .= '</script>';
@@ -106,20 +124,21 @@ class Response
             $this->responseVariables->titleAddition = '';
             if (method_exists($this->outputClass, 'getPageTitleAddition')) {
                 $this->responseVariables->titleAddition = $this->outputClass->getPageTitleAddition();
-                if ($this->responseVariables->titleAddition != '') {
+                if ($this->responseVariables->titleAddition !== '') {
                     $this->responseVariables->titleAddition .= ' | ';
                 }
             }
             $this->responseVariables->category_list = $category_repository->getCategoryList();
-            /** @noinspection PhpIncludeInspection */
             require_once(DOC_DIR . THEME . '/' . $this->headerTemplate);
         }
     }
 
+    /**
+     * @return void
+     */
     private function footer_output(): void
     {
-        if ($this->outputClass->getIncludeHeaderAndFooter() && !$this->disableHeaderAndFooter) {
-            /** @noinspection PhpIncludeInspection */
+        if (!$this->disableHeaderAndFooter && $this->outputClass->getIncludeHeaderAndFooter()) {
             require_once(DOC_DIR . THEME . '/' . $this->footerTemplate);
         }
     }

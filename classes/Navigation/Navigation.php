@@ -1,9 +1,9 @@
 <?php
 
-/**
- * Navigation class.
- * Used for constructing the main menu.
- */
+declare(strict_types=1);
+
+namespace MyLittleWallpaper\classes\Navigation;
+
 class Navigation
 {
     /**
@@ -11,6 +11,9 @@ class Navigation
      */
     private array $navigationElements = [];
 
+    /**
+     * Navigation constructor
+     */
     public function __construct()
     {
         global $user;
@@ -55,57 +58,5 @@ class Navigation
     public function getNavigationElements(): array
     {
         return $this->navigationElements;
-    }
-}
-
-/**
- * Navigation element class.
- */
-class NavigationElement
-{
-    /**
-     * @var string
-     */
-    private string $url;
-    /**
-     * @var string
-     */
-    private string $title;
-
-    /**
-     * @var NavigationElement[]
-     */
-    private array $subMenuItems = [];
-
-    /**
-     * @param string $url
-     * @param string $title
-     */
-    public function __construct(string $url, string $title)
-    {
-        $this->url   = $url;
-        $this->title = $title;
-    }
-
-    /**
-     * @param string            $key
-     * @param NavigationElement $navigationElement
-     */
-    public function addSubMenuItem(string $key, NavigationElement $navigationElement): void
-    {
-        $this->subMenuItems[$key] = $navigationElement;
-    }
-
-    /**
-     * @return NavigationElement[]
-     */
-    public function getSubMenuItems(): array
-    {
-        return $this->subMenuItems;
-    }
-
-    public function __toString()
-    {
-        return '<a href="' . $this->url . '">' . Format::htmlEntities($this->title) . '</a>';
     }
 }

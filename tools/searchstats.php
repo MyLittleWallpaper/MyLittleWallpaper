@@ -5,6 +5,8 @@
  * @global Database $db
  */
 
+use MyLittleWallpaper\classes\Format;
+
 if (PHP_SAPI === 'cli') {
     define('DOC_DIR', __DIR__ . '/../public_html/');
     define('ROOT_DIR', __DIR__ . '/../');
@@ -15,7 +17,6 @@ if (PHP_SAPI === 'cli') {
 
     $time_start = microtime(true);
     define('INDEX', true);
-    require_once(ROOT_DIR . 'classes/Format.php');
     require_once(ROOT_DIR . 'inc/init.php');
 
     $beforestamp = gmmktime(gmdate('H'), 0, 0, gmdate('n'), gmdate('j'), gmdate('Y'));

@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace MyLittleWallpaper\classes\output;
+
 /**
  * Basic class for XML output.
  * @todo Add support for building XML from an array

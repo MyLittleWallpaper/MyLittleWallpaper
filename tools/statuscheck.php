@@ -1,5 +1,8 @@
 #!/usr/bin/php
 <?php
+
+use MyLittleWallpaper\classes\Database;
+
 if (PHP_SAPI == 'cli') {
     exit();
     $time_start = microtime(true);

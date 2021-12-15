@@ -1,4 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
+namespace MyLittleWallpaper\classes;
+
 /**
  * Class for calculating common image colours.
  */

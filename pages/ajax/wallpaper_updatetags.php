@@ -1,12 +1,9 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-
-require_once(ROOT_DIR . 'classes/output/BasicPage.php');
-require_once(ROOT_DIR . 'classes/Wallpaper.php');
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\BasicPage;
+use MyLittleWallpaper\classes\Response;
+use MyLittleWallpaper\classes\Wallpaper;
 
 $updateTags = new BasicPage();
 $updateTags->setNoContainer();

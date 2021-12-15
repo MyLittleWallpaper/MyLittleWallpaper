@@ -1,6 +1,14 @@
 <?php
 
-require_once(ROOT_DIR . 'classes/Wallpaper.php');
+declare(strict_types=1);
+
+namespace MyLittleWallpaper\classes\output;
+
+use Exception;
+use MyLittleWallpaper\classes\Database;
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\Wallpaper;
+use PDO;
 
 /**
  * Wallpaper list class.
@@ -20,7 +28,7 @@ class WallpaperList extends Output
      *
      * @return string
      */
-    public static function GET_ORDER_TITLE($val): ?string
+    public static function getOrderTitle($val): ?string
     {
         switch ($val) {
             case self::ORDER_DATE_ADDED:
@@ -48,7 +56,7 @@ class WallpaperList extends Output
      *
      * @return string
      */
-    public static function GET_RESOLUTION_TITLE(int $val): string
+    public static function getResolutionTitle(int $val): string
     {
         $return = 'Greater than ';
         switch ($val) {

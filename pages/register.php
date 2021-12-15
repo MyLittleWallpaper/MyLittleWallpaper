@@ -1,14 +1,12 @@
 <?php
-// Check that correct entry point was used
+
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Password;
+use MyLittleWallpaper\classes\Response;
 use PHPMailer\PHPMailer\PHPMailer;
 
-if (!defined('INDEX')) {
-    exit();
-}
 global $user, $db;
-
-require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
 define('ACTIVE_PAGE', 'register');
 $ban = $db->getRecord('ban', ['field' => 'ip', 'value' => USER_IP]);

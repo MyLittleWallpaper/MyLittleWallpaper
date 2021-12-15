@@ -1,11 +1,8 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-
-require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\BasicJSON;
+use MyLittleWallpaper\classes\Response;
 
 $return   = [];
 $srch     = (!empty($_GET['term']) ? "%" . $_GET['term'] . "%" : '');

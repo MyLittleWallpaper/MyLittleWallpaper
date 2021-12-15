@@ -1,11 +1,7 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-
-require_once(ROOT_DIR . 'classes/output/BasicPage.php');
+use MyLittleWallpaper\classes\output\BasicPage;
+use MyLittleWallpaper\classes\Response;
 
 define('ACTIVE_PAGE', 'software');
 $softwarePage = new BasicPage();

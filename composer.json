@@ -2,14 +2,14 @@
     "require": {
         "php": "^7.4 || ~8.0.0 || 8.1.0",
         "ext-curl": "*",
+        "ext-gd": "*",
         "ext-memcache": "*",
         "ext-json": "*",
         "ext-pdo": "*",
+        "ext-zlib": "*",
 
         "phpmailer/phpmailer": "^6.5",
-        "razielanarki/hyperlight": ">=0.1",
-      "ext-gd": "*",
-      "ext-zlib": "*"
+        "razielanarki/hyperlight": ">=0.1"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",

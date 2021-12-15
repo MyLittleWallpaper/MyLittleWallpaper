@@ -2,10 +2,10 @@
 
 global $user, $db;
 
+use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Password;
+use MyLittleWallpaper\classes\Response;
 use PHPMailer\PHPMailer\PHPMailer;
-
-require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
 define('ACTIVE_PAGE', 'forgotpass');
 $ban = $db->getRecord('ban', ['field' => 'ip', 'value' => USER_IP]);

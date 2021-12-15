@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace MyLittleWallpaper\classes;
+
 /**
  * Format class.
  * Used for formatting user input etc.

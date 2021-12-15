@@ -1,10 +1,11 @@
 <?php
+
+use MyLittleWallpaper\classes\Format;
+
 define('DOC_DIR', __DIR__ . '/');
 define('ROOT_DIR', __DIR__ . '/../');
 define('INDEX', true);
 define('PUB_PATH', str_replace($_SERVER['DOCUMENT_ROOT'], '', DOC_DIR));
-
-require_once(ROOT_DIR . 'classes/Format.php');
 
 // Get the request URI
 $originalRequestUri = $_SERVER['REQUEST_URI'];

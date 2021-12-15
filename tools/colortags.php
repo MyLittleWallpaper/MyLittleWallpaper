@@ -284,7 +284,6 @@ if (PHP_SAPI == 'cli') {
 
     $time_start = microtime(true);
     define('INDEX', true);
-    require_once(ROOT_DIR . 'classes/Format.php');
     require_once(ROOT_DIR . 'inc/init.php');
 
     $db->query("TRUNCATE TABLE wallpaper_tag_colour");

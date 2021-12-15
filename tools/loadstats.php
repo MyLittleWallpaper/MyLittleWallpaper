@@ -10,7 +10,6 @@ if (PHP_SAPI == 'cli') {
 
     $time_start = microtime(true);
     define('INDEX', true);
-    require_once(ROOT_DIR . 'classes/Format.php');
     require_once(ROOT_DIR . 'inc/init.php');
 
     $data        = [strtotime('-5 minutes')];

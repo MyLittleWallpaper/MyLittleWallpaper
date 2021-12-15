@@ -1,7 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
+namespace MyLittleWallpaper\classes;
+
+use Exception;
+use PDO;
+use Tag;
+use TagAspect;
+use TagAuthor;
+use TagColour;
+use TagPlatform;
+
+use function filter_var;
+use function is_array;
+
+use const FILTER_FLAG_PATH_REQUIRED;
+use const FILTER_VALIDATE_INT;
+use const FILTER_VALIDATE_URL;
+
 require_once(ROOT_DIR . 'classes/Tag.php');
-require_once(ROOT_DIR . 'classes/Colours.php');
 
 /**
  * Wallpaper class.
@@ -471,7 +489,7 @@ class Wallpaper
      */
     public function setName(string $val): void
     {
-        $this->name = (string)$val;
+        $this->name = $val;
     }
 
     /**
@@ -499,7 +517,7 @@ class Wallpaper
      */
     public function setDirectDownloadLink(string $directDownloadLink): void
     {
-        $this->directDownloadLink = (string)$directDownloadLink;
+        $this->directDownloadLink = $directDownloadLink;
     }
 
     /**
@@ -509,7 +527,7 @@ class Wallpaper
      */
     public function setFilename(string $val): void
     {
-        $this->filename = (string)$val;
+        $this->filename = $val;
     }
 
     /**
@@ -522,7 +540,7 @@ class Wallpaper
         if ($val === null) {
             $this->fileId = uniqid('', true);
         } else {
-            $this->fileId = (string)$val;
+            $this->fileId = $val;
         }
     }
 
@@ -534,7 +552,7 @@ class Wallpaper
     public function setWidth(int $val): void
     {
         if (filter_var($val, FILTER_VALIDATE_INT) !== false) {
-            $this->width = (int)$val;
+            $this->width = $val;
         }
     }
 
@@ -546,7 +564,7 @@ class Wallpaper
     public function setHeight(int $val): void
     {
         if (filter_var($val, FILTER_VALIDATE_INT) !== false) {
-            $this->height = (int)$val;
+            $this->height = $val;
         }
     }
 
@@ -567,7 +585,7 @@ class Wallpaper
      */
     public function setHasAspect(bool $val): void
     {
-        $this->hasAspect = (bool)$val;
+        $this->hasAspect = $val;
     }
 
     /**
@@ -577,7 +595,7 @@ class Wallpaper
      */
     public function setHasResolution(bool $val): void
     {
-        $this->hasResolution = (bool)$val;
+        $this->hasResolution = $val;
     }
 
     /**
@@ -587,9 +605,7 @@ class Wallpaper
      */
     public function addBasicTag(Tag $tag): void
     {
-        if ($tag instanceof Tag) {
-            $this->tags[] = $tag;
-        }
+        $this->tags[] = $tag;
     }
 
     /**
@@ -599,9 +615,7 @@ class Wallpaper
      */
     public function addAspectTag(TagAspect $tag): void
     {
-        if ($tag instanceof TagAspect) {
-            $this->aspectTags[] = $tag;
-        }
+        $this->aspectTags[] = $tag;
     }
 
     /**
@@ -611,9 +625,7 @@ class Wallpaper
      */
     public function addAuthorTag(TagAuthor $tag): void
     {
-        if ($tag instanceof TagAuthor) {
-            $this->authorTags[] = $tag;
-        }
+        $this->authorTags[] = $tag;
     }
 
     /**
@@ -623,9 +635,7 @@ class Wallpaper
      */
     public function addPlatformTag(TagPlatform $tag): void
     {
-        if ($tag instanceof TagPlatform) {
-            $this->platformTags[] = $tag;
-        }
+        $this->platformTags[] = $tag;
     }
 
     /**

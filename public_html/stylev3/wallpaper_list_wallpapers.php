@@ -6,6 +6,8 @@
  * @subpackage DefaultTemplate
  */
 // Check that correct entry point was used
+use MyLittleWallpaper\classes\Format;
+
 if (!defined('INDEX')) exit();
 global $response, $user;
 

@@ -1,15 +1,12 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
+use MyLittleWallpaper\classes\output\WallpaperList;
+use MyLittleWallpaper\classes\Response;
+
 global $user;
 if ($user->getIsAnonymous()) {
     require_once(ROOT_DIR . 'pages/errors/403.php');
 } else {
-    require_once(ROOT_DIR . 'classes/output/WallpaperList.php');
-
     define('ACTIVE_PAGE', 'favourites');
 
     $wallpaper_list = new WallpaperList();

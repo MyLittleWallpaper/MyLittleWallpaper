@@ -1,10 +1,5 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-
 // Just the list of listed colours and similarities (which also exists in the database)
 
 //ffffff => ffffff
@@ -31,7 +26,10 @@ if (!defined('INDEX')) {
 //95009a => 95009a 530056 320034 552b55 a756aa
 //f868fe => f868fe f601ff fcabff c698c8
 //fe68b9 => fe68b9 ff018a ffabd8 aa5683 c898b2
-require_once(ROOT_DIR . 'classes/output/BasicPage.php');
+
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\BasicPage;
+use MyLittleWallpaper\classes\Response;
 
 $html    = '';
 $colours = [

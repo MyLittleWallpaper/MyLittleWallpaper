@@ -1,12 +1,9 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-global $user;
+use MyLittleWallpaper\classes\output\BasicJSON;
+use MyLittleWallpaper\classes\Response;
 
-require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
+global $user;
 
 $return = [];
 

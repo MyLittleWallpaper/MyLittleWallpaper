@@ -1,14 +1,7 @@
 <?php
-/**
- * Wallpaper list template.
- * @author Petri Haikonen <sharkmachine@ecxol.net>
- * @package MyLittleWallpaper
- * @subpackage DefaultTemplate
- */
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-	exit();
-}
+
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\WallpaperList;
 
 global $response, $user;
 

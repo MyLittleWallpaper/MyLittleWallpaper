@@ -53,9 +53,9 @@ class Password
     private static function legacyPasswordHash(string $password, string $salt): string
     {
         $saltProcess = '';
-        for ($a = 0, $aMax = mb_strlen($salt, 'utf-8'); $a < $aMax; $a++) {
-            if ($a % 3 === 0 || $a % 5 === 0) {
-                $saltProcess .= mb_strtolower(mb_substr($salt, $a, 1, 'utf-8'));
+        for ($counter = 0, $max = mb_strlen($salt, 'utf-8'); $counter < $max; $counter++) {
+            if ($counter % 3 === 0 || $counter % 5 === 0) {
+                $saltProcess .= mb_strtolower(mb_substr($salt, $counter, 1, 'utf-8'));
             }
         }
         $data = base64_encode(gzcompress($password . $saltProcess));

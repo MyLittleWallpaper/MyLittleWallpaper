@@ -1,11 +1,8 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-
-require_once(ROOT_DIR . 'classes/output/BasicPage.php');
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\BasicPage;
+use MyLittleWallpaper\classes\Response;
 
 $html       = '';
 $fields     = [['table' => 'tag_artist', 'field' => 'name']];

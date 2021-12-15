@@ -1,12 +1,9 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-
-require_once(ROOT_DIR . 'classes/output/WallpaperList.php');
-require_once(ROOT_DIR . 'classes/output/BasicXML.php');
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\BasicXML;
+use MyLittleWallpaper\classes\output\WallpaperList;
+use MyLittleWallpaper\classes\Response;
 
 $wallpaperList = new WallpaperList();
 $wallpaperList->loadSearchFromRequest();

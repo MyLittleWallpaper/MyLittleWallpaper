@@ -1,9 +1,9 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\BasicPage;
+use MyLittleWallpaper\classes\Response;
+use MyLittleWallpaper\classes\Wallpaper;
 
 global $db, $page;
 
@@ -15,8 +15,6 @@ if (!empty($page)) {
     if (!empty($file['id']) && $file['deleted'] == '0') {
         if (file_exists(ROOT_DIR . FILE_FOLDER . $file['file'])) {
             if ($file['direct_with_link'] == '1') {
-                require_once(ROOT_DIR . 'classes/Wallpaper.php');
-                require_once(ROOT_DIR . 'classes/output/BasicPage.php');
                 $downloadPage = new BasicPage();
 
                 $wallpaper = new Wallpaper($file);

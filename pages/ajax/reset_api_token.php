@@ -1,12 +1,9 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
 global $response, $user;
 
-require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
+use MyLittleWallpaper\classes\output\BasicJSON;
+use MyLittleWallpaper\classes\Response;
 
 $return = ['token' => null];
 if (!$user->getIsAnonymous()) {

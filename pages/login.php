@@ -1,12 +1,11 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-global $session, $user, $db;
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\BasicPage;
+use MyLittleWallpaper\classes\Response;
+use MyLittleWallpaper\classes\User\UserRepository;
 
-require_once(ROOT_DIR . 'classes/output/BasicPage.php');
+global $session, $user, $db;
 
 define('ACTIVE_PAGE', 'login');
 $loginPage = new BasicPage();

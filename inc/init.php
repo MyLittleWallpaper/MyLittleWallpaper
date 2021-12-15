@@ -2,6 +2,11 @@
 
 global $category, $redirectOk, $startSession, $pageType, $page;
 
+use MyLittleWallpaper\classes\Category\Category;
+use MyLittleWallpaper\classes\Category\CategoryRepository;
+use MyLittleWallpaper\classes\Database;
+use MyLittleWallpaper\classes\Session;
+
 $time_start = microtime(true);
 define('THEME', 'stylev3');
 
@@ -19,11 +24,6 @@ ini_set('display_errors', '0');
 ini_set('log_errors', true);
 
 require_once(ROOT_DIR . 'classes/Exceptions.php');
-require_once(ROOT_DIR . 'classes/Response.php');
-require_once(ROOT_DIR . 'classes/CategoryRepository.php');
-require_once(ROOT_DIR . 'classes/Session.php');
-require_once(ROOT_DIR . 'classes/UserRepository.php');
-require_once(ROOT_DIR . 'classes/output/Output.php');
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
 // Start session
@@ -65,30 +65,17 @@ if (!empty($category)) {
             $page     = '404';
         }
     }
-} else {
-    if (!empty($_COOKIE['category_id'])) {
-        $selected_category = $category_repository->getCategoryById($_COOKIE['category_id']);
-        if ($selected_category instanceof Category) {
-            $category      = $selected_category->getUrlName();
-            $category_name = $selected_category->getName();
-            $category_id   = $selected_category->getId();
-            if ($redirectOk) {
-                header('Location: /c/' . $category . '/' . $redirectPageUrl);
-                exit();
-            }
-        } elseif ($_COOKIE['category_id'] == 0) {
-            $category      = 'all';
-            $category_name = '';
-            $category_id   = 0;
-            if ($redirectOk) {
-                header('Location: /c/all/' . $redirectPageUrl);
-                exit();
-            }
-        } else {
-            $pageType = 'errors';
-            $page     = '404';
+} elseif (!empty($_COOKIE['category_id'])) {
+    $selected_category = $category_repository->getCategoryById($_COOKIE['category_id']);
+    if ($selected_category instanceof Category) {
+        $category      = $selected_category->getUrlName();
+        $category_name = $selected_category->getName();
+        $category_id   = $selected_category->getId();
+        if ($redirectOk) {
+            header('Location: /c/' . $category . '/' . $redirectPageUrl);
+            exit();
         }
-    } else {
+    } elseif ($_COOKIE['category_id'] == 0) {
         $category      = 'all';
         $category_name = '';
         $category_id   = 0;
@@ -96,6 +83,17 @@ if (!empty($category)) {
             header('Location: /c/all/' . $redirectPageUrl);
             exit();
         }
+    } else {
+        $pageType = 'errors';
+        $page     = '404';
+    }
+} else {
+    $category      = 'all';
+    $category_name = '';
+    $category_id   = 0;
+    if ($redirectOk) {
+        header('Location: /c/all/' . $redirectPageUrl);
+        exit();
     }
 }
 define('CATEGORY', $category);
