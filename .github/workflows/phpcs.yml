@@ -1,0 +1,21 @@
+name: "PHP_Codesniffer"
+
+on: [push, pull_request]
+
+jobs:
+  phpcs:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest']
+        php-versions: ['7.4', '8.0', '8.1']
+    name: PHP ${{ matrix.php-versions }} PHP_CodeSniffer
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Run PHP_CodeSniffer
+        run: |
+          composer install
+          ./vendor/bin/phpcs ./
