@@ -1,5 +1,9 @@
 {
     "require": {
+        "php": "^7.4 || ~8.0.0 || 8.1.0",
+        "ext-curl": "*",
+        "ext-memcache": "*",
+        "ext-json": "*",
         "ext-pdo": "*",
 
         "phpmailer/phpmailer": "^6.5",
