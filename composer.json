@@ -1,6 +1,11 @@
 {
     "require": {
-        "phpmailer/phpmailer": "~5.2",
-        "razielanarki/hyperlight": "~0.1"
+        "ext-pdo": "*",
+
+        "phpmailer/phpmailer": "^6.5",
+        "razielanarki/hyperlight": ">=0.1"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
     }
 }
