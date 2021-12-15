@@ -26,12 +26,6 @@ if (CATEGORY == 'all') {
 	$pageContents .= '</div></div>';
 } else {
 	if (isset($_POST['name']) && !$banned) {
-		if ($user->getIsAnonymous()) {
-			$resp = recaptcha_check_answer(RECAPTCHA_PRIVATE, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
-			if (!$resp->is_valid) {
-				$error = 'Invalid captcha.';
-			}
-		}
 		if (!$error) {
 			if ((!empty($_POST['url']) && $_POST['upltype'] == 'dA') || ($_POST['upltype'] == 'other')) {
 				$fileid = uniqid('', true);
@@ -575,10 +569,6 @@ if (CATEGORY == 'all') {
 		}
 		$pageContents .= '<div><label>Source URL <strong style="font-size:18px;color:#000;">*</strong>:</label><input type="text" autocomplete="off" name="url" id="wallpaper_url" style="width:300px;" value="' . (!empty($_POST['url']) ? Format::htmlEntities($_POST['url']) : '') . '" /><br /></div>';
 		$pageContents .= '<div id="upl_image"' . (in_array('image', $hide) ? ' style="display:none;"' : '') . '><label>Image <strong style="font-size:18px;color:#000;">*</strong>:</label><input type="hidden" name="MAX_FILE_SIZE" value="' . FILESIZE_BYTES(ini_get('upload_max_filesize')) . '" /><input type="file" id="upl_file_field" name="Filedata" /><br /><small>Max size ' . FILESIZE_FORMAT(FILESIZE_BYTES(ini_get('upload_max_filesize'))) . '</small></div>';
-
-		if ($user->getIsAnonymous()) {
-			$pageContents .= recaptcha_get_html(RECAPTCHA_PUBLIC);
-		}
 
 		$pageContents .= '<p><strong style="font-size:18px;color:#000;">*</strong> Required field</p>';
 		$pageContents .= '<input type="submit" value="Send image" />';

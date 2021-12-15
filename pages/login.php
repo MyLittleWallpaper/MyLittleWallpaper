@@ -30,11 +30,7 @@ if (!$user->getIsAnonymous()) {
 	$login_failed = false;
 	if (isset($_POST['username']) && !$banned) {
 		if ($ipCount > 4) {
-			$resp = recaptcha_check_answer(RECAPTCHA_PRIVATE, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
-			if (!$resp->is_valid) {
-				$login_failed = true;
-				$captchaError = true;
-			}
+			// @todo Prevent login
 		}
 		if (!$login_failed) {
 			$userRepository = new UserRepository();
@@ -73,10 +69,6 @@ if (!$user->getIsAnonymous()) {
 		$pageContents .= '<div><label>Username:</label><input type="text" autocomplete="off" name="username" style="width:300px;" value="' . (!empty($_POST['username']) ? Format::htmlEntities($_POST['username']) : '') . '" /></div>';
 		$pageContents .= '<div><label>Password:</label><input type="password" name="password" style="width:300px;" /></div>';
 
-		if ($ipCount > 4) {
-			$pageContents .= '<p>Too many failed login attempts, please fill in the CAPTCHA below.</p>';
-			$pageContents .= recaptcha_get_html(RECAPTCHA_PUBLIC);
-		}
 		$pageContents .= '<input type="submit" value="Log in" />';
 		$pageContents .= '</form>';
 	}

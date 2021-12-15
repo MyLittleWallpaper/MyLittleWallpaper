@@ -26,10 +26,6 @@ echo '				<div><label>Platform:</label><input type="text" autocomplete="off" nam
 echo '				<div><label>Source URL:</label><input type="text" autocomplete="off" name="url" id="url" style="width:300px;" value="" /></div>' . "\n";
 echo '				<div><label style="float:left;padding-top:6px;">Edit reason:<br /><span style="font-size:11px;">Not required, but<br />please provide one</span></label><textarea id="reason" name="reason" style="width:300px;height:80px;"></textarea><br /></div>' . "\n";
 
-if ($user->getIsAnonymous()) {
-	echo recaptcha_get_html(RECAPTCHA_PUBLIC);
-}
-
 echo '			</form>' . "\n";
 echo '		</div>' . "\n";
 

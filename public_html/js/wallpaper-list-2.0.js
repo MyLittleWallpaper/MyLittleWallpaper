@@ -131,9 +131,6 @@ function WallpaperList(settings) {
 
 								if (typeof(data.success) != "undefined") {
 									if (data.success == '0') {
-										if (wallpaperList.settings.userIsAnonymous) {
-											Recaptcha.reload();
-										}
 										dialogMessage.dialog("option", "title", "Error");
 										if (typeof(data.error) != "undefined") {
 											dialogMessage.find("p").text(data.error);
@@ -158,9 +155,6 @@ function WallpaperList(settings) {
 										$("#wallpaper_edit").dialog("close");
 									}
 								} else {
-									if (wallpaperList.settings.userIsAnonymous) {
-										Recaptcha.reload();
-									}
 									dialogMessage.dialog("option", "title", "Error");
 									dialogMessage.find("p").text("Unknown error.");
 									dialogMessage.dialog("open");
@@ -395,9 +389,6 @@ function WallpaperList(settings) {
 	};
 
 	wallpaperList.editWall = function(id) {
-		if (wallpaperList.settings.userIsAnonymous) {
-			Recaptcha.reload();
-		}
 		$.ajax({
 			url: wallpaperList.settings.basePathUrl + "ajax/wallpaper_info?id=" + encodeURIComponent(id),
 			cache: false,

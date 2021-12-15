@@ -98,8 +98,4 @@ function extractLast( term ) {
 	return split( term ).pop();
 }
 
-var RecaptchaOptions = {
-	lang : 'en',
-	theme : 'clean'
-};
 /* ]]> */

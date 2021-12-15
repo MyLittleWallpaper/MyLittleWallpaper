@@ -22,12 +22,6 @@ if ($banned) {
 		$result = $db->query($sql, Array($_POST['id']));
 		while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 			unset($return['error']);
-			if ($user->getIsAnonymous()) {
-				$resp = recaptcha_check_answer (RECAPTCHA_PRIVATE, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
-				if (!$resp->is_valid) {
-					$return['error'] = 'Invalid captcha.';
-				}
-			}
 			if (empty($return['error'])) {
 				$notchanged = true;
 				

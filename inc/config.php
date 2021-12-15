@@ -10,6 +10,3 @@ define("DBHOST", 'localhost');
 
 define("HASHKEY", '');
 define("SESSIONPREFIX", '');
-
-define("RECAPTCHA_PUBLIC", "");
-define("RECAPTCHA_PRIVATE", "");

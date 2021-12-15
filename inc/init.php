@@ -19,7 +19,6 @@ ini_set('display_errors', '0');
 ini_set('log_errors', true);
 
 require_once(ROOT_DIR . 'classes/Exceptions.php');
-require_once(ROOT_DIR . 'classes/RecaptchaLib.php');
 require_once(ROOT_DIR . 'classes/Response.php');
 require_once(ROOT_DIR . 'classes/CategoryRepository.php');
 require_once(ROOT_DIR . 'classes/Session.php');
