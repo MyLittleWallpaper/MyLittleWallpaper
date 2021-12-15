@@ -1,55 +1,57 @@
 <?php
-/**
- * @author Petri Haikonen <sharkmachine@ecxol.net>
- * @package MyLittleWallpaper
- * @subpackage Classes
- */
-
-if (!defined('INDEX')) exit();
 
 /**
  * Basic class for JSON output.
  */
-class BasicJSON extends Output {
-	/**
-	 * @var array|null
-	 */
-	private $data = null;
-	
-	/**
-	 * @param array|null $data
-	 */
-	public function __construct($data = null) {
-		if ($data !== null) {
-			$this->set_data($data);
-		}
-	}
-	
-	/**
-	 * @param array $data
-	 */
-	public function set_data($data) {
-		$this->data = $data;
-	}
-	
-	/**
-	 * @return array|null
-	 */
-	public function output() {
-		return json_encode($this->data);
-	}
+class BasicJSON extends Output
+{
+    /**
+     * @var array|null
+     */
+    private ?array $data = null;
 
-	/**
-	 * @return string
-	 */
-	public function getHeaderType() {
-		return 'application/json';
-	}
+    /**
+     * @param array|null $data
+     */
+    public function __construct(?array $data = null)
+    {
+        if ($data !== null) {
+            $this->setData($data);
+        }
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function getIncludeHeaderAndFooter() {
-		return false;
-	}
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function setData(array $data): void
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @return string
+     * @throws JsonException
+     */
+    public function output(): string
+    {
+        return json_encode($this->data, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @return string
+     */
+    public function getHeaderType(): string
+    {
+        return 'application/json';
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIncludeHeaderAndFooter(): bool
+    {
+        return false;
+    }
 }

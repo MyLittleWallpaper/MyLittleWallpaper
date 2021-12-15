@@ -1,22 +1,25 @@
 <?php
+
 // Check that correct entry point was used
-if (!defined('INDEX')) exit();
+if (!defined('INDEX')) {
+    exit();
+}
 
 require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
 
-$return = [];
-$srch = (!empty($_GET['term']) ? "%".$_GET['term']."%" : '');
-$srch2 = (!empty($_GET['term']) ? $_GET['term']."%" : '');
-$assigned = Array(
-	$srch,
-	$srch,
-	$srch,
-	$srch,
-	$srch,
-	$srch,
-	$srch2,
-	$srch2,
-);
+$return   = [];
+$srch     = (!empty($_GET['term']) ? "%" . $_GET['term'] . "%" : '');
+$srch2    = (!empty($_GET['term']) ? $_GET['term'] . "%" : '');
+$assigned = [
+    $srch,
+    $srch,
+    $srch,
+    $srch,
+    $srch,
+    $srch,
+    $srch2,
+    $srch2,
+];
 
 $sql = "(SELECT name, '' previous, alternate FROM tag WHERE name LIKE ? OR alternate LIKE ?)
 UNION ALL
@@ -32,16 +35,20 @@ ORDER BY name
 LIMIT 50";
 
 $result = $db->query($sql, $assigned);
-while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-	if (!empty($row['previous'])) $desc = 'Formerly known as <b>'.Format::htmlEntities($row['previous']).'</b>';
-	elseif (!empty($row['alternate'])) $desc = 'Also known as <b>'.Format::htmlEntities($row['alternate']).'</b>';
-	else $desc = '';
-	$return[] = Array(
-		'id' => $row['name'],
-		'label' => $row['name'],
-		'value' => $row['name'],
-		'desc' => $desc,
-	);
+while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+    if (!empty($row['previous'])) {
+        $desc = 'Formerly known as <b>' . Format::htmlEntities($row['previous']) . '</b>';
+    } elseif (!empty($row['alternate'])) {
+        $desc = 'Also known as <b>' . Format::htmlEntities($row['alternate']) . '</b>';
+    } else {
+        $desc = '';
+    }
+    $return[] = [
+        'id'    => $row['name'],
+        'label' => $row['name'],
+        'value' => $row['name'],
+        'desc'  => $desc,
+    ];
 }
 
 $tagsearchresult = new BasicJSON($return);

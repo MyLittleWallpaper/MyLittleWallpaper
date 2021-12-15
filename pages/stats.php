@@ -1,6 +1,9 @@
 <?php
+
 // Check that correct entry point was used
-if (!defined('INDEX')) exit();
+if (!defined('INDEX')) {
+    exit();
+}
 
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
@@ -8,58 +11,80 @@ define('ACTIVE_PAGE', 'stats');
 $statspage = new BasicPage();
 $statspage->setPageTitleAddition('Stats');
 
-$html = '<script type="text/javascript" src="'.PUB_PATH.'js/jquery.jqplot-1.0.9.min.js"></script>';
-$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.canvasAxisTickRenderer-1.0.9.js"></script>';
-$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.canvasTextRenderer-1.0.9.js"></script>';
-$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.highlighter-1.0.9.js"></script>';
-$html .= '<script type="text/javascript" src="'.PUB_PATH.'js/jqplot/jqplot.dateAxisRenderer-1.0.9.js"></script>';
+$html       = '<script type="text/javascript" src="' . PUB_PATH . 'js/jquery.jqplot-1.0.9.min.js"></script>';
+$html       .= '<script type="text/javascript" src="' . PUB_PATH .
+    'js/jqplot/jqplot.canvasAxisTickRenderer-1.0.9.js"></script>';
+$html       .= '<script type="text/javascript" src="' . PUB_PATH .
+    'js/jqplot/jqplot.canvasTextRenderer-1.0.9.js"></script>';
+$html       .= '<script type="text/javascript" src="' . PUB_PATH . 'js/jqplot/jqplot.highlighter-1.0.9.js"></script>';
+$html       .= '<script type="text/javascript" src="' . PUB_PATH .
+    'js/jqplot/jqplot.dateAxisRenderer-1.0.9.js"></script>';
 $javascript = '$(document).ready(function(){
 	var l5P = [];
 	var l15P = [];
 	var ucnt = [];
 	var ltm = [];
 	var ltmm = [];
-	var pgv = [];'."\n".'	';
+	var pgv = [];' . "\n" . '	';
 
-$tmpd = strtotime("-24 hours");
-$startd = gmmktime(gmdate('H', $tmpd), 0, 0, gmdate('n', $tmpd), gmdate('j', $tmpd), gmdate('Y', $tmpd));
-$endd = $startd + 86400;
-$procd = $startd;
+$tmpd    = strtotime("-24 hours");
+$startd  = gmmktime(gmdate('H', $tmpd), 0, 0, gmdate('n', $tmpd), gmdate('j', $tmpd), gmdate('Y', $tmpd));
+$endd    = $startd + 86400;
+$procd   = $startd;
 $timearr = [];
-while($procd < $endd) {
-	$timearr[gmdate('Y-m-d H:i', $procd)] = [0, 0, 0, 0, 0, 0, 0];
-	$procd += 300;
+while ($procd < $endd) {
+    $timearr[gmdate('Y-m-d H:i', $procd)] = [0, 0, 0, 0, 0, 0, 0];
+    $procd                                += 300;
 }
-$res = $db->query("SELECT * FROM serverloadstats WHERE `time` BETWEEN ? AND ? ORDER BY `time`", [gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))]);
+$res = $db->query(
+    "SELECT * FROM serverloadstats WHERE `time` BETWEEN ? AND ? ORDER BY `time`",
+    [gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))]
+);
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-	$timearr[gmdate('Y-m-d H:i', strtotime($row['time'].' UTC'))] = [$row['avg1'], $row['avg5'], $row['avg15'], $row['users_online'], 0, 0, 0];
+    $timearr[gmdate('Y-m-d H:i', strtotime($row['time'] . ' UTC'))] = [
+        $row['avg1'],
+        $row['avg5'],
+        $row['avg15'],
+        $row['users_online'],
+        0,
+        0,
+        0,
+    ];
 }
 $maxld = 0.1;
-$res = $db->query("SELECT * FROM page_loadtime_avg WHERE `time` BETWEEN ? AND ? ORDER BY `time`", [gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))]);
+$res   = $db->query(
+    "SELECT * FROM page_loadtime_avg WHERE `time` BETWEEN ? AND ? ORDER BY `time`",
+    [gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))]
+);
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-	$timearr[gmdate('Y-m-d H:i', strtotime($row['time'].' UTC'))][4] = $row['load_time'];
-	$timearr[gmdate('Y-m-d H:i', strtotime($row['time'].' UTC'))][5] = $row['load_time_max'];
-	if ($row['load_time_max'] > $maxld) $maxld = ceil($row['load_time_max'] * 100) / 100;
+    $timearr[gmdate('Y-m-d H:i', strtotime($row['time'] . ' UTC'))][4] = $row['load_time'];
+    $timearr[gmdate('Y-m-d H:i', strtotime($row['time'] . ' UTC'))][5] = $row['load_time_max'];
+    if ($row['load_time_max'] > $maxld) {
+        $maxld = ceil($row['load_time_max'] * 100) / 100;
+    }
 }
-$res = $db->query("SELECT * FROM pageview_stats WHERE `time` BETWEEN ? AND ? ORDER BY `time`", [gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))]);
+$res = $db->query(
+    "SELECT * FROM pageview_stats WHERE `time` BETWEEN ? AND ? ORDER BY `time`",
+    [gmdate('Y-m-d H:i:s', ($startd - 25)), gmdate('Y-m-d H:i:s', ($endd + 5))]
+);
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-	$timearr[gmdate('Y-m-d H:i', strtotime($row['time'].' UTC'))][6] = $row['views'];
+    $timearr[gmdate('Y-m-d H:i', strtotime($row['time'] . ' UTC'))][6] = $row['views'];
 }
-foreach($timearr as $plottime => $plotvar) {
-	$javascript .= 'l5P.push([\''.$plottime.'\', '.$plotvar[1].']);';
-	$javascript .= 'l15P.push([\''.$plottime.'\', '.$plotvar[2].']);';
-	$javascript .= 'ucnt.push([\''.$plottime.'\', '.$plotvar[3].']);';
-	if (substr($plottime, -2) == '00' || substr($plottime, -2) == '30') {
-		$javascript .= 'ltm.push([\''.$plottime.'\', '.$plotvar[4].']);';
-		$javascript .= 'ltmm.push([\''.$plottime.'\', '.$plotvar[5].']);';
-	}
-	if (substr($plottime, -2) == '00') {
-		$javascript .= 'pgv.push([\''.$plottime.'\', '.$plotvar[6].']);';
-	}
+foreach ($timearr as $plottime => $plotvar) {
+    $javascript .= 'l5P.push([\'' . $plottime . '\', ' . $plotvar[1] . ']);';
+    $javascript .= 'l15P.push([\'' . $plottime . '\', ' . $plotvar[2] . ']);';
+    $javascript .= 'ucnt.push([\'' . $plottime . '\', ' . $plotvar[3] . ']);';
+    if (substr($plottime, -2) == '00' || substr($plottime, -2) == '30') {
+        $javascript .= 'ltm.push([\'' . $plottime . '\', ' . $plotvar[4] . ']);';
+        $javascript .= 'ltmm.push([\'' . $plottime . '\', ' . $plotvar[5] . ']);';
+    }
+    if (substr($plottime, -2) == '00') {
+        $javascript .= 'pgv.push([\'' . $plottime . '\', ' . $plotvar[6] . ']);';
+    }
 }
-$mind = gmdate('Y-m-d H:i', $startd);
-$maxd = gmdate('Y-m-d H:i', $endd);
-$javascript .= "\n".'	var plot1 = $.jqplot ("loadchart", [l15P, l5P], {
+$mind       = gmdate('Y-m-d H:i', $startd);
+$maxd       = gmdate('Y-m-d H:i', $endd);
+$javascript .= "\n" . '	var plot1 = $.jqplot ("loadchart", [l15P, l5P], {
 		series:[
 			{
 				color: "#9ED89F",
@@ -87,8 +112,8 @@ $javascript .= "\n".'	var plot1 = $.jqplot ("loadchart", [l15P, l5P], {
 			xaxis: {
 				renderer:$.jqplot.DateAxisRenderer,
 				tickOptions:{formatString:\'%a %H:%M UTC\'},
-				max: \''.$maxd.'\',
-				min: \''.$mind.'\',
+				max: \'' . $maxd . '\',
+				min: \'' . $mind . '\',
 				showTicks: false,
 				showTickMarks: false
 			},
@@ -125,8 +150,8 @@ $javascript .= "\n".'	var plot1 = $.jqplot ("loadchart", [l15P, l5P], {
 			xaxis: {
 				renderer:$.jqplot.DateAxisRenderer,
 				tickOptions:{formatString:\'%a %H:%M UTC\'},
-				max: \''.$maxd.'\',
-				min: \''.$mind.'\',
+				max: \'' . $maxd . '\',
+				min: \'' . $mind . '\',
 				showTicks: false,
 				showTickMarks: false
 			},
@@ -176,14 +201,14 @@ $javascript .= "\n".'	var plot1 = $.jqplot ("loadchart", [l15P, l5P], {
 			xaxis: {
 				renderer:$.jqplot.DateAxisRenderer,
 				tickOptions:{formatString:\'%a %H:%M UTC\'},
-				max: \''.$maxd.'\',
-				min: \''.$mind.'\',
+				max: \'' . $maxd . '\',
+				min: \'' . $mind . '\',
 				showTicks: false,
 				showTickMarks: false
 			},
 			yaxis: {
 				min: 0.03,
-				//max: '.$maxld.',
+				//max: ' . $maxld . ',
 				tickOptions:{formatString:\'%.4f s\'}
 			}
 		},
@@ -212,8 +237,8 @@ $javascript .= "\n".'	var plot1 = $.jqplot ("loadchart", [l15P, l5P], {
 			xaxis: {
 				renderer:$.jqplot.DateAxisRenderer,
 				tickOptions:{formatString:\'%a %H:%M UTC\'},
-				max: \''.$maxd.'\',
-				min: \''.$mind.'\',
+				max: \'' . $maxd . '\',
+				min: \'' . $mind . '\',
 				showTicks: false,
 				showTickMarks: false
 			},
@@ -235,41 +260,53 @@ $html .= '<h1>Stats</h1>';
 $html .= '<p>Some site statistics...</p>';
 $html .= '<h2>Wallpapers</h2>';
 
-$res = $db->query("SELECT count(*) cnt FROM wallpaper WHERE deleted = 0");
+$res      = $db->query("SELECT count(*) cnt FROM wallpaper WHERE deleted = 0");
 $totalcnt = 0;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-	$totalcnt = $row['cnt'];
+    $totalcnt = $row['cnt'];
 }
-$res = $db->query("SELECT count(*) cnt FROM wallpaper WHERE deleted = 1");
+$res    = $db->query("SELECT count(*) cnt FROM wallpaper WHERE deleted = 1");
 $delcnt = 0;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-	$delcnt = $row['cnt'];
+    $delcnt = $row['cnt'];
 }
-$html .= '<p>There are total of <span class="total-of">'.number_format($totalcnt, 0, ',', ' ').'</span> listed wallpapers on the website.</p>';
-$html .= '<p>Total of <span class="total-of">'.number_format($delcnt, 0, ',', ' ').'</span> wallpapers have been removed from the list.</p>';
-$html .= '<h2>Site usage</h2>';
-$res = $db->query("SELECT count(*) cnt FROM page_loadtime");
+$html      .= '<p>There are total of <span class="total-of">' . number_format($totalcnt, 0, ',', ' ') .
+    '</span> listed wallpapers on the website.</p>';
+$html      .= '<p>Total of <span class="total-of">' . number_format($delcnt, 0, ',', ' ') .
+    '</span> wallpapers have been removed from the list.</p>';
+$html      .= '<h2>Site usage</h2>';
+$res       = $db->query("SELECT count(*) cnt FROM page_loadtime");
 $pageviews = 600000;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-        $pageviews = 600000 + $row['cnt'];
+    $pageviews = 600000 + $row['cnt'];
 }
-$res = $db->query("SELECT count(*) cnt FROM page_loadtime WHERE time BETWEEN ? AND ?", [gmdate('Y-m-d H:i:s', $startd), gmdate('Y-m-d H:i:s', $endd)]);
+$res         = $db->query(
+    "SELECT count(*) cnt FROM page_loadtime WHERE time BETWEEN ? AND ?",
+    [gmdate('Y-m-d H:i:s', $startd), gmdate('Y-m-d H:i:s', $endd)]
+);
 $pageviews24 = 0;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-	$pageviews24 = $row['cnt'];
+    $pageviews24 = $row['cnt'];
 }
-$html .= '<p>After launch in February 2012, the site has received <span class="total-of">'.number_format($pageviews, 0, ',', ' ').'</span> pageviews. Of those, <span class="total-of">'.number_format($pageviews24, 0, ',', ' ').'</span> were in the last 24 hours.</p>';
-$res = $db->query("SELECT count(*) cnt FROM click_log");
+$html     .= '<p>After launch in February 2012, the site has received <span class="total-of">' .
+    number_format($pageviews, 0, ',', ' ') . '</span> pageviews. Of those, <span class="total-of">' .
+    number_format($pageviews24, 0, ',', ' ') . '</span> were in the last 24 hours.</p>';
+$res      = $db->query("SELECT count(*) cnt FROM click_log");
 $clickcnt = 0;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-	$clickcnt = $row['cnt'];
+    $clickcnt = $row['cnt'];
 }
-$res = $db->query("SELECT count(*) cnt FROM click_log WHERE time BETWEEN ? AND ?", [gmdate('Y-m-d H:i:s', $startd), gmdate('Y-m-d H:i:s', $endd)]);
+$res        = $db->query(
+    "SELECT count(*) cnt FROM click_log WHERE time BETWEEN ? AND ?",
+    [gmdate('Y-m-d H:i:s', $startd), gmdate('Y-m-d H:i:s', $endd)]
+);
 $click24cnt = 0;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-	$click24cnt = $row['cnt'];
+    $click24cnt = $row['cnt'];
 }
-$html .= '<p>Wallpaper download links haven been clicked total of <span class="total-of">'.number_format($clickcnt, 0, ',', ' ').'</span> times. Of those, <span class="total-of">'.number_format($click24cnt, 0, ',', ' ').'</span> were in the last 24 hours.</p>';
+$html .= '<p>Wallpaper download links haven been clicked total of <span class="total-of">' .
+    number_format($clickcnt, 0, ',', ' ') . '</span> times. Of those, <span class="total-of">' .
+    number_format($click24cnt, 0, ',', ' ') . '</span> were in the last 24 hours.</p>';
 
 $html .= '<h2>Tags</h2>';
 $html .= file_get_contents(ROOT_DIR . 'stats');
@@ -280,7 +317,6 @@ $html .= '<div style="background:#444;display:inline-block;width:12px;height:12p
 $html .= '<div style="background:#9ED89F;display:inline-block;width:12px;height:12px;margin-right:10px;margin-left:30px;"></div>Load average (15 min)';
 $html .= '</p>';
 $html .= '<p><div id="loadchart" style="height:250px;width:960px;position:relative;"></div></p>';
-$html .= '<p><small>Note that the server hosts nearly 20 other websites, Irssi shells and IRC bots.</small></p>';
 $html .= '<br /><h2>Page generation time in the last 24 hours</h2>';
 $html .= '<p>';
 $html .= '<div style="background:#4bb2c5;display:inline-block;width:12px;height:12px;margin-right:10px;"></div>Average (30 min)';
@@ -292,8 +328,8 @@ $html .= '<p><div id="ltmchart" style="height:250px;width:960px;position:relativ
 $html .= '<br /><h2>Pageviews in the last 24 hours</h2>';
 $html .= '<p><div id="pagevchart" style="height:250px;width:960px;position:relative;"></div></p>';
 $html .= '</div></div>';
-$meta = "\n".'		<meta name="twitter:card" content="summary" />'."\n";
-$meta .= '		<meta name="twitter:description" content="Site statistics." />'."\n";
+$meta = "\n" . '		<meta name="twitter:card" content="summary" />' . "\n";
+$meta .= '		<meta name="twitter:description" content="Site statistics." />' . "\n";
 
 $statspage->setJavascript($javascript);
 $statspage->setHtml($html);

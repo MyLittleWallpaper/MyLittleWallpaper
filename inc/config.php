@@ -1,6 +1,4 @@
 <?php
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
 
 define("FILE_FOLDER", 'files/');
 define("DBNAME", '');

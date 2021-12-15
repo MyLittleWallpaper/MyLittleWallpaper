@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+	<arg name="tab-width" value="4" />
+	<config name="installed_paths" value="vendor/slevomat/coding-standard" />
+	<config name="php_version" value="70400" />
+
+	<exclude-pattern>*/.idea/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+
+	<arg name="extensions" value="php" />
+
+	<!-- Import PSR-12 -->
+	<rule ref="PSR12"/>
+
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+	<rule ref="Generic.Strings.UnnecessaryStringConcat">
+		<properties>
+			<property name="allowMultiline" value="true" />
+		</properties>
+	</rule>
+	<rule ref="Generic.PHP.DiscourageGoto" />
+	<rule ref="Squiz.PHP.DiscouragedFunctions" />
+	<rule ref="Squiz.PHP.CommentedOutCode" />
+
+	<rule ref="Squiz.Commenting.FunctionComment">
+		<exclude name="Squiz.Commenting.FunctionComment.MissingParamComment" />
+		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop" />
+		<exclude name="Squiz.Commenting.FunctionComment.EmptyThrows" />
+		<exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName" />
+		<exclude name="Squiz.Commenting.FunctionComment.InvalidReturn" />
+		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop" />
+		<exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName" />
+		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentNotCapital" />
+	</rule>
+	<rule ref="Squiz.Commenting.VariableComment">
+		<exclude name="Squiz.Commenting.VariableComment.IncorrectVarType" />
+		<exclude name="Squiz.Commenting.VariableComment.TagNotAllowed" />
+	</rule>
+	<rule ref="SlevomatCodingStandard.Classes.ForbiddenPublicProperty" />
+	<rule ref="SlevomatCodingStandard.Exceptions.DeadCatch" />
+	<rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses" />
+	<rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+		<properties>
+			<property name="searchAnnotations" value="true" />
+			<property name="ignoredAnnotations" type="array">
+				<element value="@group"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash" />
+	<rule ref="SlevomatCodingStandard.Namespaces.UselessAlias" />
+	<rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace" />
+	<rule ref="SlevomatCodingStandard.PHP.DisallowDirectMagicInvokeCall" />
+	<rule ref="SlevomatCodingStandard.TypeHints">
+		<exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectStrictTypesFormat" />
+		<exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceBetweenOpenTagAndDeclare" />
+		<exclude name="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax.DisallowedArrayTypeHintSyntax" />
+		<exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint" />
+		<exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification" />
+		<exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation" />
+		<exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingTraversableTypeHintSpecification" />
+		<exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.UselessAnnotation" />
+		<exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification" />
+		<exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.UselessAnnotation" />
+		<exclude name="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint.UselessVarAnnotation" />
+	</rule>
+	<rule ref="SlevomatCodingStandard.Variables.UnusedVariable">
+		<properties>
+			<property name="ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach" value="true" />
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Variables.UselessVariable" />
+</ruleset>

@@ -1,19 +1,22 @@
 <?php
-/**
- * @author Petri Haikonen <sharkmachine@ecxol.net>
- * @package MyLittleWallpaper
- * @subpackage Classes
- */
-
-if (!defined('INDEX')) exit();
 
 /**
  * Abstract class for output classes used by Response class.
  */
-abstract class Output {
-	public abstract function output();
+abstract class Output
+{
+    /**
+     * @return string
+     */
+    abstract public function output(): string;
 
-	public abstract function getHeaderType();
+    /**
+     * @return string
+     */
+    abstract public function getHeaderType(): string;
 
-	public abstract function getIncludeHeaderAndFooter();
+    /**
+     * @return bool
+     */
+    abstract public function getIncludeHeaderAndFooter(): bool;
 }

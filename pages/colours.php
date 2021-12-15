@@ -1,6 +1,9 @@
 <?php
+
 // Check that correct entry point was used
-if (!defined('INDEX')) exit();
+if (!defined('INDEX')) {
+    exit();
+}
 
 // Just the list of listed colours and similarities (which also exists in the database)
 
@@ -30,60 +33,66 @@ if (!defined('INDEX')) exit();
 //fe68b9 => fe68b9 ff018a ffabd8 aa5683 c898b2
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
-$html = '';
+$html    = '';
 $colours = [
-	'ffffff' => 'ffffff',
-	'cccccc' => 'cccccc',
-	'666666' => '666666',
-	'000000' => '000000',
-	'990000' => '990000',
-	'ff6666' => 'ff6666',
-	'7f462c' => '7f462c',
-	'ff8d58' => 'ff8d58',
-	'ff7f01' => 'ff7f01',
-	'aaaa00' => 'aaaa00',
-	'ffff00' => 'ffff00',
-	'00aa00' => '00aa00',
-	'00ff00' => '00ff00',
-	'009a98' => '009a98',
-	'68fefc' => '68fefc',
-	'00509a' => '00509a',
-	'68b6fe' => '68b6fe',
-	'0000ff' => '0000ff',
-	'aaaaff' => 'aaaaff',
-	'48009a' => '48009a',
-	'af68fe' => 'af68fe',
-	'95009a' => '95009a',
-	'f868fe' => 'f868fe',
-	'fe68b9' => 'fe68b9',
+    'ffffff' => 'ffffff',
+    'cccccc' => 'cccccc',
+    '666666' => '666666',
+    '000000' => '000000',
+    '990000' => '990000',
+    'ff6666' => 'ff6666',
+    '7f462c' => '7f462c',
+    'ff8d58' => 'ff8d58',
+    'ff7f01' => 'ff7f01',
+    'aaaa00' => 'aaaa00',
+    'ffff00' => 'ffff00',
+    '00aa00' => '00aa00',
+    '00ff00' => '00ff00',
+    '009a98' => '009a98',
+    '68fefc' => '68fefc',
+    '00509a' => '00509a',
+    '68b6fe' => '68b6fe',
+    '0000ff' => '0000ff',
+    'aaaaff' => 'aaaaff',
+    '48009a' => '48009a',
+    'af68fe' => 'af68fe',
+    '95009a' => '95009a',
+    'f868fe' => 'f868fe',
+    'fe68b9' => 'fe68b9',
 ];
-$cnt = 0;
-$html .= '<h2 style="padding:6px 6px 4px 6px;">Colours</h2>';
-foreach($colours as $scol => $dcol) {
-	$cnt ++;
-	
-	$html .= '<a style="display:inline-block;height:25px;overflow:hidden;box-shadow:0px 1px 6px #888;margin:6px;border-radius:10px;" href="'.PUB_PATH_CAT.'?search='.urlencode('colour:'.$scol).'">';
-	$html .= '<span style="font-family:monospace;display:block;float:left;height:21px;width:75px;border-radius:10px 0 0 10px;padding:5px 0 0 7px;">#'.Format::htmlEntities($scol).'</span>';
-	$html .= '<span style="display:block;float:left;width:85px;height:25px;background:#'.$dcol.';border-radius:0 10px 10px 0;box-shadow:-1px 0 6px #aaa;">&nbsp;</span>';
-	$html .= '</a> ';
-	if ($cnt == 5) {
-		$html .= '<br />';
-		$cnt = 0;
-	}
+$cnt     = 0;
+$html    .= '<h2 style="padding:6px 6px 4px 6px;">Colours</h2>';
+foreach ($colours as $scol => $dcol) {
+    $cnt++;
+
+    $html .= '<a style="display:inline-block;height:25px;overflow:hidden;box-shadow:0px 1px 6px #888;margin:6px;border-radius:10px;" href="' .
+        PUB_PATH_CAT . '?search=' . urlencode('colour:' . $scol) . '">';
+    $html .= '<span style="font-family:monospace;display:block;float:left;height:21px;width:75px;border-radius:10px 0 0 10px;padding:5px 0 0 7px;">#' .
+        Format::htmlEntities($scol) . '</span>';
+    $html .= '<span style="display:block;float:left;width:85px;height:25px;background:#' . $dcol .
+        ';border-radius:0 10px 10px 0;box-shadow:-1px 0 6px #aaa;">&nbsp;</span>';
+    $html .= '</a> ';
+    if ($cnt == 5) {
+        $html .= '<br />';
+        $cnt  = 0;
+    }
 }
-$cnt = 0;
+$cnt  = 0;
 $html .= '<h2 style="padding:12px 6px 4px 6px;">Major colours</h2>';
-foreach($colours as $scol => $dcol) {
-	$cnt ++;
-	
-	$html .= '<a style="display:inline-block;height:25px;overflow:hidden;box-shadow:0px 1px 6px #888;margin:6px;border-radius:10px;" href="'.PUB_PATH_CAT.'?search='.urlencode('major-colour:'.$scol).'">';
-	$html .= '<span style="font-family:monospace;display:block;float:left;height:21px;width:75px;border-radius:10px 0 0 10px;padding:5px 0 0 7px;">#'.Format::htmlEntities($scol).'</span>';
-	$html .= '<span style="display:block;float:left;width:85px;height:25px;background:#'.$dcol.';border-radius:0 10px 10px 0;box-shadow:-1px 0 6px #aaa;">&nbsp;</span>';
-	$html .= '</a> ';
-	if ($cnt == 5) {
-		$html .= '<br />';
-		$cnt = 0;
-	}
+foreach ($colours as $scol => $dcol) {
+    $cnt++;
+
+    $html .= '<a style="display:inline-block;height:25px;overflow:hidden;box-shadow:0px 1px 6px #888;margin:6px;border-radius:10px;" href="' .
+        PUB_PATH_CAT . '?search=' . urlencode('major-colour:' . $scol) . '">';
+    $html .= '<span style="font-family:monospace;display:block;float:left;height:21px;width:75px;border-radius:10px 0 0 10px;padding:5px 0 0 7px;">#' .
+        Format::htmlEntities($scol) . '</span>';
+    $html .= '<span style="display:block;float:left;width:85px;height:25px;background:#' . $dcol .
+        ';border-radius:0 10px 10px 0;box-shadow:-1px 0 6px #aaa;">&nbsp;</span>';
+    $html .= '</a> ';
+    if ($cnt == 5) {
+        $html .= '<br />';
+        $cnt  = 0;
+    }
 }
 
 $colorlist = new BasicPage();

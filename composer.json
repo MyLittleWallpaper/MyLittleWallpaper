@@ -7,9 +7,13 @@
         "ext-pdo": "*",
 
         "phpmailer/phpmailer": "^6.5",
-        "razielanarki/hyperlight": ">=0.1"
+        "razielanarki/hyperlight": ">=0.1",
+      "ext-gd": "*",
+      "ext-zlib": "*"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-latest",
+        "slevomat/coding-standard": "^7.0.17",
+        "squizlabs/php_codesniffer": "^3.6.1"
     }
 }

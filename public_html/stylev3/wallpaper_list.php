@@ -89,8 +89,8 @@ echo '				<div id="submit">&nbsp;<br /><input type="submit" id="searchsubmit" va
 echo '			</form>' . "\n";
 echo '			<div style="position:absolute;bottom:16px;right:16px;font-size:11px;"><img src="' . PUB_PATH . THEME . '/images/fin.png" alt="Finland" /> &nbsp; Made in Finland</div>' . "\n";
 echo '			<div style="position:absolute;top:16px;right:16px;"><label id="rss">RSS' . ($response->responseVariables->rss_search != '' ? ' for this search' : '') . ':</label> <a href="' . PUB_PATH_CAT . 'feed/' . $response->responseVariables->rss_search . '">link</a></div>' . "\n";
-echo '			<p><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.mylittlewallpaper.com" target="_blank">TLS</a> has been enabled and there might be a few parts of the site that won\'t work properly.<br />Please file <a href="https://github.com/MyLittleWallpaper/MyLittleWallpaper/issues" target="_blank">a bug report</a> or send an email in case you have problems.</p>';
-echo '			<p>Help needed with tagging and adding new wallpapers! If you\'re interested, come to #mylittlewallpaper @ Freenode.</p>' . "\n";
+echo '			<p>Account registration has been fixed. You can register an account <a href="' . PUB_PATH_CAT . 'register">here</a></p>';
+echo '			<p>Tasty PHP 8.0 & MySQL 8.0 with <a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.mylittlewallpaper.com" target="_blank">TLS 1.3</a></p>';
 echo '			<div style="clear:both;"></div>' . "\n";
 echo '		</div>' . "\n";
 

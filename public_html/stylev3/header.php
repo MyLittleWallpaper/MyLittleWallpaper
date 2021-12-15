@@ -142,8 +142,8 @@ if (!$user->getIsAnonymous()) {
 }
 echo '<div class="links" style="border:2px solid #bbb;background:#ddd;padding:8px;"><strong>GitHub:</strong><br />
 <a href="https://github.com/MyLittleWallpaper/MyLittleWallpaper" target="_blank">Issue tracker and source code</a><br /><br />
-<strong>IRC:</strong><br />
-<a href="irc://irc.freenode.net/mylittlewallpaper">#mylittlewallpaper @ Freenode</a><br /><br />
+<strong>Discord:</strong><br />
+<a href="https://discord.gg/GWVG7Bu">Discord server</a><br /><br />
 <strong>Related wallpaper sites:</strong><br />
 <a href="http://www.reddit.com/r/ponypapers/" target="_blank">PonyPapers @ Reddit</a><br />
 <a href="http://www.reddit.com/r/TouhouWallpaper/" target="_blank">TouhouWallpaper @ Reddit</a><br />

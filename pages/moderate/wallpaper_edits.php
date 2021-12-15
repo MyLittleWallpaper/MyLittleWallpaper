@@ -1,6 +1,9 @@
 <?php
+
 // Check that correct entry point was used
-if (!defined('INDEX')) exit();
+if (!defined('INDEX')) {
+    exit();
+}
 global $user;
 
 // @todo Rewrite

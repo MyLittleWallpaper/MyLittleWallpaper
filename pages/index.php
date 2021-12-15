@@ -1,6 +1,9 @@
 <?php
+
 // Check that correct entry point was used
-if (!defined('INDEX')) exit();
+if (!defined('INDEX')) {
+    exit();
+}
 
 require_once(ROOT_DIR . 'classes/output/WallpaperList.php');
 
@@ -13,7 +16,7 @@ define('ACTIVE_PAGE', 'index');
 $wallpaper_list = new WallpaperList();
 $wallpaper_list->loadSearchFromRequest();
 if (CATEGORY_ID > 0) {
-	$wallpaper_list->setCategory(CATEGORY_ID);
+    $wallpaper_list->setCategory(CATEGORY_ID);
 }
 $wallpaper_list->loadWallpapers();
 

@@ -1,361 +1,405 @@
 <?php
-/**
- * @author Petri Haikonen <sharkmachine@ecxol.net>
- * @package MyLittleWallpaper
- * @subpackage Classes
- */
-
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-	exit();
-}
 
 /**
  * User repository class.
  * Used for loading users.
  */
-class UserRepository {
-	/**
-	 * @var Database
-	 */
-	private $db;
+class UserRepository
+{
+    /**
+     * @var Database
+     */
+    private Database $db;
 
-	/**
-	 * @param Database|null $db If null, looks for $GLOBALS['db']
-	 * @throws Exception if database not found
-	 */
-	public function __construct(&$db = null) {
-		if (!($db instanceof Database)) {
-			if (!isset($GLOBALS['db']) || !($GLOBALS['db'] instanceof Database)) {
-				throw new Exception('No database connection found');
-			} else {
-				$this->db =& $GLOBALS['db'];
-			}
-		} else {
-			$this->db = $db;
-		}
-	}
+    /**
+     * @param Database|null $db If null, looks for $GLOBALS['db']
+     */
+    public function __construct(?Database $db = null)
+    {
+        if (!($db instanceof Database)) {
+            if (!isset($GLOBALS['db']) || !($GLOBALS['db'] instanceof Database)) {
+                throw new Exception('No database connection found');
+            }
+            $this->db =& $GLOBALS['db'];
+        } else {
+            $this->db = $db;
+        }
+    }
 
-	/**
-	 * @param int $user_id
-	 * @return User|null
-	 * @throws PDOException
-	 */
-	public function getUserById($user_id) {
-		$user = $this->db->getRecord('user', ['field' => 'id', 'value' => $user_id]);
-		if (!empty($user['id'])) {
-			return new User($user);
-		}
-		return null;
-	}
+    /**
+     * @param int $user_id
+     *
+     * @return User|null
+     * @throws PDOException
+     */
+    public function getUserById(int $user_id): ?\User
+    {
+        $user = $this->db->getRecord('user', ['field' => 'id', 'value' => $user_id]);
+        if (!empty($user['id'])) {
+            return new User($user);
+        }
+        return null;
+    }
 
-	/**
-	 * @param string $username
-	 * @param string $password
-	 * @return User|null
-	 * @throws PDOException
-	 */
-	public function getUserByUsernameAndPassword($username, $password) {
-		$user = null;
-		$result = $this->db->query("SELECT * FROM user WHERE username = ? AND password = ? LIMIT 1", [$username, Format::passwordHash($password, $username)]);
-		while ($userRow = $result->fetch(PDO::FETCH_ASSOC)) {
-			$user = new User($userRow);
-		}
-		return $user;
-	}
+    /**
+     * @param string $username
+     * @param string $password
+     *
+     * @return User|null
+     * @throws PDOException
+     */
+    public function getUserByUsernameAndPassword(string $username, string $password): ?\User
+    {
+        $user   = null;
+        $result = $this->db->query(
+            "SELECT * FROM user WHERE username = ? AND password = ? LIMIT 1",
+            [$username, Format::passwordHash($password, $username)]
+        );
+        while ($userRow = $result->fetch(PDO::FETCH_ASSOC)) {
+            $user = new User($userRow);
+        }
+        return $user;
+    }
 }
 
 /**
  * User class.
  */
-class User {
-	/**
-	 * @var int
-	 */
-	private $id = 0;
+class User
+{
+    /**
+     * @var int
+     */
+    private int $id = 0;
 
-	/**
-	 * @var string
-	 */
-	private $username = '';
+    /**
+     * @var string
+     */
+    private string $username = '';
 
-	/**
-	 * @var string
-	 */
-	private $email = '';
+    /**
+     * @var string
+     */
+    private string $email = '';
 
-	/**
-	 * @var string|null
-	 */
-	private $token = null;
+    /**
+     * @var string|null
+     */
+    private ?string $token = null;
 
-	/**
-	 * @var bool[]|null
-	 */
-	private $permissions = null;
+    /**
+     * @var bool[]|null
+     */
+    private ?array $permissions = null;
 
-	/**
-	 * @var bool[]|null
-	 */
-	private $virtualPermissions = null;
+    /**
+     * @var bool[]|null
+     */
+    private ?array $virtualPermissions = null;
 
-	/**
-	 * @var bool
-	 */
-	private $isAdmin = false;
+    /**
+     * @var bool
+     */
+    private bool $isAdmin = false;
 
-	/**
-	 * @var bool
-	 */
-	private $isBanned = false;
+    /**
+     * @var bool
+     */
+    private bool $isBanned = false;
 
-	/**
-	 * @var bool
-	 */
-	private $isAnonymous = true;
+    /**
+     * @var bool
+     */
+    private bool $isAnonymous = true;
 
-	/**
-	 * @var string
-	 */
-	private $passwordHash = '';
+    /**
+     * @var string
+     */
+    private string $passwordHash = '';
 
-	/**
-	 * @var Database
-	 */
-	private $db;
+    /**
+     * @var Database
+     */
+    private Database $db;
 
-	/**
-	 * @param array|null $data
-	 * @param Database|null $db If null, looks for $GLOBALS['db']
-	 * @throws Exception if database not found
-	 */
-	public function __construct($data = null, &$db = null) {
-		if (!($db instanceof Database)) {
-			if (!isset($GLOBALS['db']) || !($GLOBALS['db'] instanceof Database)) {
-				throw new Exception('No database connection found');
-			} else {
-				$this->db =& $GLOBALS['db'];
-			}
-		} else {
-			$this->db = $db;
-		}
-		if (!empty($data) && is_array($data)) {
-			$this->bind($data);
-		}
-	}
+    /**
+     * @param array|null    $data
+     * @param Database|null $db If null, looks for $GLOBALS['db']
+     */
+    public function __construct(?array $data = null, ?Database $db = null)
+    {
+        if (!($db instanceof Database)) {
+            if (!isset($GLOBALS['db']) || !($GLOBALS['db'] instanceof Database)) {
+                throw new Exception('No database connection found');
+            }
 
-	/**
-	 * @param array $data
-	 */
-	public function bind($data) {
-		if (!empty($data['id']) && filter_var($data['id'], FILTER_VALIDATE_INT) !== false) {
-			$this->id = (int) $data['id'];
-			$this->setIsAnonymous(false);
-		}
-		if (!empty($data['username'])) {
-			$this->username = (string) $data['username'];
-		}
-		if (isset($data['admin'])) {
-			$this->isAdmin = ($data['admin'] == '1' ? true : false);
-		}
-		if (isset($data['banned'])) {
-			$this->isBanned = ($data['banned'] == '1' ? true : false);
-		}
-		if (!empty($data['password'])) {
-			$this->passwordHash = (string) $data['password'];
-		}
-		if (!empty($data['email'])) {
-			$this->email = (string) $data['email'];
-		}
-		if (isset($data['token'])) {
-			if (empty($data['token'])) {
-				$this->token = null;
-			} else {
-				$this->token = (string) $data['token'];
-			}
-		}
-	}
+            $this->db =& $GLOBALS['db'];
+        } else {
+            $this->db = $db;
+        }
+        if (!empty($data) && is_array($data)) {
+            $this->bind($data);
+        }
+    }
 
-	/**
-	 * @return int|null
-	 */
-	public function getId() {
-		return $this->id;
-	}
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function bind(array $data): void
+    {
+        if (!empty($data['id']) && filter_var($data['id'], FILTER_VALIDATE_INT) !== false) {
+            $this->id = (int)$data['id'];
+            $this->setIsAnonymous(false);
+        }
+        if (!empty($data['username'])) {
+            $this->username = (string)$data['username'];
+        }
+        if (isset($data['admin'])) {
+            $this->isAdmin = $data['admin'] == '1';
+        }
+        if (isset($data['banned'])) {
+            $this->isBanned = $data['banned'] == '1';
+        }
+        if (!empty($data['password'])) {
+            $this->passwordHash = (string)$data['password'];
+        }
+        if (!empty($data['email'])) {
+            $this->email = (string)$data['email'];
+        }
+        if (isset($data['token'])) {
+            if (empty($data['token'])) {
+                $this->token = null;
+            } else {
+                $this->token = (string)$data['token'];
+            }
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getUsername() {
-		return $this->username;
-	}
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function getIsAdmin() {
-		return $this->isAdmin;
-	}
+    /**
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getEmail() {
-		return $this->email;
-	}
+    /**
+     * @return bool
+     */
+    public function getIsAdmin(): bool
+    {
+        return $this->isAdmin;
+    }
 
-	/**
-	 * @return string|null
-	 */
-	public function getToken() {
-		return $this->token;
-	}
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function getIsAnonymous() {
-		return $this->isAnonymous;
-	}
+    /**
+     * @return string|null
+     */
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getPasswordHash() {
-		return $this->passwordHash;
-	}
+    /**
+     * @return bool
+     */
+    public function getIsAnonymous(): bool
+    {
+        return $this->isAnonymous;
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function getIsBanned() {
-		return $this->isBanned;
-	}
+    /**
+     * @return string
+     */
+    public function getPasswordHash(): string
+    {
+        return $this->passwordHash;
+    }
 
-	/**
-	 * @param int $id
-	 */
-	public function setId($id) {
-		if (empty($id)) {
-			$this->id = 0;
-		} else {
-			$this->id = (int) $id;
-		}
-	}
+    /**
+     * @return bool
+     */
+    public function getIsBanned(): bool
+    {
+        return $this->isBanned;
+    }
 
-	/**
-	 * @param string $val
-	 */
-	public function setUsername($val) {
-		$this->username = (string) $val;
-	}
+    /**
+     * @param int $id
+     *
+     * @return void
+     */
+    public function setId(int $id): void
+    {
+        if (empty($id)) {
+            $this->id = 0;
+        } else {
+            $this->id = (int)$id;
+        }
+    }
 
-	/**
-	 * @param bool $val
-	 */
-	public function setIsAdmin($val) {
-		$this->isAdmin = (bool) $val;
-	}
+    /**
+     * @param string $val
+     *
+     * @return void
+     */
+    public function setUsername(string $val): void
+    {
+        $this->username = (string)$val;
+    }
 
-	/**
-	 * @param string $email
-	 */
-	public function setEmail($email) {
-		$this->email = (string) $email;
-	}
+    /**
+     * @param bool $val
+     *
+     * @return void
+     */
+    public function setIsAdmin(bool $val): void
+    {
+        $this->isAdmin = (bool)$val;
+    }
 
-	/**
-	 * @param string|null $token
-	 */
-	public function setToken($token) {
-		if ($token === null) {
-			$this->token = null;
-		} else {
-			$this->token = (string) $token;
-		}
-	}
+    /**
+     * @param string $email
+     *
+     * @return void
+     */
+    public function setEmail(string $email): void
+    {
+        $this->email = (string)$email;
+    }
 
-	/**
-	 * @param bool $isAnonymous
-	 */
-	public function setIsAnonymous($isAnonymous) {
-		$this->isAnonymous = (bool) $isAnonymous;
-	}
+    /**
+     * @param string|null $token
+     *
+     * @return void
+     */
+    public function setToken(?string $token): void
+    {
+        if ($token === null) {
+            $this->token = null;
+        } else {
+            $this->token = (string)$token;
+        }
+    }
 
-	/**
-	 * @param string $passwordHash
-	 */
-	public function setPasswordHash($passwordHash) {
-		$this->passwordHash = (string) $passwordHash;
-	}
+    /**
+     * @param bool $isAnonymous
+     *
+     * @return void
+     */
+    public function setIsAnonymous(bool $isAnonymous): void
+    {
+        $this->isAnonymous = (bool)$isAnonymous;
+    }
 
-	/**
-	 * @param boolean $isBanned
-	 */
-	public function setIsBanned($isBanned) {
-		$this->isBanned = $isBanned;
-	}
+    /**
+     * @param string $passwordHash
+     *
+     * @return void
+     */
+    public function setPasswordHash(string $passwordHash): void
+    {
+        $this->passwordHash = (string)$passwordHash;
+    }
+
+    /**
+     * @param bool $isBanned
+     *
+     * @return void
+     */
+    public function setIsBanned(bool $isBanned): void
+    {
+        $this->isBanned = $isBanned;
+    }
 
 
-	/**
-	 * @param string $val
-	 * @return bool
-	 */
-	public function getPermission($val) {
-		if ($this->permissions === null) {
-			$ban = $this->db->getRecord('ban', Array('field' => 'ip', 'value' => USER_IP));
-			if (!empty($ban['ip']) && $ban['ip'] == USER_IP)
-				$this->isBanned = true;
+    /**
+     * @param string $val
+     *
+     * @return bool
+     */
+    public function getPermission(string $val): bool
+    {
+        if ($this->permissions === null) {
+            $ban = $this->db->getRecord('ban', ['field' => 'ip', 'value' => USER_IP]);
+            if (!empty($ban['ip']) && $ban['ip'] == USER_IP) {
+                $this->isBanned = true;
+            }
 
-			$this->loadVirtualPermissions();
-			$this->loadPermissions();
-		}
-		if (isset($this->virtualPermissions[$val])) {
-			return $this->virtualPermissions[$val];
-		} else {
-			if ($this->isAdmin)
-				return true;
-			if (!empty($this->permissions[$val]))
-				return true;
-		}
-		return false;
-	}
+            $this->loadVirtualPermissions();
+            $this->loadPermissions();
+        }
+        if (isset($this->virtualPermissions[$val])) {
+            return $this->virtualPermissions[$val];
+        }
 
-	/**
-	 * Loads permissions
-	 */
-	private function loadPermissions() {
-		// Don't even bother checking permissions from database if user is banned
-		if (!$this->isBanned) {
-			// Do SQL magic, not needed before actual permissions are added
-		}
-	}
+        if ($this->isAdmin) {
+            return true;
+        }
+        if (!empty($this->permissions[$val])) {
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Loads virtual built in permissions such as login, viewing profile page, etc.
-	 */
-	private function loadVirtualPermissions() {
-		if (!$this->isBanned) {
-			$this->virtualPermissions['submit'] = true;
-			$this->virtualPermissions['feedback'] = true;
-			if ($this->id === null) {
-				$this->virtualPermissions['login'] = true;
-				$this->virtualPermissions['register'] = true;
-				$this->virtualPermissions['profile'] = false;
-				$this->virtualPermissions['hide_captcha'] = false;
-			} else {
-				$this->virtualPermissions['login'] = false;
-				$this->virtualPermissions['register'] = false;
-				$this->virtualPermissions['profile'] = true;
-				$this->virtualPermissions['hide_captcha'] = true;
-			}
-		} else {
-			$this->virtualPermissions['submit'] = false;
-			$this->virtualPermissions['feedback'] = false;
-			$this->virtualPermissions['login'] = false;
-			$this->virtualPermissions['register'] = false;
-			$this->virtualPermissions['profile'] = false;
-			$this->virtualPermissions['hide_captcha'] = false;
-		}
-	}
+    /**
+     * Loads permissions
+     *
+     * @return void
+     */
+    private function loadPermissions(): void
+    {
+        // Don't even bother checking permissions from database if user is banned
+        if (!$this->isBanned) {
+            // Do SQL magic, not needed before actual permissions are added
+        }
+    }
+
+    /**
+     * Loads virtual built in permissions such as login, viewing profile page, etc.
+     *
+     * @return void
+     */
+    private function loadVirtualPermissions(): void
+    {
+        if (!$this->isBanned) {
+            $this->virtualPermissions['submit']   = true;
+            $this->virtualPermissions['feedback'] = true;
+            if ($this->id === null) {
+                $this->virtualPermissions['login']        = true;
+                $this->virtualPermissions['register']     = true;
+                $this->virtualPermissions['profile']      = false;
+                $this->virtualPermissions['hide_captcha'] = false;
+            } else {
+                $this->virtualPermissions['login']        = false;
+                $this->virtualPermissions['register']     = false;
+                $this->virtualPermissions['profile']      = true;
+                $this->virtualPermissions['hide_captcha'] = true;
+            }
+        } else {
+            $this->virtualPermissions['submit']       = false;
+            $this->virtualPermissions['feedback']     = false;
+            $this->virtualPermissions['login']        = false;
+            $this->virtualPermissions['register']     = false;
+            $this->virtualPermissions['profile']      = false;
+            $this->virtualPermissions['hide_captcha'] = false;
+        }
+    }
 }

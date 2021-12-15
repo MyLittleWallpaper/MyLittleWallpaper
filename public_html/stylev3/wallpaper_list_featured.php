@@ -5,8 +5,7 @@
  * @package MyLittleWallpaper
  * @subpackage DefaultTemplate
  */
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
+
 global $response, $user;
 
 echo "\n".'		<!-- Wallpaper edit dialog -->'."\n";
@@ -33,11 +32,11 @@ echo '		</div>'."\n\n";
 
 echo '		<!-- Wallpapers -->'."\n";
 echo '		<div class="imagelistcontainer"><div id="galleryimages" style="margin:20px;">'."\n";
-if (ACTIVE_PAGE == 'featured') {
+if (ACTIVE_PAGE === 'featured') {
 	echo '			<h1>Featured</h1>' . "\n";
 	echo '			<p>This section contains wallpapers picked by the staff. All wallpapers here are at least in 1920x1080 resolution.</p>';
-	echo '			<div class="wallpapercount wallpapercount_featured">' . $response->responseVariables->wallpaper_count . ' wallpaper' . ($response->responseVariables->wallpaper_count != 1 ? 's' : '') . ' found.</div>';
-} elseif (ACTIVE_PAGE == 'favourites') {
+	echo '			<div class="wallpapercount wallpapercount_featured">' . $response->responseVariables->wallpaper_count . ' wallpaper' . ($response->responseVariables->wallpaper_count !== 1 ? 's' : '') . ' found.</div>';
+} elseif (ACTIVE_PAGE === 'favourites') {
 	echo '			<h1>My Favourites</h1>'."\n";
 } else {
 	echo '			<h1>Randoms</h1>'."\n";
