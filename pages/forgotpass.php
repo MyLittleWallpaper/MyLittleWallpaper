@@ -5,6 +5,8 @@ if (!defined('INDEX')) {
 }
 global $user, $db;
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 require_once(ROOT_DIR . 'classes/output/BasicPage.php');
 
 define('ACTIVE_PAGE', 'forgotpass');

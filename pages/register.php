@@ -1,5 +1,7 @@
 <?php
 // Check that correct entry point was used
+use PHPMailer\PHPMailer\PHPMailer;
+
 if (!defined('INDEX')) {
 	exit();
 }
