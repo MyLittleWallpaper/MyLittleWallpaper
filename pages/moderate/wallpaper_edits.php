@@ -1,10 +1,6 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-global $user;
+// phpcs:disable
 
 // @todo Rewrite
 /*$time_start = microtime(true);

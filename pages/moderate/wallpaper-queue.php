@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 global $user, $category_repository;
 
 use MyLittleWallpaper\classes\Format;
@@ -7,7 +9,7 @@ use MyLittleWallpaper\classes\GetCommonColours;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
 
-define('ACTIVE_PAGE', 'wallpaper-queue');
+const ACTIVE_PAGE = 'wallpaper-queue';
 
 $wallpaperQueuePage = new BasicPage();
 $wallpaperQueuePage->setPageTitleAddition('Submitted wallpapers');
@@ -205,7 +207,8 @@ $javaScript   = '';
 if ($user->getIsAdmin()) {
     $javaScript .= '$(document).ready(function(){' . "\n";
     if ($notFound) {
-        $javaScript .= '	$("#error_dialog span.dialogtext").html("Wallpaper not found. Maybe someone else accepted or rejected it already.");' .
+        $javaScript .= '	$("#error_dialog span.dialogtext")' .
+            '.html("Wallpaper not found. Maybe someone else accepted or rejected it already.");' .
             "\n";
     }
     $javaScript .= '	$("#error_dialog").dialog({
@@ -226,7 +229,9 @@ if ($user->getIsAdmin()) {
 		});
 	});';
 
-    $pageContents  .= '<div id="error_dialog" title="Error" style="display:none;"><p style="font-size:12px;"><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><span class="dialogtext"></span></p></div>';
+    $pageContents  .= '<div id="error_dialog" title="Error" style="display:none;">' .
+        '<p style="font-size:12px;"><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;">' .
+        '</span><span class="dialogtext"></span></p></div>';
     $sql           = "SELECT * FROM wallpaper_submit WHERE discarded = ? ORDER BY id LIMIT 1";
     $data          = [0];
     $res           = $db->query($sql, $data);
@@ -351,7 +356,8 @@ if ($user->getIsAdmin()) {
 				if (item.desc != "") {
 					return $("<li>")
 						.data("item.autocomplete", item)
-						.append("<a style=\"line-height:1.1;\">" + item.label + "<br><span class=\"autocomplete_extra\">" + item.desc + "</span></a>")
+						.append("<a style=\"line-height:1.1;\">" + item.label + "<br>"+
+						  "<span class=\"autocomplete_extra\">" + item.desc + "</span></a>")
 						.appendTo(ul);
 				} else {
 					return $("<li>")
@@ -391,7 +397,8 @@ if ($user->getIsAdmin()) {
 				if (item.desc != "") {
 					return $("<li>")
 						.data("item.autocomplete", item)
-						.append("<a style=\"line-height:1.1;\">" + item.label + "<br><span class=\"autocomplete_extra\">" + item.desc + "</span></a>")
+						.append("<a style=\"line-height:1.1;\">" + item.label + "<br>" +
+						  "<span class=\"autocomplete_extra\">" + item.desc + "</span></a>")
 						.appendTo(ul);
 				} else {
 					return $("<li>")
@@ -438,11 +445,14 @@ if ($user->getIsAdmin()) {
 						text: "Ok",
 						click: function() {
 							$.ajax({
-								url: "' . PUB_PATH . 'ajax/denysubmission?id=' . urlencode($wallpaperData['id']) . '&reason=" + encodeURIComponent($("#denyreason option:selected").val()),
+								url: "' . PUB_PATH . 'ajax/denysubmission?id=' . urlencode($wallpaperData['id']) .
+                                  '&reason=" + encodeURIComponent($("#denyreason option:selected").val()),
 								success: function(data) {
 									if (data.result != "OK") {
 										if (data.result == "Not found") {
-											$("#error_dialog span.dialogtext").html("Wallpaper not found. Maybe someone else accepted or rejected it already.");
+											$("#error_dialog span.dialogtext")
+											  .html("Wallpaper not found. " +
+											    "Maybe someone else accepted or rejected it already.");
 										} else {
 											$("#error_dialog span.dialogtext").html("Permission denied.");
 										}
@@ -464,7 +474,8 @@ if ($user->getIsAdmin()) {
 				]
 			});
 		});';
-        $pageContents .= '<div id="deny_dialog" title="Deny submission" style="display:none;"><p>Deny reason:<br /><br /><select id="denyreason">';
+        $pageContents .= '<div id="deny_dialog" title="Deny submission" style="display:none;">' .
+            '<p>Deny reason:<br /><br /><select id="denyreason">';
         $pageContents .= '<option value="quality">Wallpaper isn\'t good enough</option>';
         $pageContents .= '<option value="duplicate"' . (!empty($foundWallpapers) ? ' selected="selected"' : '') .
             '>Wallpaper already in database</option>';
@@ -479,30 +490,52 @@ if ($user->getIsAdmin()) {
         $pageContents .= '<form class="labelForm" style="padding:25px 0 0 0;" method="post" action="' . PUB_PATH_CAT .
             'moderate/wallpaper-queue" enctype="multipart/form-data" accept-charset="utf-8">';
         $pageContents .= '<input type="hidden" name="id" value="' . Format::htmlEntities($wallpaperData['id']) . '" />';
-        $pageContents .= '<div><label>Title:</label><input type="text" autocomplete="off" name="name" style="width:300px;" value="' .
-            (!empty($_POST['name']) ? Format::htmlEntities($_POST['name']) : Format::htmlEntities(
+        $pageContents .= sprintf(
+            '<div><label>%s</label><input type="text" autocomplete="off" name="name" style="%s" value="%s"/></div>',
+            'Title:',
+            'width:300px;',
+            !empty($_POST['name']) ? Format::htmlEntities($_POST['name']) : Format::htmlEntities(
                 $wallpaperData['name']
-            )) . '"/></div>';
-        $pageContents .= '<div><label>Author(s):</label><input type="text" autocomplete="off" name="author" id="author" style="width:300px;" value="' .
-            (!empty($_POST['author']) ? Format::htmlEntities($_POST['author']) : Format::htmlEntities(
+            )
+        );
+        $pageContents .= '<div><label>Author(s):</label>';
+        $pageContents .= sprintf(
+            '<input type="text" autocomplete="off" name="author" id="author" style="%s" value="%s, " /></div>',
+            'width:300px;',
+            !empty($_POST['author']) ? Format::htmlEntities($_POST['author']) : Format::htmlEntities(
                 implode(', ', $author_array)
-            )) . ', " /></div>';
+            )
+        );
         $pageContents .= '<div><label>Unknown author(s):</label>' .
             Format::htmlEntities(implode(', ', $new_author_array)) . '</div>';
-        $pageContents .= '<div><label>Tags:</label><input type="text" autocomplete="off" name="tags" id="tags" style="width:300px;" value="' .
-            (!empty($_POST['tags']) ? Format::htmlEntities($_POST['tags']) : Format::htmlEntities(
+        $pageContents .= '<div><label>Tags:</label>';
+        $pageContents .= sprintf(
+            '<input type="text" autocomplete="off" name="tags" id="tags" style="width:300px;" value="%s, " /></div>',
+            !empty($_POST['tags']) ? Format::htmlEntities($_POST['tags']) : Format::htmlEntities(
                 implode(', ', $tag_array)
-            )) . ', " /></div>';
+            )
+        );
         $pageContents .= '<div><label>Unknown tags:</label>' . Format::htmlEntities(implode(', ', $new_tag_array)) .
             '</div>';
-        $pageContents .= '<div><label>Platform:</label><input type="text" autocomplete="off" name="platform" id="platform" style="width:300px;" value="' .
-            (!empty($_POST['platform']) ? Format::htmlEntities($_POST['platform']) : 'Desktop, ') . '" /></div>';
-        $pageContents .= '<div><label>Don\'t show resolution</label><input type="checkbox" value="1" name="no_resolution" ' .
-            (!empty($_POST['no_resolution']) ? 'checked="checked" ' : '') . '/></div>';
-        $pageContents .= '<div><label>Source URL:</label><input type="text" autocomplete="off" name="url" style="width:300px;" value="' .
-            (!empty($_POST['url']) ? Format::htmlEntities($_POST['url']) : Format::htmlEntities(
+        $pageContents .= '<div><label>Platform:</label>';
+        $pageContents .= sprintf(
+            '<input type="text" autocomplete="off" name="platform" id="platform" style="%s" value="%s" /></div>',
+            'width:300px;',
+            !empty($_POST['platform']) ? Format::htmlEntities($_POST['platform']) : 'Desktop, '
+        );
+        $pageContents .= '<div><label>Don\'t show resolution</label>';
+        $pageContents .= sprintf(
+            '<input type="checkbox" value="1" name="no_resolution" %s/></div>',
+            !empty($_POST['no_resolution']) ? 'checked="checked" ' : ''
+        );
+        $pageContents .= '<div><label>Source URL:</label>';
+        $pageContents .= sprintf(
+            '<input type="text" autocomplete="off" name="url" style="%s" value="%s" /><br /></div>',
+            'width:300px;',
+            !empty($_POST['url']) ? Format::htmlEntities($_POST['url']) : Format::htmlEntities(
                 $wallpaperData['url']
-            )) . '" /><br /></div>';
+            )
+        );
         $pageContents .= '<div><label>Resolution:</label>' . $wallpaperData['width'] . 'x' . $wallpaperData['height'] .
             '</div>';
         $pageContents .= '<div><label>Series:</label><select name="series">';
@@ -515,7 +548,9 @@ if ($user->getIsAdmin()) {
         }
         $pageContents .= '</select></div>';
         if (!empty($foundWallpapers)) {
-            $pageContents .= '<div style="width:100%;"><label style="display:block;float:left;">Found wallpapers with the same URL:</label><span style="display:inline-block;overflow:auto;max-height:150px;white-space:nowrap;width:825px;">';
+            $pageContents .= '<div style="width:100%;">' .
+                '<label style="display:block;float:left;">Found wallpapers with the same URL:</label>' .
+                '<span style="display:inline-block;overflow:auto;max-height:150px;white-space:nowrap;width:825px;">';
             foreach ($foundWallpapers as $foundWallpaper) {
                 $pageContents .= '<img style="box-shadow:0 1px 4px #aaa;margin:3px;" src="' . PUB_PATH . 'image/r2_' .
                     urlencode($foundWallpaper) . '.jpg" alt="' . Format::htmlEntities($foundWallpaper) .
@@ -523,7 +558,8 @@ if ($user->getIsAdmin()) {
             }
             $pageContents .= '</span></div>';
         }
-        $pageContents .= '<br /><input type="submit" value="Accept" name="accept" /> <input type="button" value="Deny" onclick="$(\'#deny_dialog\').dialog(\'open\');" />';
+        $pageContents .= '<br /><input type="submit" value="Accept" name="accept" /> ' .
+            '<input type="button" value="Deny" onclick="$(\'#deny_dialog\').dialog(\'open\');" />';
         $pageContents .= '</form>';
         $pageContents .= '<img style="margin-top:25px;" src="' . PUB_PATH_CAT . 'moderate/queue-image/' .
             urlencode($wallpaperData['file']) . '.jpg" alt="' . Format::htmlEntities($wallpaperData['name']) . '" />';

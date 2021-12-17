@@ -1,9 +1,6 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
+declare(strict_types=1);
 
 global $db, $image, $resize, $original;
 
@@ -40,72 +37,70 @@ if (!empty($image)) {
                     header('Content-Disposition: inline; filename="' . $file['filename'] . '"');
                 }
                 readfile(ROOT_DIR . FILE_FOLDER . $file['file']);
-            } else {
-                if (file_exists(ROOT_DIR . FILE_FOLDER . 'thumb/thumb1_' . $file['file'])) {
-                    header('Content-Type: image/jpeg');
-                    if ($resize == '2') {
-                        readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb2_' . $file['file']);
-                    } elseif ($resize == '3') {
-                        readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb3_' . $file['file']);
-                    } else {
-                        readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb1_' . $file['file']);
-                    }
+            } elseif (file_exists(ROOT_DIR . FILE_FOLDER . 'thumb/thumb1_' . $file['file'])) {
+                header('Content-Type: image/jpeg');
+                if ($resize == '2') {
+                    readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb2_' . $file['file']);
+                } elseif ($resize == '3') {
+                    readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb3_' . $file['file']);
                 } else {
-                    $res_w = 200;
-                    $res_h = 150;
+                    readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb1_' . $file['file']);
+                }
+            } else {
+                $res_w = 200;
+                $res_h = 150;
+                exec(
+                    "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
+                    "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r1.jpg"
+                );
+                if ($file['height'] > 700) {
+                    $res_w = 640;
+                    $res_h = 480;
                     exec(
                         "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
-                        "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r1.jpg"
+                        "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r2.jpg"
                     );
-                    if ($file['height'] > 700) {
-                        $res_w = 640;
-                        $res_h = 480;
-                        exec(
-                            "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
-                            "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r2.jpg"
-                        );
-                        $res_w = 457;
-                        $res_h = 342;
-                        exec(
-                            "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
-                            "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r3.jpg"
-                        );
-                    } else {
-                        $res_w = 400;
-                        $res_h = 300;
-                        exec(
-                            "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
-                            "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r2.jpg"
-                        );
-                        exec(
-                            "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
-                            "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r3.jpg"
-                        );
-                    }
+                    $res_w = 457;
+                    $res_h = 342;
+                    exec(
+                        "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
+                        "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r3.jpg"
+                    );
+                } else {
+                    $res_w = 400;
+                    $res_h = 300;
+                    exec(
+                        "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
+                        "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r2.jpg"
+                    );
+                    exec(
+                        "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
+                        "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r3.jpg"
+                    );
+                }
 
-                    rename(
-                        ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r1.jpg",
-                        ROOT_DIR . FILE_FOLDER . "thumb/thumb1_" . $file['file']
-                    );
-                    rename(
-                        ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r2.jpg",
-                        ROOT_DIR . FILE_FOLDER . "thumb/thumb2_" . $file['file']
-                    );
-                    rename(
-                        ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r3.jpg",
-                        ROOT_DIR . FILE_FOLDER . "thumb/thumb3_" . $file['file']
-                    );
+                rename(
+                    ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r1.jpg",
+                    ROOT_DIR . FILE_FOLDER . "thumb/thumb1_" . $file['file']
+                );
+                rename(
+                    ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r2.jpg",
+                    ROOT_DIR . FILE_FOLDER . "thumb/thumb2_" . $file['file']
+                );
+                rename(
+                    ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r3.jpg",
+                    ROOT_DIR . FILE_FOLDER . "thumb/thumb3_" . $file['file']
+                );
 
-                    header("Last-Modified: " . gmdate('D, d M Y H:i:s', $last_modified) . ' GMT');
-                    header('Content-Type: image/jpeg');
+                header("Last-Modified: " . gmdate('D, d M Y H:i:s', $last_modified) . ' GMT');
+                header('Content-Type: image/jpeg');
 
-                    if ($resize == '2') {
-                        readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb2_' . $file['file']);
-                    } elseif ($resize == '3') {
-                        readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb3_' . $file['file']);
-                    } else {
-                        readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb1_' . $file['file']);
-                    }
+                if ($resize == '2') {
+                    readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb2_' . $file['file']);
+                } elseif ($resize == '3') {
+                    readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb3_' . $file['file']);
+                } else {
+                    readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb1_' . $file['file']);
                 }
             }
         } else {

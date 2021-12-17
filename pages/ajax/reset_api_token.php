@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 global $response, $user;
 
 use MyLittleWallpaper\classes\output\BasicJSON;

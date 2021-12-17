@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
@@ -14,21 +16,33 @@ if (!empty($_GET['id'])) {
         $return['id']   = $row['id'];
         $return['name'] = $row['name'];
         $return['tags'] = '';
-        $sql            = "SELECT t.name FROM tag t JOIN wallpaper_tag wt ON (t.id = wt.tag_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
+        $sql            = <<<SQL
+            SELECT t.name FROM tag t JOIN wallpaper_tag wt ON (t.id = wt.tag_id)
+            WHERE wt.wallpaper_id = ? ORDER BY t.name
+        SQL;
+
         $res            = $db->query($sql, [$row['id']]);
         while ($tag = $res->fetch(PDO::FETCH_ASSOC)) {
             $return['tags'] .= $tag['name'];
             $return['tags'] .= ', ';
         }
         $return['author'] = '';
-        $sql              = "SELECT t.name FROM tag_artist t JOIN wallpaper_tag_artist wt ON (t.id = wt.tag_artist_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
+        $sql              = <<<SQL
+            SELECT t.name FROM tag_artist t JOIN wallpaper_tag_artist wt ON (t.id = wt.tag_artist_id)
+            WHERE wt.wallpaper_id = ? ORDER BY t.name
+        SQL;
+
         $res              = $db->query($sql, [$row['id']]);
         while ($tag = $res->fetch(PDO::FETCH_ASSOC)) {
             $return['author'] .= $tag['name'];
             $return['author'] .= ', ';
         }
         $return['platform'] = '';
-        $sql                = "SELECT t.name FROM tag_platform t JOIN wallpaper_tag_platform wt ON (t.id = wt.tag_platform_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
+        $sql                = <<<SQL
+            SELECT t.name FROM tag_platform t JOIN wallpaper_tag_platform wt ON (t.id = wt.tag_platform_id)
+            WHERE wt.wallpaper_id = ? ORDER BY t.name
+        SQL;
+
         $res                = $db->query($sql, [$row['id']]);
         while ($tag = $res->fetch(PDO::FETCH_ASSOC)) {
             $return['platform'] .= $tag['name'];

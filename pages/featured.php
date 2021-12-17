@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\output\WallpaperList;
 use MyLittleWallpaper\classes\Response;
 
-define('ACTIVE_PAGE', 'featured');
+const ACTIVE_PAGE = 'featured';
 
 $wallpaper_list = new WallpaperList();
 $wallpaper_list->searchAddTag('Featured');

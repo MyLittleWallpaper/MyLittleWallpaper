@@ -33,26 +33,11 @@ class Category
     private string $footerDescription;
 
     /**
-     * @var Database
+     * @param array|null $data
      */
-    private Database $db;
-
-    /**
-     * @param array|null    $data
-     * @param Database|null $db If null, looks for $GLOBALS['db']
-     */
-    public function __construct(?array $data = null, ?Database $db = null)
+    public function __construct(?array $data = null)
     {
-        if (!($db instanceof Database)) {
-            if (!isset($GLOBALS['db']) || !($GLOBALS['db'] instanceof Database)) {
-                throw new Exception('No database connection found');
-            }
-
-            $this->db = $GLOBALS['db'];
-        } else {
-            $this->db = $db;
-        }
-        if (!empty($data) && is_array($data)) {
+        if ($data !== null) {
             $this->bindData($data);
         }
     }
@@ -82,7 +67,7 @@ class Category
      */
     public function setName(string $val): void
     {
-        $this->name = (string)$val;
+        $this->name = $val;
     }
 
     /**
@@ -100,7 +85,7 @@ class Category
      */
     public function setUrlName(string $val): void
     {
-        $this->urlName = (string)$val;
+        $this->urlName = $val;
     }
 
     /**
@@ -118,7 +103,7 @@ class Category
      */
     public function setFooterDescription(string $val): void
     {
-        $this->footerDescription = (string)$val;
+        $this->footerDescription = $val;
     }
 
     /**

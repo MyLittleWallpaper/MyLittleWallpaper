@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\GetCommonColours;
 use MyLittleWallpaper\classes\output\BasicPage;
@@ -7,7 +9,7 @@ use MyLittleWallpaper\classes\Response;
 
 global $user, $db;
 
-define('ACTIVE_PAGE', 'upload');
+const ACTIVE_PAGE = 'upload';
 
 $ban = $db->getRecord('ban', ['field' => 'ip', 'value' => USER_IP]);
 if (!empty($ban['ip']) && $ban['ip'] == USER_IP) {
@@ -91,9 +93,6 @@ if (CATEGORY == 'all') {
                             exec('wget -O ' . escapeshellarg($target) . ' ' . escapeshellarg($imageurl));
                         }
                         if (file_exists($target)) {
-                            /*$virus_scan = exec('clamdscan --remove ' . escapeshellarg($target) . ' | grep Infected');
-                            $parts = explode(':', $virus_scan);
-                            $infected = trim($parts[1]);*/
                             $infected = '0';
                             if ($infected != '0') {
                                 @unlink($target);
@@ -114,10 +113,6 @@ if (CATEGORY == 'all') {
                             $target = ROOT_DIR . FILE_FOLDER . 'moderate/' . $fileid;
                         }
                         if (move_uploaded_file($_FILES['Filedata']['tmp_name'], $target)) {
-                            // I would recommend clamav just in case
-                            /*$virus_scan = exec('clamdscan --remove ' . escapeshellarg($target) . ' | grep Infected');
-                            $parts = explode(':', $virus_scan);
-                            $infected = trim($parts[1]);*/
                             $infected = '0';
                             if ($infected != '0') {
                                 @unlink($target);
@@ -174,9 +169,7 @@ if (CATEGORY == 'all') {
                         [$source_X, $source_Y, $imgtype] = $imgdata;
                         switch ($imgtype) {
                             case 1:
-                                break;
                             case 2:
-                                break;
                             case 3:
                                 break;
                             default:
@@ -383,7 +376,7 @@ if (CATEGORY == 'all') {
                                 'mobile_type' => $mobiletype,
                                 'series'      => CATEGORY_ID,
                             ];
-                            $imageid             = $db->saveArray('wallpaper_submit', $data);
+                            $db->saveArray('wallpaper_submit', $data);
                             $_SESSION['success'] = true;
                             $redirect            = true;
                         }
@@ -431,7 +424,8 @@ if (CATEGORY == 'all') {
 			if (item.desc != "") {
 				return $("<li>")
 					.data("item.autocomplete", item)
-					.append("<a style=\"line-height:1.1;\">" + item.label + "<br><span class=\"autocomplete_extra\">" + item.desc + "</span></a>")
+					.append("<a style=\"line-height:1.1;\">" + item.label + "<br>" +
+					  "<span class=\"autocomplete_extra\">" + item.desc + "</span></a>")
 					.appendTo(ul);
 			} else {
 				return $("<li>")
@@ -471,7 +465,8 @@ if (CATEGORY == 'all') {
 			if (item.desc != "") {
 				return $("<li>")
 					.data("item.autocomplete", item)
-					.append("<a style=\"line-height:1.1;\">" + item.label + "<br><span class=\"autocomplete_extra\">" + item.desc + "</span></a>")
+					.append("<a style=\"line-height:1.1;\">" + item.label + "<br>" +
+					  "<span class=\"autocomplete_extra\">" + item.desc + "</span></a>")
 					.appendTo(ul);
 			} else {
 				return $("<li>")

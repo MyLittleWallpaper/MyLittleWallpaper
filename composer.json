@@ -3,6 +3,7 @@
         "php": "^7.4 || ~8.0.0 || 8.1.0",
         "ext-curl": "*",
         "ext-gd": "*",
+        "ext-mbstring": "*",
         "ext-memcache": "*",
         "ext-json": "*",
         "ext-pdo": "*",

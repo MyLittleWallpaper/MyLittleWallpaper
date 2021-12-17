@@ -22,7 +22,7 @@ class CategoryRepository
     /**
      * @param Database|null $db If null, looks for $GLOBALS['db']
      */
-    public function __construct(Database $db = null)
+    public function __construct(?Database $db = null)
     {
         if (!($db instanceof Database)) {
             if (!isset($GLOBALS['db']) || !($GLOBALS['db'] instanceof Database)) {
@@ -43,7 +43,7 @@ class CategoryRepository
         $sql    = "SELECT * FROM category ORDER BY name";
         $res    = $this->db->query($sql);
         while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-            $return[(int)$row['id']] = new Category($row, $this->db);
+            $return[(int)$row['id']] = new Category($row);
         }
         return $return;
     }
@@ -89,7 +89,7 @@ class CategoryRepository
         }
 
         if ($category !== null) {
-            return new Category($category, $this->db);
+            return new Category($category);
         }
         return null;
     }

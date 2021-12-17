@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Password;
@@ -7,7 +9,7 @@ use MyLittleWallpaper\classes\Response;
 
 global $db, $user;
 
-define('ACTIVE_PAGE', 'account');
+const ACTIVE_PAGE = 'account';
 
 $redirect = false;
 $error    = false;
@@ -31,7 +33,7 @@ if ($user->getIsAnonymous()) {
                 $error = 'Incorrect email.';
             }
         }
-        if ($_POST['password'] != '') {
+        if ($_POST['password'] !== '') {
             if (mb_strlen($_POST['password'], 'utf-8') < 6) {
                 if ($error) {
                     $error .= '<br />Password is too short.';
@@ -47,13 +49,13 @@ if ($user->getIsAnonymous()) {
             }
         }
         if (!$error) {
-            $email_exists = $db->getRecord('user', ['field' => 'email', 'value' => $_POST['email']]);
-            if (!empty($email_exists) && $email_exists['id'] != $user->getId()) {
+            $emailExists = $db->getRecord('user', ['field' => 'email', 'value' => $_POST['email']]);
+            if (!empty($emailExists) && $emailExists['id'] !== $user->getId()) {
                 $error = 'Given email is already in use.';
             }
             if (!$error) {
                 $saveData = ['email' => $_POST['email']];
-                if ($_POST['password'] != '') {
+                if ($_POST['password'] !== '') {
                     $saveData['password'] = Password::hashPassword($_POST['password']);
                 }
                 $db->saveArray('user', $saveData, $user->getId());
@@ -96,16 +98,30 @@ if ($user->getIsAnonymous()) {
         $pageContents .= '<div class="success">Account information updated successfully.</div>';
     }
     $pageContents .= '<p>Some API calls require a user token, the one below is your personal user token.</p>';
-    $pageContents .= '<div><label>API token:</label><input type="text" id="APITokenInput" readonly="readonly" style="width:300px;background:#f4f4f4;cursor:text;" value="' .
-        $user->getToken() . '" />';
+    $pageContents .= sprintf(
+        '<div><label>API token:</label><input type="text" id="%s" readonly="readonly" style="%s" value="%s" />',
+        'APITokenInput',
+        'width:300px;background:#f4f4f4;cursor:text;',
+        $user->getToken()
+    );
     $pageContents .= ' <input type="button" value="Reset token" onclick="resetAPIToken();" /></div>';
     $pageContents .= '<p>Old password is required for changing your account information.</p>';
-    $pageContents .= '<div><label>Email:</label><input type="text" autocomplete="off" name="email" style="width:300px;" value="' .
-        (!empty($_POST['email']) ? Format::htmlEntities($_POST['email']) : Format::htmlEntities($user->getEmail())) .
-        '" /></div>';
-    $pageContents .= '<div><label>Old password:<br /></label><input type="password" name="old_password" style="width:300px;" /></div>';
-    $pageContents .= '<div><label style="float:left;padding-top:2px;">Password:<br /><span style="font-size:11px;">At least 6 characters.<br /><br />Leave empty if you<br />don\'t wish to change<br />your password.</span></label><input type="password" name="password" style="width:300px;" /><div style="clear:both;"></div></div>';
-    $pageContents .= '<div><label>Confirm Password:</label><input type="password" name="password_confirm" style="width:300px;" /></div>';
+    $pageContents .= sprintf(
+        '<div><label>Email:</label><input type="text" autocomplete="off" name="email" style="%s" value="%s" /></div>',
+        'width:300px;"',
+        !empty($_POST['email']) ? Format::htmlEntities($_POST['email']) : Format::htmlEntities($user->getEmail())
+    );
+    $pageContents .= sprintf(
+        '<div><label>Old password:<br /></label><input type="password" name="old_password" style="%s" /></div>',
+        'width:300px;'
+    );
+    $pageContents .= '<div><label style="float:left;padding-top:2px;">Password:<br /><span style="font-size:11px;">' .
+        'At least 6 characters.<br /><br />Leave empty if you<br />don\'t wish to change<br />your password.</span>' .
+        '</label><input type="password" name="password" style="width:300px;" /><div style="clear:both;"></div></div>';
+    $pageContents .= sprintf(
+        '<div><label>Confirm Password:</label><input type="password" name="password_confirm" style="%s" /></div>',
+        'width:300px;'
+    );
 
     $pageContents .= '<input type="submit" value="Change" />';
     $pageContents .= '</form>';

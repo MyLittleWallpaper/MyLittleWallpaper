@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
@@ -7,12 +9,12 @@ use MyLittleWallpaper\classes\User\UserRepository;
 
 global $session, $user, $db;
 
-define('ACTIVE_PAGE', 'login');
+const ACTIVE_PAGE = 'login';
 $loginPage = new BasicPage();
 $loginPage->setPageTitleAddition('Login');
 
 $ban = $db->getRecord('ban', ['field' => 'ip', 'value' => USER_IP]);
-if (!empty($ban['ip']) && $ban['ip'] == USER_IP) {
+if (!empty($ban['ip']) && $ban['ip'] === USER_IP) {
     $banned = true;
 } else {
     $banned = false;
@@ -30,27 +32,23 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 if (!$user->getIsAnonymous()) {
     header('Location: ' . PUB_PATH_CAT);
 } else {
-    $login_failed = false;
+    $loginFailed = false;
     if (isset($_POST['username']) && !$banned) {
         if ($ipCount > 4) {
             // @todo Prevent login
         }
-        if (!$login_failed) {
+        if (!$loginFailed) {
             $userRepository = new UserRepository();
             $loginUser      = $userRepository->getUserByUsernameAndPassword($_POST['username'], $_POST['password']);
-            if ($loginUser !== null) {
-                if (!$loginUser->getIsBanned()) {
-                    $session->logUserIn($loginUser->getId());
-                    header('Location: ' . PUB_PATH_CAT);
-                } else {
-                    $login_failed = true;
-                }
+            if ($loginUser !== null && !$loginUser->getIsBanned()) {
+                $session->logUserIn($loginUser->getId());
+                header('Location: ' . PUB_PATH_CAT);
             } else {
-                $login_failed = true;
+                $loginFailed = true;
             }
         }
 
-        if ($login_failed) {
+        if ($loginFailed) {
             $db->saveArray(
                 'login_attempt',
                 ['id' => uid(), 'username' => $_POST['username'], 'ip' => USER_IP, 'time' => time()]
@@ -71,16 +69,18 @@ if (!$user->getIsAnonymous()) {
             'forgotpass">here</a>.</p>';
         $pageContents .= '<form class="labelForm" style="padding:5px 0 0 0;" action="' . PUB_PATH_CAT .
             'login" method="post" accept-charset="utf-8">';
-        if ($login_failed) {
+        if ($loginFailed) {
             if ($ipCount > 4 && $captchaError) {
                 $pageContents .= '<div class="error">Incorrect CAPTCHA.</div>';
             } else {
                 $pageContents .= '<div class="error">Incorrect username or password.</div>';
             }
         }
-        $pageContents .= '<div><label>Username:</label><input type="text" autocomplete="off" name="username" style="width:300px;" value="' .
+        $pageContents .= '<div><label>Username:</label>' .
+            '<input type="text" autocomplete="off" name="username" style="width:300px;" value="' .
             (!empty($_POST['username']) ? Format::htmlEntities($_POST['username']) : '') . '" /></div>';
-        $pageContents .= '<div><label>Password:</label><input type="password" name="password" style="width:300px;" /></div>';
+        $pageContents .= '<div><label>Password:</label>' .
+            '<input type="password" name="password" style="width:300px;" /></div>';
 
         $pageContents .= '<input type="submit" value="Log in" />';
         $pageContents .= '</form>';

@@ -1,9 +1,7 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
+declare(strict_types=1);
+
 global $db, $user, $image;
 $imageFound = false;
 
@@ -15,7 +13,7 @@ if (!empty($image)) {
             $res_h   = 540;
             $imgdata = @getimagesize(ROOT_DIR . FILE_FOLDER . 'moderate/' . $file['file']);
             if ($imgdata) {
-                [$source_X, $source_Y, $imgtype] = $imgdata;
+                [, , $imgtype] = $imgdata;
                 switch ($imgtype) {
                     case IMAGETYPE_GIF:
                         $image = imagecreatefromgif(ROOT_DIR . FILE_FOLDER . 'moderate/' . $file['file']);

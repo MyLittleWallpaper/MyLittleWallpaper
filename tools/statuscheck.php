@@ -1,6 +1,10 @@
 #!/usr/bin/php
 <?php
 
+declare(strict_types=1);
+
+// phpcs:disable
+
 use MyLittleWallpaper\classes\Database;
 
 if (PHP_SAPI == 'cli') {
@@ -37,7 +41,8 @@ if (PHP_SAPI == 'cli') {
         }
         if (isset($retVal['Location'])) {
             if (
-                substr($retVal['Location'], 0, 7) === 'http://' || substr($retVal['Location'], 0, 8) === 'https://' ||
+                substr($retVal['Location'], 0, 7) === 'http://' ||
+                substr($retVal['Location'], 0, 8) === 'https://' ||
                 substr($retVal['Location'], 0, 6) === 'ftp://'
             ) {
                 $tries = 0;
@@ -54,14 +59,12 @@ if (PHP_SAPI == 'cli') {
                         if ($tries > 3) {
                             $done = true;
                         }
+                    } elseif ($http_status == '301') {
+                        return parseredirect($result, $retVal['Location']);
+                    } elseif ($http_status == '404') {
+                        return false;
                     } else {
-                        if ($http_status == '301') {
-                            return parseredirect($result, $retVal['Location']);
-                        } elseif ($http_status == '404') {
-                            return false;
-                        } else {
-                            return $retVal['Location'];
-                        }
+                        return $retVal['Location'];
                     }
                 }
             } else {

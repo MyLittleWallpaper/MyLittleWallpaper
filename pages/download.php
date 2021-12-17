@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
@@ -45,7 +47,8 @@ if (!empty($page)) {
 					favButtons.click(function(e) {
 						var wallpaperId = $(this).data("wallpaperid");
 						$.ajax({
-							url: "' . PUB_PATH_CAT . 'ajax/wallpaper-fav?wallpaperId=" + encodeURIComponent(wallpaperId),
+							url: "' . PUB_PATH_CAT . 'ajax/wallpaper-fav?wallpaperId=" +
+							  encodeURIComponent(wallpaperId),
 							success: function (data) {
 								$("#fav_count_" + wallpaperId).text(data.favCountNumber);
 								$("#fav_a_" + wallpaperId).text(data.favButtonText);
@@ -94,12 +97,21 @@ if (!empty($page)) {
                 }
                 if (!$user->getIsAnonymous()) {
                     $isFav = $wallpaper->getIsFavourite($user->getId());
-                    $html  .= '					<a style="margin-left:2px;" class="button favourite fav_active" data-wallpaperid="' .
-                        $wallpaper->getId() . '" id="fav_a_' . $wallpaper->getId() . '" href="#fav">' .
-                        ($isFav ? 'Remove from favs' : 'Add to favourites') . '</a>' . "\n";
+                    $html  .= sprintf(
+                        '%s<a style="%s" class="%s" data-wallpaperid="%s" id="fav_a_%s" href="#fav">%s</a>' . "\n",
+                        'margin-left:2px;',
+                        '					',
+                        'button favourite fav_active',
+                        $wallpaper->getId(),
+                        $wallpaper->getId(),
+                        $isFav ? 'Remove from favs' : 'Add to favourites'
+                    );
                 } else {
-                    $html .= '					<a style="margin-left:2px;" class="button favourite fav_disabled" href="#fav">Login to favourite</a>' .
-                        "\n";
+                    $html .= sprintf(
+                        '%s<a style="margin-left:2px;" class="%s" href="#fav">Login to favourite</a>' . "\n",
+                        '					',
+                        'button favourite fav_disabled'
+                    );
                 }
 
                 $html .= '				</div>' . "\n";

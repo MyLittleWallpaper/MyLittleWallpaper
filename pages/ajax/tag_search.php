@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
@@ -18,18 +20,32 @@ $assigned = [
     $srch2,
 ];
 
-$sql = "(SELECT name, '' previous, alternate FROM tag WHERE name LIKE ? OR alternate LIKE ?)
+$sql = <<<SQL
+(SELECT name, '' previous, alternate FROM tag WHERE name LIKE ? OR alternate LIKE ?)
 UNION ALL
-(SELECT CONCAT('author:', name) name, oldname previous, '' alternate FROM tag_artist WHERE (CONCAT('author:', name) LIKE ? OR CONCAT('author:', oldname) LIKE ?) AND deleted = 0)
+(
+    SELECT CONCAT('author:', name) name, oldname previous, '' alternate FROM tag_artist
+    WHERE (CONCAT('author:', name) LIKE ? OR CONCAT('author:', oldname) LIKE ?) AND deleted = 0
+)
 UNION ALL
-(SELECT CONCAT('aspect:', name) name, '' previous, '' alternate FROM tag_aspect WHERE CONCAT('aspect:', name) LIKE ?)
+(
+    SELECT CONCAT('aspect:', name) name, '' previous, '' alternate FROM tag_aspect
+    WHERE CONCAT('aspect:', name) LIKE ?
+)
 UNION ALL
-(SELECT CONCAT('platform:', name) name, '' previous, '' alternate FROM tag_platform WHERE CONCAT('platform:', name) LIKE ?)
+(
+    SELECT CONCAT('platform:', name) name, '' previous, '' alternate FROM tag_platform
+    WHERE CONCAT('platform:', name) LIKE ?
+)
 UNION ALL
-(SELECT CONCAT('=', name) name, '' previous, alternate FROM tag WHERE (CONCAT('=', name) LIKE ? OR CONCAT('=', alternate) LIKE ?) AND type = 'character')
-
+(
+    SELECT CONCAT('=', name) name, '' previous, alternate FROM tag
+    WHERE (CONCAT('=', name) LIKE ? OR CONCAT('=', alternate) LIKE ?) AND type = 'character'
+)
 ORDER BY name
-LIMIT 50";
+LIMIT 50
+
+SQL;
 
 $result = $db->query($sql, $assigned);
 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {

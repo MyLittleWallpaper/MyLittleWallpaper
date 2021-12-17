@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\output\WallpaperList;
 use MyLittleWallpaper\classes\Response;
 
-define('ACTIVE_PAGE', 'random');
+const ACTIVE_PAGE = 'random';
 
 $wallpaper_list = new WallpaperList();
 $wallpaper_list->setWallpapersPerPage(15);

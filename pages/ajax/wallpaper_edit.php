@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
@@ -68,21 +70,33 @@ if ($banned) {
                 }
 
                 $tags = [];
-                $sql  = "SELECT t.name FROM tag t JOIN wallpaper_tag wt ON (t.id = wt.tag_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
+                $sql  = <<<SQL
+                    SELECT t.name FROM tag t JOIN wallpaper_tag wt ON (t.id = wt.tag_id)
+                    WHERE wt.wallpaper_id = ? ORDER BY t.name
+                SQL;
+
                 $res  = $db->query($sql, [$row['id']]);
                 while ($tag = $res->fetch(PDO::FETCH_ASSOC)) {
                     $tags[] = mb_strtolower($tag['name'], 'utf-8');
                 }
 
                 $authors = [];
-                $sql     = "SELECT t.name FROM tag_artist t JOIN wallpaper_tag_artist wt ON (t.id = wt.tag_artist_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
+                $sql     = <<<SQL
+                    SELECT t.name FROM tag_artist t JOIN wallpaper_tag_artist wt ON (t.id = wt.tag_artist_id)
+                    WHERE wt.wallpaper_id = ? ORDER BY t.name
+                SQL;
+
                 $res     = $db->query($sql, [$row['id']]);
                 while ($tag = $res->fetch(PDO::FETCH_ASSOC)) {
                     $authors[] = mb_strtolower($tag['name'], 'utf-8');
                 }
 
                 $platforms = [];
-                $sql       = "SELECT t.name FROM tag_platform t JOIN wallpaper_tag_platform wt ON (t.id = wt.tag_platform_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
+                $sql       = <<<SQL
+                    SELECT t.name FROM tag_platform t JOIN wallpaper_tag_platform wt ON (t.id = wt.tag_platform_id)
+                    WHERE wt.wallpaper_id = ? ORDER BY t.name
+                SQL;
+
                 $res       = $db->query($sql, [$row['id']]);
                 while ($tag = $res->fetch(PDO::FETCH_ASSOC)) {
                     $platforms[] = mb_strtolower($tag['name'], 'utf-8');
@@ -161,21 +175,34 @@ if ($banned) {
                         $olddata         = [];
                         $olddata['name'] = $row['name'];
                         $olddata['tags'] = '';
-                        $sql             = "SELECT t.name FROM tag t JOIN wallpaper_tag wt ON (t.id = wt.tag_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
+                        $sql             = <<<SQL
+                            SELECT t.name FROM tag t JOIN wallpaper_tag wt ON (t.id = wt.tag_id)
+                            WHERE wt.wallpaper_id = ? ORDER BY t.name
+                        SQL;
+
                         $res             = $db->query($sql, [$row['id']]);
                         while ($tag = $res->fetch(PDO::FETCH_ASSOC)) {
                             $olddata['tags'] .= $tag['name'];
                             $olddata['tags'] .= ', ';
                         }
                         $olddata['author'] = '';
-                        $sql               = "SELECT t.name FROM tag_artist t JOIN wallpaper_tag_artist wt ON (t.id = wt.tag_artist_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
+                        $sql               = <<<SQL
+                            SELECT t.name FROM tag_artist t JOIN wallpaper_tag_artist wt ON (t.id = wt.tag_artist_id)
+                            WHERE wt.wallpaper_id = ? ORDER BY t.name
+                        SQL;
+
                         $res               = $db->query($sql, [$row['id']]);
                         while ($tag = $res->fetch(PDO::FETCH_ASSOC)) {
                             $olddata['author'] .= $tag['name'];
                             $olddata['author'] .= ', ';
                         }
                         $olddata['platform'] = '';
-                        $sql                 = "SELECT t.name FROM tag_platform t JOIN wallpaper_tag_platform wt ON (t.id = wt.tag_platform_id) WHERE wt.wallpaper_id = ? ORDER BY t.name";
+                        $sql                 = <<<SQL
+                            SELECT t.name FROM tag_platform t
+                                JOIN wallpaper_tag_platform wt ON (t.id = wt.tag_platform_id)
+                            WHERE wt.wallpaper_id = ? ORDER BY t.name
+                        SQL;
+
                         $res                 = $db->query($sql, [$row['id']]);
                         while ($tag = $res->fetch(PDO::FETCH_ASSOC)) {
                             $olddata['platform'] .= $tag['name'];
@@ -274,7 +301,7 @@ if ($banned) {
                             if (str_replace(' ', '', $tag) != '') {
                                 $res = $db->query("SELECT id, name FROM tag_platform WHERE name = ?", [$tag]);
                                 while ($rivi = $res->fetch(PDO::FETCH_ASSOC)) {
-                                    if ($rivi['name'] == 'Mobile') {
+                                    if ($rivi['name'] === 'Mobile') {
                                         $db->saveArray('wallpaper', ['no_aspect' => 1], $imageid);
                                         $noaspect = true;
                                     }

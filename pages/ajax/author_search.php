@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
 $return = [];
 
-$sql          = "SELECT name, oldname FROM tag_artist WHERE (name LIKE ? OR oldname LIKE ?) AND deleted = 0 ORDER BY name LIMIT 50";
+$sql          = <<<SQL
+    SELECT name, oldname FROM tag_artist WHERE (name LIKE ? OR oldname LIKE ?) AND deleted = 0 ORDER BY name LIMIT 50
+SQL;
+
 $searchString = (!empty($_GET['term']) ? "%" . $_GET['term'] . "%" : '');
 $result       = $db->query($sql, [$searchString, $searchString]);
 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
