@@ -1,4 +1,4 @@
-name: "PHP_Codesniffer"
+name: "Checks"
 
 on: [push, pull_request]
 
@@ -15,7 +15,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Composer install
+        run: composer install
+
+      - name: Run PHP linter
+        run: ./vendor/bin/phplint
+
       - name: Run PHP_CodeSniffer
-        run: |
-          composer install
-          ./vendor/bin/phpcs ./
+        run: ./vendor/bin/phpcs ./
