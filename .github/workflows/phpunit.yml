@@ -1,0 +1,23 @@
+name: PHPUnit
+
+on: [push, pull_request]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest']
+        php-versions: ['7.4', '8.0', '8.1']
+    name: PHP ${{ matrix.php-versions }} PHPUnit
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Composer install
+        run: composer install
+
+      - name: Run tests
+        run: ./vendor/bin/phpunit tests/
