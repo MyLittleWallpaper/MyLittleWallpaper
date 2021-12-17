@@ -4,11 +4,21 @@
 /.project
 /.buildpath
 
-# Ignore unneeded PhpStorm project files
-/.idea/copyright
-/.idea/dictionaries
-/.idea/workspace.xml
-/.idea/dataSources.*
+# Exclude specific PhpStorm project files
+/.idea/*
+!/.idea/codeStyles
+!/.idea/dictionaries
+!/.idea/fileTemplates
+!/.idea/inspectionProfiles
+!/.idea/libraries
+!/.idea/scopes
+!/.idea/webResources.xml
+
+# PHP lint cache file
+/.phplint-cache
+
+# PHPUnit cache file
+/.phpunit.result.cache
 
 # No including of composer packages
 /vendor
