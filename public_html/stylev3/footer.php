@@ -1,13 +1,5 @@
 <?php
-/**
- * Footer template.
- * @author Petri Haikonen <sharkmachine@ecxol.net>
- * @package MyLittleWallpaper
- * @subpackage DefaultTemplate
- */
 
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
 global $user, $db, $time_start, $response;
 
 $data = Array(strtotime('-5 minutes'));

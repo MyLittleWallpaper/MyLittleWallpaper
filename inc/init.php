@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 global $category, $redirectOk, $startSession, $pageType, $page;
 
 use MyLittleWallpaper\classes\Category\Category;
@@ -7,11 +9,10 @@ use MyLittleWallpaper\classes\Category\CategoryRepository;
 use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\Session;
 
-$time_start = microtime(true);
-define('THEME', 'stylev3');
+const THEME = 'stylev3';
 
 // Server protocol
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ||
+$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
     $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 define('PROTOCOL', $protocol);
 
@@ -21,7 +22,7 @@ define('SITE_DOMAIN', $_SERVER['SERVER_NAME']);
 // We want all possible errors, but not to show them
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', '0');
-ini_set('log_errors', true);
+ini_set('log_errors', '1');
 
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
@@ -97,7 +98,7 @@ define('CATEGORY_NAME', $category_name);
 define('CATEGORY_ID', $category_id);
 
 setcookie('category_id', CATEGORY_ID, time() + (3600 * 24 * 60), '/');
-define('PUB_PATH_CAT', PUB_PATH . (CATEGORY != '' ? 'c/' . CATEGORY . '/' : ''));
+const PUB_PATH_CAT = PUB_PATH . (CATEGORY != '' ? 'c/' . CATEGORY . '/' : '');
 
 $visits = $db->getRecord('visits', ['field' => 'id', 'value' => 1]);
 

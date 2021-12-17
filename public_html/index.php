@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+$time_start = microtime(true);
+
 use MyLittleWallpaper\classes\Format;
 
 const DOC_DIR  = __DIR__ . '/';
@@ -200,7 +202,6 @@ if (strcmp($pageType, 'images') === 0) {
     } elseif (strcmp($pageType, 'feed') === 0) {
         require_once(ROOT_DIR . 'pages/feed/' . $page . '.php');
     } elseif (strcmp($pageType, 'api') === 0) {
-        $output_data = [];
         $output_data = require_once(ROOT_DIR . 'pages/api/' . $apiVersion . '/calls/' . $page . '.inc.php');
         if (isset($_GET['debug'])) {
             $time_end                     = microtime(true);

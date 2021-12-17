@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @param string $user_agent
  *
  * @return int returns 1 if the user agent is a bot
  * @todo Return boolean instead of integer
  */
-function is_bot(string $user_agent)
+function is_bot(string $user_agent): int
 {
     // If no user agent is supplied then assume it's a bot
     if ($user_agent == "") {
@@ -51,25 +53,16 @@ function is_bot(string $user_agent)
  */
 function getRealIpAddr(): string
 {
-    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
-    {
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
-    {
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } else {
-        $ip = $_SERVER['REMOTE_ADDR'];
-    }
-    return $ip;
+    return $_SERVER['REMOTE_ADDR'];
 }
 
 /**
  * @param int $a
  * @param int $b
  *
- * @return number
+ * @return int
  */
-function GCD($a, $b)
+function GCD(int $a, int $b): int
 {
     while ($b != 0) {
         $remainder = $a % $b;
@@ -85,7 +78,7 @@ function GCD($a, $b)
  *
  * @return string
  */
-function aspect($a, $b)
+function aspect(int $a, int $b): string
 {
     $gcd   = GCD($a, $b);
     $a     = $a / $gcd;
@@ -96,7 +89,9 @@ function aspect($a, $b)
         $difference_a = abs((4 / 3) - ($a / $b));
         $difference_b = abs((16 / 9) - ($a / $b));
         $difference_c = abs((16 / 10) - ($a / $b));
-        $difference_d = abs((21 / 9) - ($a / $b));
+        // phpcs:disable
+        $difference_d = abs((21 / 9) - ($a / $b)); // @todo Support for this aspect
+        // phpcs:enable
 
         if ($difference_a < $difference_b && $difference_a < $difference_c) {
             $ratio = '4:3';
@@ -124,7 +119,7 @@ function aspect($a, $b)
  *
  * @return string The formatted filesize
  */
-function FILESIZE_FORMAT($bytes, $decimal = ',')
+function FILESIZE_FORMAT(int $bytes, string $decimal = ','): string
 {
     if ($bytes < 1000) {
         $result = $bytes . " B";
@@ -146,7 +141,7 @@ function FILESIZE_FORMAT($bytes, $decimal = ',')
  *
  * @return int The file size in bytes
  */
-function FILESIZE_BYTES($original)
+function FILESIZE_BYTES(string $original): int
 {
     $val  = preg_replace("/[^0-9\\.,kKmMgG]/", '', trim($original));
     $num  = (float)str_replace(',', '.', preg_replace("/[^0-9\\.,]/", '', $val));
@@ -168,13 +163,11 @@ function FILESIZE_BYTES($original)
 /**
  * @return string
  */
-function uid()
-{
+function uid(): string{
     $php_uniq = uniqid('', true);
-    $uuid     = sprintf('%04x%04x-%02x', mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xff))
+    return sprintf('%04x%04x-%02x', mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xff))
         . substr($php_uniq, 0, 2) . '-' . substr($php_uniq, 2, 4) . '-' . substr($php_uniq, 6, 4) . '-' .
         str_replace('.', '', substr($php_uniq, 10));
-    return $uuid;
 }
 
 /**
@@ -183,7 +176,7 @@ function uid()
  *
  * @return bool
  */
-function check_forumspam($ip, $email = '')
+function check_forumspam(string $ip, string $email = ''): bool
 {
     $url = 'http://www.stopforumspam.com/api?ip=' . urlencode($ip) .
         (!empty($email) ? '&email=' . urlencode($email) : '') . '&f=serial';
@@ -191,7 +184,7 @@ function check_forumspam($ip, $email = '')
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $data   = curl_exec($ch);
-    $return = unserialize($data);
+    $return = unserialize($data, ['allowed_classes' => false]);
 
     if ($return['success']) {
         if ($return['ip']['frequency'] >= 2) {
@@ -206,7 +199,6 @@ function check_forumspam($ip, $email = '')
             return false;
         }
     }
-    //trigger_error($data);
     return true;
 }
 
@@ -218,7 +210,7 @@ function check_forumspam($ip, $email = '')
  *
  * @return int[]
  */
-function calc_thumb_size($w, $h, $max_x, $max_y)
+function calc_thumb_size(int $w, int $h, int $max_x, int $max_y): array
 {
     if (empty($max_x)) {
         $nw = round($w / ($h / $max_y));
@@ -239,7 +231,7 @@ function calc_thumb_size($w, $h, $max_x, $max_y)
 /**
  * @return string
  */
-function generate_password()
+function generate_password(): string
 {
     $validchars[0] = "abcdfghjkmnpqrstvwxyz";
     $validchars[1] = "ABCDEFGHJKLMNPQRSTUVWXYZ";
