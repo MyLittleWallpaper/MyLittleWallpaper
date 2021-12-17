@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 global $user, $db;
 
 use MyLittleWallpaper\classes\output\BasicPage;
@@ -7,7 +9,7 @@ use MyLittleWallpaper\classes\Password;
 use MyLittleWallpaper\classes\Response;
 use PHPMailer\PHPMailer\PHPMailer;
 
-define('ACTIVE_PAGE', 'forgotpass');
+const ACTIVE_PAGE = 'forgotpass';
 $ban = $db->getRecord('ban', ['field' => 'ip', 'value' => USER_IP]);
 if (!empty($ban['ip']) && $ban['ip'] == USER_IP) {
     $banned = true;
@@ -71,8 +73,12 @@ if (!$user->getIsAnonymous()) {
                 if ($error) {
                     $pageContents .= '<div class="error">' . $error . '</div>';
                 }
-                $pageContents .= '<div><label style="float:left;padding-top:2px;">Password:<br /><span style="font-size:11px;">At least 6 characters</span></label><input type="password" name="password" style="width:300px;" /><div style="clear:both;"></div></div>';
-                $pageContents .= '<div><label>Confirm Password:</label><input type="password" name="password_confirm" style="width:300px;" /></div>';
+                $pageContents .= '<div><label style="float:left;padding-top:2px;">Password:<br />' .
+                    '<span style="font-size:11px;">At least 6 characters</span></label>' .
+                    '<input type="password" name="password" style="width:300px;" />' .
+                    '<div style="clear:both;"></div></div>';
+                $pageContents .= '<div><label>Confirm Password:</label>' .
+                    '<input type="password" name="password_confirm" style="width:300px;" /></div>';
 
                 $pageContents .= '<br /><input type="submit" value="Submit" />';
                 $pageContents .= '</form>';
@@ -96,7 +102,8 @@ if (!$user->getIsAnonymous()) {
                     $phpMailer->From     = 'noreply@mylittlewallpaper.com';
                     $phpMailer->FromName = 'My Little Wallpaper';
                     $phpMailer->Body     = utf8_decode(
-                        'Password reset was requested for your account. To complete this request, go to the following URL: ' .
+                        'Password reset was requested for your account. ' .
+                            'To complete this request, go to the following URL: ' .
                         PROTOCOL . SITE_DOMAIN . '/c/all/forgotpass?req=' . urlencode($id) . '&key=' .
                         urlencode($thekey) . "\n\n" .
                         'The URL above will expire in 48 hours.' . "\n\n" .
@@ -125,7 +132,8 @@ if (!$user->getIsAnonymous()) {
             if ($error) {
                 $pageContents .= '<div class="error">' . $error . '</div>';
             }
-            $pageContents .= '<div><label>Email:</label><input type="text" autocomplete="off" name="email" style="width:300px;" value="" /></div>';
+            $pageContents .= '<div><label>Email:</label>' .
+                '<input type="text" autocomplete="off" name="email" style="width:300px;" value="" /></div>';
 
             $pageContents .= '<br /><input type="submit" value="Submit" />';
             $pageContents .= '</form>';

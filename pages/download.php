@@ -22,7 +22,6 @@ if (!empty($page)) {
 
                 $wallpaper = new Wallpaper($file);
 
-                $first_tag      = true;
                 $artists        = '';
                 $artists_header = '';
                 $tag_authors    = $wallpaper->getAuthorTags();

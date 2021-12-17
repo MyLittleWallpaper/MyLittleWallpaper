@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicXML;
 use MyLittleWallpaper\classes\output\WallpaperList;
@@ -40,7 +42,8 @@ if (!empty($wallpapers)) {
         $output  .= '<item>';
         $output  .= '<title>' . Format::xmlEntities($wallpaper->getName() . ' by ' . $author) . '</title>';
         $output  .= '<link>' . Format::xmlEntities($wallpaper->getDownloadLink()) . '</link>';
-        $output  .= '<description>' . Format::xmlEntities(
+        $output  .= '<description>' .
+            Format::xmlEntities(
                 '<img src="' . Format::xmlEntities($wallpaper->getImageThumbnailLink(2)) . '" alt="" />'
             ) . '</description>';
         $output  .= '<pubDate>' . gmdate('Y-m-d', $wallpaper->getTimeAdded()) . 'T' .

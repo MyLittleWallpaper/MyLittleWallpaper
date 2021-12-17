@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
 
-define('ACTIVE_PAGE', 'stats');
+const ACTIVE_PAGE = 'stats';
 $statspage = new BasicPage();
 $statspage->setPageTitleAddition('Stats');
 
@@ -24,7 +26,14 @@ $javascript = '$(document).ready(function(){
 	var pgv = [];' . "\n" . '	';
 
 $tmpd    = strtotime("-24 hours");
-$startd  = gmmktime(gmdate('H', $tmpd), 0, 0, gmdate('n', $tmpd), gmdate('j', $tmpd), gmdate('Y', $tmpd));
+$startd  = gmmktime(
+    (int)gmdate('H', $tmpd),
+    0,
+    0,
+    (int)gmdate('n', $tmpd),
+    (int)gmdate('j', $tmpd),
+    (int)gmdate('Y', $tmpd)
+);
 $endd    = $startd + 86400;
 $procd   = $startd;
 $timearr = [];
@@ -309,18 +318,26 @@ $html .= file_get_contents(ROOT_DIR . 'stats');
 
 $html .= '<h2>Server load in the last 24 hours</h2>';
 $html .= '<p>';
-$html .= '<div style="background:#444;display:inline-block;width:12px;height:12px;margin-right:10px;"></div>Load average (5 min)';
-$html .= '<div style="background:#9ED89F;display:inline-block;width:12px;height:12px;margin-right:10px;margin-left:30px;"></div>Load average (15 min)';
+$html .= '<div style="background:#444;display:inline-block;width:12px;height:12px;margin-right:10px;"></div>';
+$html .= 'Load average (5 min)';
+$html .= sprintf(
+    '<div style="%s"></div>',
+    'background:#9ED89F;display:inline-block;width:12px;height:12px;margin-right:10px;margin-left:30px;'
+);
+$html .= 'Load average (15 min)';
 $html .= '</p>';
 $html .= '<p><div id="loadchart" style="height:250px;width:960px;position:relative;"></div></p>';
 $html .= '<br /><h2>Page generation time in the last 24 hours</h2>';
 $html .= '<p>';
-$html .= '<div style="background:#4bb2c5;display:inline-block;width:12px;height:12px;margin-right:10px;"></div>Average (30 min)';
-$html .= '<div style="background:#AE2020;display:inline-block;width:12px;height:12px;margin-right:10px;margin-left:30px;"></div>Maximum (30 min)';
+$html .= '<div style="background:#4bb2c5;display:inline-block;width:12px;height:12px;margin-right:10px;"></div>';
+$html .= 'Average (30 min)';
+$html .= sprintf(
+    '<div style="%s"></div>',
+    'background:#AE2020;display:inline-block;width:12px;height:12px;margin-right:10px;margin-left:30px;'
+);
+$html .= 'Maximum (30 min)';
 $html .= '</p>';
 $html .= '<p><div id="ltmchart" style="height:250px;width:960px;position:relative;"></div></p>';
-//$html .= '<br /><h2>Simultaneous users in the last 24 hours</h2>';
-//$html .= '<p><div id="userchart" style="height:250px;width:960px;position:relative;"></div></p>';
 $html .= '<br /><h2>Pageviews in the last 24 hours</h2>';
 $html .= '<p><div id="pagevchart" style="height:250px;width:960px;position:relative;"></div></p>';
 $html .= '</div></div>';

@@ -1,10 +1,8 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
 global $user;
+
+// phpcs:disable
 
 // @todo Rewrite
 /*$visits = $db->getRecord('visits', Array('field' => 'id', 'value' => 1));

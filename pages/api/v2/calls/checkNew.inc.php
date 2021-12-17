@@ -1,9 +1,6 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
+declare(strict_types=1);
 
 global $db;
 
@@ -18,6 +15,6 @@ if (
         $newWallpapers = (int)$row['cnt'];
     }
     return ['newWallpapers' => $newWallpapers];
-} else {
-    return ['newWallpapers' => 0];
 }
+
+return ['newWallpapers' => 0];

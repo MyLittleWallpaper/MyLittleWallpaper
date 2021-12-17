@@ -101,7 +101,6 @@ if (CATEGORY == 'all') {
                                 $realname = basename($imageurl);
                             }
                         } else {
-                            $non_other_error = true;
                             $error           = 'Image or title not found (dA) - 2.';
                         }
                     }
@@ -596,30 +595,54 @@ if (CATEGORY == 'all') {
         $pageContents .= '<form class="labelForm" id="submitwallpaper" method="post" action="' . PUB_PATH_CAT .
             'upload" enctype="multipart/form-data" accept-charset="utf-8">';
         $pageContents .= '<div><label>Type:</label><select name="upltype" onchange="changeupltype(this);">';
-        //$pageContents .= '<option value="dA">deviantART</option>';
-        $pageContents .= '<option value="other"' . ($type == 'other' ? ' selected="selected"' : '') . '>Other</option>';
+        $pageContents .= sprintf(
+            '<option value="other" %s>Other</option>',
+            $type === 'other' ? ' selected="selected"' : ''
+        );
         $pageContents .= '</select>';
-        //$pageContents .= '<p class="upl_type_legend" id="upl_da_legend" style="margin:8px 0 4px 0;font-size:11px;">Uploader tries to get the title and image from given deviantART URL. The URL must be the full URL (that is as a link on the deviation title) or fav.me URL.<br /><br />Note that the deviation must be in JPEG or PNG format, otherwise you need to upload the image manually.</p>';
         $pageContents .= '</div>';
-        $pageContents .= '<div id="upl_title"' . (in_array('title', $hide) ? ' style="display:none;"' : '') .
-            '><label>Title:</label><input type="text" autocomplete="off" name="name" style="width:300px;" value="' .
-            (!empty($_POST['name']) ? Format::htmlEntities($_POST['name']) : (!empty($title) ? Format::htmlEntities(
-                $title
-            ) : '')) . '"/></div>';
-        $pageContents .= '<div><label>Author(s):</label><input type="text" autocomplete="off" name="author" id="author" style="width:300px;" value="' .
-            (!empty($_POST['author']) ? Format::htmlEntities($_POST['author']) : '') . '" /></div>';
-        $pageContents .= '<div><label>Tags:</label><input type="text" autocomplete="off" name="tags" id="tags" style="width:300px;" value="' .
-            (!empty($_POST['tags']) ? Format::htmlEntities($_POST['tags']) : '') . '" /></div>';
-        if ($user->getIsAdmin()) {
-            $pageContents .= '<div><label>Platform:</label><input type="text" autocomplete="off" name="platform" id="platform" style="width:300px;" value="' .
-                (!empty($_POST['platform']) ? Format::htmlEntities($_POST['platform']) : 'Desktop, ') . '" /></div>';
-            $pageContents .= '<div><label>Don\'t show resolution</label><input type="checkbox" value="1" name="no_resolution" ' .
-                (!empty($_POST['no_resolution']) ? 'checked="checked" ' : '') . '/></div>';
+        $pageContents .= sprintf(
+            '<div id="upl_title" %s><label>Title:</label>',
+            in_array('title', $hide) ? ' style="display:none;"' : '',
+        );
+        if (!empty($title)) {
+            $title = !empty($_POST['name']) ? Format::htmlEntities($_POST['name']) : (Format::htmlEntities($title));
+        } else {
+            $title = !empty($_POST['name']) ? Format::htmlEntities($_POST['name']) : ('');
         }
-        $pageContents .= '<div><label>Source URL <strong style="font-size:18px;color:#000;">*</strong>:</label><input type="text" autocomplete="off" name="url" id="wallpaper_url" style="width:300px;" value="' .
+        $pageContents .= sprintf(
+            '<input type="text" autocomplete="off" name="name" style="width:300px;" value="%s"/></div>',
+            $title
+        );
+        $pageContents .= '<div><label>Author(s):</label>';
+        $pageContents .= sprintf(
+            '<input type="text" autocomplete="off" name="author" id="author" style="width:300px;" value="%s" /></div>',
+            !empty($_POST['author']) ? Format::htmlEntities($_POST['author']) : ''
+        );
+        $pageContents .= '<div><label>Tags:</label>';
+        $pageContents .= sprintf(
+            '<input type="text" autocomplete="off" name="tags" id="tags" style="width:300px;" value="%s" /></div>',
+            !empty($_POST['tags']) ? Format::htmlEntities($_POST['tags']) : ''
+        );
+        if ($user->getIsAdmin()) {
+            $pageContents .= '<div><label>Platform:</label>';
+            $pageContents .= sprintf(
+                '<input type="text" autocomplete="off" name="platform" id="platform" style="%s" value="%s" /></div>',
+                'width:300px;',
+                !empty($_POST['platform']) ? Format::htmlEntities($_POST['platform']) : 'Desktop, '
+            );
+            $pageContents .= '<div><label>Don\'t show resolution</label>';
+            $pageContents .= sprintf(
+                '<input type="checkbox" value="1" name="no_resolution" %s/></div>',
+                !empty($_POST['no_resolution']) ? 'checked="checked" ' : ''
+            );
+        }
+        $pageContents .= '<div><label>Source URL <strong style="font-size:18px;color:#000;">*</strong>:</label>' .
+            '<input type="text" autocomplete="off" name="url" id="wallpaper_url" style="width:300px;" value="' .
             (!empty($_POST['url']) ? Format::htmlEntities($_POST['url']) : '') . '" /><br /></div>';
         $pageContents .= '<div id="upl_image"' . (in_array('image', $hide) ? ' style="display:none;"' : '') .
-            '><label>Image <strong style="font-size:18px;color:#000;">*</strong>:</label><input type="hidden" name="MAX_FILE_SIZE" value="' .
+            '><label>Image <strong style="font-size:18px;color:#000;">*</strong>:</label>' .
+            '<input type="hidden" name="MAX_FILE_SIZE" value="' .
             FILESIZE_BYTES(ini_get('upload_max_filesize')) .
             '" /><input type="file" id="upl_file_field" name="Filedata" /><br /><small>Max size ' .
             FILESIZE_FORMAT(FILESIZE_BYTES(ini_get('upload_max_filesize'))) . '</small></div>';

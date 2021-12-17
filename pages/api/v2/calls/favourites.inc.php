@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\output\WallpaperList;
 
 global $db;
@@ -23,7 +25,7 @@ if (!empty($_GET['requestId']) && !empty($_GET['hash']) && !empty($_GET['userNam
             "SELECT id FROM user_api_requests WHERE userId = ? AND requestId = ?",
             [$userId, $_GET['requestId']]
         );
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        if ($result->fetch(PDO::FETCH_ASSOC)) {
             $requestAllowed = false;
         }
     }

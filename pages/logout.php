@@ -1,10 +1,6 @@
 <?php
 
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-    exit();
-}
-
+declare(strict_types=1);
 global $session;
 
 $session->logUserOut();

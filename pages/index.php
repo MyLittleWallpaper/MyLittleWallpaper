@@ -1,13 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\output\WallpaperList;
 use MyLittleWallpaper\classes\Response;
 
-define('ACTIVE_PAGE', 'index');
-
-/*if (!empty($_COOKIE['pageless']) && $_COOKIE['pageless'] == 'true') {
-	$pageless = true;
-} else $pageless = true;*/
+const ACTIVE_PAGE = 'index';
 
 $wallpaper_list = new WallpaperList();
 $wallpaper_list->loadSearchFromRequest();

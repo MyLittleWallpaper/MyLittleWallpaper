@@ -17,7 +17,7 @@
 //00ff00 => 00ff00 97c897 99ff99 79ff01 affe68 afc898 d3ffab 01ff7f 68feb2 abffd5 98c8b0 55aa55 7eaa56 56aa80
 //009a98 => 009a98 005655 003433 2b5555 56aaa9 2b5540 56aa80
 //68fefc => 68fefc 01fffc abfffe 56aaa9 98c8c7 98c8b0
-//00509a => 00509a 002d56 001b34 2b4055 2b2b55 
+//00509a => 00509a 002d56 001b34 2b4055 2b2b55
 //68b6fe => 68b6fe 0184ff 5681aa 98b1c8 abd6ff
 //0000ff => 0000ff 000088 000044 2b2b55 5555aa
 //aaaaff => aaaaff 6666ff 9797c8
@@ -63,10 +63,18 @@ $html    .= '<h2 style="padding:6px 6px 4px 6px;">Colours</h2>';
 foreach ($colours as $scol => $dcol) {
     $cnt++;
 
-    $html .= '<a style="display:inline-block;height:25px;overflow:hidden;box-shadow:0px 1px 6px #888;margin:6px;border-radius:10px;" href="' .
-        PUB_PATH_CAT . '?search=' . urlencode('colour:' . $scol) . '">';
-    $html .= '<span style="font-family:monospace;display:block;float:left;height:21px;width:75px;border-radius:10px 0 0 10px;padding:5px 0 0 7px;">#' .
-        Format::htmlEntities($scol) . '</span>';
+    $html .= sprintf(
+        '<a style="%s" href="%s?search=%s">',
+        'display:inline-block;height:25px;overflow:hidden;box-shadow:0px 1px 6px #888;margin:6px;border-radius:10px;',
+        PUB_PATH_CAT,
+        urlencode('colour:' . $scol)
+    );
+    $html .= sprintf(
+        '<span style="%s%s">#%s</span>',
+        'font-family:monospace;display:block;float:left;height:21px;width:75px;',
+        'border-radius:10px 0 0 10px;padding:5px 0 0 7px;',
+        Format::htmlEntities($scol)
+    );
     $html .= '<span style="display:block;float:left;width:85px;height:25px;background:#' . $dcol .
         ';border-radius:0 10px 10px 0;box-shadow:-1px 0 6px #aaa;">&nbsp;</span>';
     $html .= '</a> ';
@@ -80,10 +88,18 @@ $html .= '<h2 style="padding:12px 6px 4px 6px;">Major colours</h2>';
 foreach ($colours as $scol => $dcol) {
     $cnt++;
 
-    $html .= '<a style="display:inline-block;height:25px;overflow:hidden;box-shadow:0px 1px 6px #888;margin:6px;border-radius:10px;" href="' .
-        PUB_PATH_CAT . '?search=' . urlencode('major-colour:' . $scol) . '">';
-    $html .= '<span style="font-family:monospace;display:block;float:left;height:21px;width:75px;border-radius:10px 0 0 10px;padding:5px 0 0 7px;">#' .
-        Format::htmlEntities($scol) . '</span>';
+    $html .= sprintf(
+        '<a style="%s" href="%s?search=%s">',
+        'display:inline-block;height:25px;overflow:hidden;box-shadow:0px 1px 6px #888;margin:6px;border-radius:10px;',
+        PUB_PATH_CAT,
+        urlencode('major-colour:' . $scol)
+    );
+    $html .= sprintf(
+        '<span style="%s%s">#%s</span>',
+        'font-family:monospace;display:block;float:left;height:21px;width:75px;',
+        'border-radius:10px 0 0 10px;padding:5px 0 0 7px;',
+        Format::htmlEntities($scol)
+    );
     $html .= '<span style="display:block;float:left;width:85px;height:25px;background:#' . $dcol .
         ';border-radius:0 10px 10px 0;box-shadow:-1px 0 6px #aaa;">&nbsp;</span>';
     $html .= '</a> ';

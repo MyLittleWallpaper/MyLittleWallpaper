@@ -17,7 +17,7 @@ $pageHtml .= '<p>My Little Wallpaper offers a REST API for fetching wallpaper in
 $pageHtml   .= '<h2>Favourites</h2>';
 $pageHtml   .= '<p>API call to get personal favourites. To use this API call, API token is needed. ' .
     'This can be found on account <a href="' . PUB_PATH_CAT . '/account" target="_blank">settings page</a>.</p>';
-$pageHtml   .= '<p>JSON endpoint for this call is '.
+$pageHtml   .= '<p>JSON endpoint for this call is ' .
     '<a href="' . PROTOCOL . SITE_DOMAIN . '/c/all/api/v2/favourites.json" target="_blank">' .
     PROTOCOL . SITE_DOMAIN . '/c/all/api/v2/featured.json</a>. ' .
     'This call wil return <strong>all</strong> user\'s favourites regardless of category in the URL.</p>';

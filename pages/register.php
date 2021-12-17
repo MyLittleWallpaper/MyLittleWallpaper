@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Password;
@@ -8,7 +10,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 global $user, $db;
 
-define('ACTIVE_PAGE', 'register');
+const ACTIVE_PAGE = 'register';
 $ban = $db->getRecord('ban', ['field' => 'ip', 'value' => USER_IP]);
 if (!empty($ban['ip']) && $ban['ip'] == USER_IP) {
     $banned = true;
@@ -101,25 +103,32 @@ if (!$user->getIsAnonymous()) {
     $pageContents .= '<h1>Register</h1>';
     if ($banned) {
         $pageContents .= '<p>Your IP is on the blacklist.</p>';
+    } elseif (!empty($_SESSION['success'])) {
+        $pageContents .= '<div class="success">Registeration successful, you can now log in.</div>';
     } else {
-        if (!empty($_SESSION['success'])) {
-            $pageContents .= '<div class="success">Registeration successful, you can now log in.</div>';
-        } else {
-            $pageContents .= '<p>Please fill all the fields.</p>';
-            $pageContents .= '<form class="labelForm" style="padding:5px 0 0 0;" action="' . PUB_PATH_CAT .
-                'register" method="post" accept-charset="utf-8">';
-            if ($error) {
-                $pageContents .= '<div class="error">' . $error . '</div>';
-            }
-            $pageContents .= '<div><label>Username:</label><input type="text" autocomplete="off" name="username" style="width:300px;" value="' .
-                (!empty($_POST['username']) ? Format::htmlEntities($_POST['username']) : '') . '" /></div>';
-            $pageContents .= '<div><label>Email:</label><input type="text" autocomplete="off" name="email" style="width:300px;" value="' .
-                (!empty($_POST['email']) ? Format::htmlEntities($_POST['email']) : '') . '" /></div>';
-            $pageContents .= '<div><label style="float:left;padding-top:2px;">Password:<br /><span style="font-size:11px;">At least 6 characters</span></label><input type="password" name="password" style="width:300px;" /><div style="clear:both;"></div></div>';
-            $pageContents .= '<div><label>Confirm Password:</label><input type="password" name="password_confirm" style="width:300px;" /></div>';
-            $pageContents .= '<br /><input type="submit" value="Register" />';
-            $pageContents .= '</form>';
+        $pageContents .= '<p>Please fill all the fields.</p>';
+        $pageContents .= '<form class="labelForm" style="padding:5px 0 0 0;" action="' . PUB_PATH_CAT .
+            'register" method="post" accept-charset="utf-8">';
+        if ($error) {
+            $pageContents .= '<div class="error">' . $error . '</div>';
         }
+        $pageContents .= '<div><label>Username:</label>';
+        $pageContents .= sprintf(
+            '<input type="text" autocomplete="off" name="username" style="width:300px;" value="%s" /></div>',
+            !empty($_POST['username']) ? Format::htmlEntities($_POST['username']) : ''
+        );
+        $pageContents .= '<div><label>Email:</label>';
+        $pageContents .= sprintf(
+            '<input type="text" autocomplete="off" name="email" style="width:300px;" value="%s" /></div>',
+            !empty($_POST['email']) ? Format::htmlEntities($_POST['email']) : ''
+        );
+        $pageContents .= '<div><label style="float:left;padding-top:2px;">Password:<br />' .
+            '<span style="font-size:11px;">At least 6 characters</span></label>' .
+            '<input type="password" name="password" style="width:300px;" /><div style="clear:both;"></div></div>';
+        $pageContents .= '<div><label>Confirm Password:</label>' .
+            '<input type="password" name="password_confirm" style="width:300px;" /></div>';
+        $pageContents .= '<br /><input type="submit" value="Register" />';
+        $pageContents .= '</form>';
     }
     $pageContents .= '</div></div>';
     if (!$redirect && isset($_SESSION['success'])) {

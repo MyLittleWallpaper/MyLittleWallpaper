@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\output\WallpaperList;
 
 if (isset($_GET['debug'])) {
