@@ -23,7 +23,6 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', '0');
 ini_set('log_errors', true);
 
-require_once(ROOT_DIR . 'classes/Exceptions.php');
 require_once(ROOT_DIR . 'vendor/autoload.php');
 
 // Start session
@@ -33,9 +32,6 @@ if ($startSession) {
 
 // Conficuration and initialization
 require_once(ROOT_DIR . 'inc/config.php');
-
-// Database class
-require_once(ROOT_DIR . 'classes/Database.php');
 
 $db       = new Database(DBUSER, DBPASS, DBNAME, DBHOST);
 $memcache = new Memcache();

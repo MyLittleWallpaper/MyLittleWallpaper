@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace MyLittleWallpaper\classes;
 
 use Exception;
+use MyLittleWallpaper\classes\Tag\Tag;
+use MyLittleWallpaper\classes\Tag\TagAspect;
+use MyLittleWallpaper\classes\Tag\TagAuthor;
+use MyLittleWallpaper\classes\Tag\TagColour;
+use MyLittleWallpaper\classes\Tag\TagPlatform;
 use PDO;
-use Tag;
-use TagAspect;
-use TagAuthor;
-use TagColour;
-use TagPlatform;
 
 use function filter_var;
 use function is_array;
@@ -18,8 +18,6 @@ use function is_array;
 use const FILTER_FLAG_PATH_REQUIRED;
 use const FILTER_VALIDATE_INT;
 use const FILTER_VALIDATE_URL;
-
-require_once(ROOT_DIR . 'classes/Tag.php');
 
 /**
  * Wallpaper class.
@@ -535,7 +533,7 @@ class Wallpaper
      *
      * @return void
      */
-    public function setFile(string $val = null): void
+    public function setFile(?string $val = null): void
     {
         if ($val === null) {
             $this->fileId = uniqid('', true);

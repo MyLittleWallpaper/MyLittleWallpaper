@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MyLittleWallpaper\classes\output;
 
+use JsonException;
+
 /**
  * Basic class for JSON output.
  */

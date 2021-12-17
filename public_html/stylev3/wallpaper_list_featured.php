@@ -35,7 +35,7 @@ echo '		<div class="imagelistcontainer"><div id="galleryimages" style="margin:20
 if (ACTIVE_PAGE === 'featured') {
 	echo '			<h1>Featured</h1>' . "\n";
 	echo '			<p>This section contains wallpapers picked by the staff. All wallpapers here are at least in 1920x1080 resolution.</p>';
-	echo '			<div class="wallpapercount wallpapercount_featured">' . $response->responseVariables->wallpaper_count . ' wallpaper' . ($response->responseVariables->wallpaper_count !== 1 ? 's' : '') . ' found.</div>';
+	echo '			<div class="wallpapercount wallpapercount_featured">' . $response->getResponseVariables()->wallpaper_count . ' wallpaper' . ($response->responseVariables->wallpaper_count !== 1 ? 's' : '') . ' found.</div>';
 } elseif (ACTIVE_PAGE === 'favourites') {
 	echo '			<h1>My Favourites</h1>'."\n";
 } else {

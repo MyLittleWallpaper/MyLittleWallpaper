@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MyLittleWallpaper\classes;
 
-use InvalidParametersException;
+use MyLittleWallpaper\classes\Exception\InvalidParametersException;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -64,7 +64,7 @@ class Database
             throw new PDOException('Database connection failed, missing ' . $miss . '.');
         }
 
-        $dsn       = 'mysql:dbn' . 'ame=' . $database . ';host=' . $host;
+        $dsn       = 'mysql:dbname=' . $database . ';host=' . $host;
         $this->dbh = new PDO($dsn, $username, $password, [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8mb4\'']);
         $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -291,7 +291,7 @@ class Database
      *
      * @return int
      */
-    public function getCount(string $table, array $conditions = [], array $join = [])
+    public function getCount(string $table, array $conditions = [], array $join = []): int
     {
         $return      = [];
         $assign_data = [];

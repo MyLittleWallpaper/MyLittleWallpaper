@@ -334,7 +334,7 @@ class WallpaperList extends Output
     /**
      * @param Database|null $db If null, looks for $GLOBALS['db']
      */
-    public function __construct(Database $db = null)
+    public function __construct(?Database $db = null)
     {
         if (!($db instanceof Database)) {
             if (!isset($GLOBALS['db']) || !($GLOBALS['db'] instanceof Database)) {
@@ -671,19 +671,8 @@ class WallpaperList extends Output
     {
         foreach ($tags as $tag) {
             $tag = trim($tag);
-            if (str_replace(' ', '', $tag) != '') {
-                /*$tag_count = count($this->searchTags);
-                $tag_count += count($this->searchTagsAspect);
-                $tag_count += count($this->searchTagsAuthor);
-                $tag_count += count($this->searchTagsCharacter);
-                $tag_count += count($this->searchTagsColour);
-                $tag_count += count($this->searchTagsMajorColour);
-                $tag_count += count($this->searchTagsPlatform);
-                if ($tag_count == self::MAX_JOIN_AMOUNT) {
-                    $this->maxTagAmountExceeded = true;
-                } else {*/
+            if (str_replace(' ', '', $tag) !== '') {
                 $this->searchAddTagWithType($tag);
-                //}
             }
         }
     }
@@ -697,7 +686,7 @@ class WallpaperList extends Output
     {
         foreach ($tags as $tag) {
             $tag = trim($tag);
-            if (str_replace(' ', '', $tag) != '') {
+            if (str_replace(' ', '', $tag) !== '') {
                 $this->searchAddTagAnyWithType($tag);
             }
         }
@@ -712,7 +701,7 @@ class WallpaperList extends Output
     {
         foreach ($tags as $tag) {
             $tag = trim($tag);
-            if (str_replace(' ', '', $tag) != '') {
+            if (str_replace(' ', '', $tag) !== '') {
                 $this->searchAddTagExcludeWithType($tag);
             }
         }
@@ -906,17 +895,17 @@ class WallpaperList extends Output
                     0,
                     0,
                     0,
-                    date('n', $searchDateUnixTimestamp),
-                    date('j', $searchDateUnixTimestamp),
-                    date('Y', $searchDateUnixTimestamp)
+                    (int)date('n', $searchDateUnixTimestamp),
+                    (int)date('j', $searchDateUnixTimestamp),
+                    (int)date('Y', $searchDateUnixTimestamp)
                 ),
                 mktime(
                     23,
                     59,
                     59,
-                    date('n', $searchDateUnixTimestamp),
-                    date('j', $searchDateUnixTimestamp),
-                    date('Y', $searchDateUnixTimestamp)
+                    (int)date('n', $searchDateUnixTimestamp),
+                    (int)date('j', $searchDateUnixTimestamp),
+                    (int)date('Y', $searchDateUnixTimestamp)
                 )
             );
             $this->pageTitleSearch   = date('Y-m-d', $searchDateUnixTimestamp);
@@ -1848,11 +1837,11 @@ class WallpaperList extends Output
         global $response;
         ob_start();
 
-        $response->responseVariables->rss_search             = $this->getRssSearch();
-        $response->responseVariables->large_wallpaper_thumbs = $this->largeWallpaperThumbs;
-        $response->responseVariables->wallpaper_count        = $this->wallpaperSearchCount;
-        $response->responseVariables->maxJoinAmountExceeded  = $this->maxJoinAmountExceeded;
-        $response->responseVariables->wallpapers             = $this->getWallpapers();
+        $response->getResponseVariables()->rss_search             = $this->getRssSearch();
+        $response->getResponseVariables()->large_wallpaper_thumbs = $this->largeWallpaperThumbs;
+        $response->getResponseVariables()->wallpaper_count        = $this->wallpaperSearchCount;
+        $response->getResponseVariables()->maxJoinAmountExceeded  = $this->maxJoinAmountExceeded;
+        $response->getResponseVariables()->wallpapers             = $this->getWallpapers();
 
         if ($this->customTemplate !== null && file_exists(DOC_DIR . THEME . '/' . $this->customTemplate)) {
             require_once(DOC_DIR . THEME . '/' . $this->customTemplate);

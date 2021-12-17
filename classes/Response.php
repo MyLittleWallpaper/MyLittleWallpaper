@@ -42,7 +42,7 @@ class Response
     /**
      * @var stdClass
      */
-    public stdClass $responseVariables;
+    private stdClass $responseVariables;
 
     /**
      * @param Output|null $class
@@ -88,7 +88,7 @@ class Response
         }
         $this->headerOutput();
         echo $this->outputClass->output();
-        $this->footer_output();
+        $this->footerOutput();
     }
 
     /**
@@ -134,9 +134,17 @@ class Response
     }
 
     /**
+     * @return stdClass
+     */
+    public function getResponseVariables(): stdClass
+    {
+        return $this->responseVariables;
+    }
+
+    /**
      * @return void
      */
-    private function footer_output(): void
+    private function footerOutput(): void
     {
         if (!$this->disableHeaderAndFooter && $this->outputClass->getIncludeHeaderAndFooter()) {
             require_once(DOC_DIR . THEME . '/' . $this->footerTemplate);

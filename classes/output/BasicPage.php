@@ -127,11 +127,11 @@ class BasicPage extends Output
     {
         global $response;
         ob_start();
-        $response->responseVariables->html = $this->html;
+        $response->getResponseVariables()->html = $this->html;
         if (!$this->noContainer) {
             require_once(DOC_DIR . THEME . '/basic_page.php');
         } else {
-            echo $response->responseVariables->html;
+            echo $response->getResponseVariables()->html;
         }
         return (string)ob_get_clean();
     }

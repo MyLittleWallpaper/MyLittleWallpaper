@@ -1,6 +1,6 @@
 <?php
 
-use MyLittleWallpaper\classes\Category;
+use MyLittleWallpaper\classes\Category\Category;
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\Navigation\Navigation;
 
@@ -11,8 +11,8 @@ $version = file_get_contents(ROOT_DIR . 'VERSION');
 $navigation = new Navigation();
 
 $javaScriptIncludes = '';
-if (!empty($response->responseVariables->javaScriptFiles)) {
-    foreach ($response->responseVariables->javaScriptFiles as $javaScriptFile) {
+if (!empty($response->getResponseVariables()->javaScriptFiles)) {
+    foreach ($response->getResponseVariables()->javaScriptFiles as $javaScriptFile) {
         $javaScriptIncludes .= "\n" . '		<script type="text/javascript" src="' . PUB_PATH . 'js/' .
             $javaScriptFile . '?v=' . urlencode($version) . '"></script>';
     }
@@ -21,7 +21,7 @@ if (!empty($response->responseVariables->javaScriptFiles)) {
 /**
  * @var $category_list Category[]
  */
-$category_list = $response->responseVariables->category_list;
+$category_list = $response->getResponseVariables()->category_list;
 
 $categoriesMeta = '';
 $allCategories  = '';
@@ -86,14 +86,14 @@ echo '<!DOCTYPE html>
 		<meta charset="utf-8">
 		<meta name="description" content="Searchable listing of ' . $allCategories . ' wallpapers.">
 		<link rel="shortcut icon" href="' . PUB_PATH . 'favicon.ico">
-		<meta name="twitter:title" content="' . $response->responseVariables->titleAddition .
+		<meta name="twitter:title" content="' . $response->getResponseVariables()->titleAddition .
     (CATEGORY_NAME != '' ? Format::htmlEntities(CATEGORY_NAME) . ' | ' : '') . 'My Little Wallpaper - Wallpapers are Magic">
 		<meta name="twitter:domain" content="' . $_SERVER['SERVER_NAME'] . '">
 		<meta name="twitter:site" content="@MLWallpaper">
 		<meta name="twitter:url" content="http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '">' .
-    $response->responseVariables->meta . '
-		' . $response->responseVariables->rss . '
-		<title>' . $response->responseVariables->titleAddition .
+    $response->getResponseVariables()->meta . '
+		' . $response->getResponseVariables()->rss . '
+		<title>' . $response->getResponseVariables()->titleAddition .
     (CATEGORY_NAME != '' ? Format::htmlEntities(CATEGORY_NAME) . ' | ' : '') . 'My Little Wallpaper - Wallpapers are Magic</title>
 		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/style.css?v=' . urlencode($version) . '" media="all">
 		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/jquery-ui-1.11.4.structure.min.css?v=' .
@@ -109,7 +109,7 @@ echo '<!DOCTYPE html>
 		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-ui-1.11.4.min.js?v=' . urlencode($version) . '"></script>
 		<script type="text/javascript" src="' . PUB_PATH . 'js/header.js?v=' . urlencode($version) . '"></script>' .
     $javaScriptIncludes . '
-		' . $response->responseVariables->javaScript . '
+		' . $response->getResponseVariables()->javaScript . '
 	</head>
 	<body lang="en"' . (!empty($activeSubMenu) ? ' class="additional-padding"' : '') . '>' . "\n";
 

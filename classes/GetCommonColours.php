@@ -196,19 +196,14 @@ class GetCommonColours
     ];
 
     /**
-     * Not used?
-     * @var string
-     */
-    public string $error;
-
-    /**
-     * Returns the colors of the image in an array, ordered in descending order, where the keys are the colors, and the values are the count of the color.
+     * Returns the colors of the image in an array, ordered in descending order, where the keys are the colors,
+     * and the values are the count of the color.
      *
      * @param string $img image path
      *
      * @return array
      */
-    public function getColours(string $img)
+    public function getColours(string $img): array
     {
         $tempName = ROOT_DIR . 'temp/' . uniqid() . '.gif';
         exec(

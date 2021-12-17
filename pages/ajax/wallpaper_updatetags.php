@@ -5,6 +5,7 @@ declare(strict_types=1);
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
+use MyLittleWallpaper\classes\Tag\Tag;
 use MyLittleWallpaper\classes\Wallpaper;
 
 $updateTags = new BasicPage();

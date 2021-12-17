@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace MyLittleWallpaper\classes\Category;
 
-use Exception;
-use MyLittleWallpaper\classes\Database;
-
 /**
  * Category object.
  */
