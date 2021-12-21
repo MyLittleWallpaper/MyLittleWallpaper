@@ -39,7 +39,7 @@ if (isset($_GET['url'])) {
         if (!empty($_GET['url'])) {
             $sim_res = $db->query("SELECT * FROM `wallpaper` WHERE deleted = 0 AND url = ? LIMIT 1", [$_GET['url']]);
             $in_db   = false;
-            while ($indbrow = $sim_res->fetch(PDO::FETCH_ASSOC)) {
+            if ($sim_res->fetch(PDO::FETCH_ASSOC)) {
                 $in_db = true;
             }
             if ($in_db) {
@@ -53,7 +53,7 @@ if (isset($_GET['url'])) {
             ['http://%.deviantart.com/art/%-' . $id]
         );
         $in_db   = false;
-        while ($indbrow = $sim_res->fetch(PDO::FETCH_ASSOC)) {
+        if ($sim_res->fetch(PDO::FETCH_ASSOC)) {
             $in_db = true;
         }
         if ($in_db) {

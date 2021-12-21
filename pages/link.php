@@ -15,7 +15,7 @@ if (!empty($page)) {
         $data      = [
             'clicks' => ($wallpaperData['clicks'] + 1),
         ];
-        if (!empty($_SERVER['HTTP_USER_AGENT']) && is_bot($_SERVER['HTTP_USER_AGENT']) === 0) {
+        if (!empty($_SERVER['HTTP_USER_AGENT']) && isBot($_SERVER['HTTP_USER_AGENT']) === 0) {
             // @todo Handle saving in Wallpaper class
             $db->saveArray('wallpaper', $data, $wallpaperData['id']);
             $data = [

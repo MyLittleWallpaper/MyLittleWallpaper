@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // Just the list of listed colours and similarities (which also exists in the database)
 
 //ffffff => ffffff

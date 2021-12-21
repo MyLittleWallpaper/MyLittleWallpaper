@@ -566,13 +566,19 @@ if (CATEGORY == 'all') {
 	}'
     );
 
-    $pageContents = '<div id="duplicate_found" style="display:none;" title="Wallpaper found"><p style="font-size:12px;"><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><span class="dialogtext"></span></p></div>';
+    $pageContents = '<div id="duplicate_found" style="display:none;" title="Wallpaper found">';
+    $pageContents .= sprintf(
+        '<p style="%s"><span class="%s" style="%s"></span><span class="dialogtext"></span></p></div>',
+        'font-size:12px;',
+        'ui-icon ui-icon-alert',
+        'float: left; margin: 0 7px 20px 0;'
+    );
 
     $pageContents .= '<div id="content"><div>';
     if (!$banned) {
         $type = 'other';
 
-        if ($type == 'dA') {
+        if ('dA' === $type) {
             $hide = ['title', 'image'];
         } else {
             $hide = [];
@@ -581,7 +587,24 @@ if (CATEGORY == 'all') {
         $pageContents .= '<h1>Submit a wallpaper</h1>';
         $pageContents .= '<div class="success">Only the image and source are required</div>';
         $pageContents .= '<br />Read the instructions below before submitting:';
-        $pageContents .= '<ul><li><strong>Imake must be in JPEG or PNG format.</strong></li><li><strong>Upload the full-size image (even if the size is huge, like 10000x5625).</strong></li><li><strong>The image size for desktop wallpapers must be at least 1366x768.</strong></li><li>Author(s) -field autocomplete to existing artists to make entering artist easier. If an author doesn\'t exist, just write the author name.</li><li>You can enter more authors than one by separating author names with commas.</li><li>Tags -field autocomplete to existing tags to make entering tags easier. If a tag doesn\'t exist, just write it.</li><li>You can enter more tags than one by separating tags with commas.</li></ul>';
+        $pageContents .= '<ul><li><strong>Imake must be in JPEG or PNG format.</strong></li>';
+        $pageContents .= sprintf(
+            '<li><strong>%s</strong></li>',
+            'Upload the full-size image (even if the size is huge, like 10000x5625).',
+        );
+        $pageContents .= '<li><strong>The image size for desktop wallpapers must be at least 1366x768.</strong></li>';
+        $pageContents .= sprintf(
+            '<li>%s %s</li>',
+            'Author(s) -field autocomplete to existing artists to make entering artist easier.',
+            'If an author doesn\'t exist, just write the author name.'
+        );
+        $pageContents .= '<li>You can enter more authors than one by separating author names with commas.</li>';
+        $pageContents .= sprintf(
+            '<li>%s %s</li>',
+            'Tags -field autocomplete to existing tags to make entering tags easier.',
+            'If a tag doesn\'t exist, just write it.'
+        );
+        $pageContents .= '<li>You can enter more tags than one by separating tags with commas.</li></ul>';
         if (!$user->getIsAdmin()) {
             $pageContents .= 'Uploaded images are moderated before they actually appear on the wallpaper listing.';
         }

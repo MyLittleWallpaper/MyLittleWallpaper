@@ -22,7 +22,7 @@ echo '			<div class="contact">If you have any questions about the site, send an 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
 
-if ($_SERVER['REQUEST_URI'] != '/upload' && !empty($_SERVER['HTTP_USER_AGENT']) && is_bot($_SERVER['HTTP_USER_AGENT']) === 0) {
+if ($_SERVER['REQUEST_URI'] != '/upload' && !empty($_SERVER['HTTP_USER_AGENT']) && isBot($_SERVER['HTTP_USER_AGENT']) === 0) {
 	$loadtime_savedata = Array('id' => uid(), 'load_time' => round($time, 4), 'time' => gmdate('Y-m-d H:i:s'), 'url' => $_SERVER['REQUEST_URI']);
 	$db->saveArray('page_loadtime', $loadtime_savedata);
 }

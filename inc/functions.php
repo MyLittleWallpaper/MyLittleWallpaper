@@ -8,15 +8,15 @@ declare(strict_types=1);
  * @return int returns 1 if the user agent is a bot
  * @todo Return boolean instead of integer
  */
-function is_bot(string $user_agent): int
+function isBot(string $user_agent): int
 {
     // If no user agent is supplied then assume it's a bot
-    if ($user_agent == "") {
+    if ('' === $user_agent) {
         return 1;
     }
 
     // Array of bot strings to check for
-    $bot_strings = [
+    $botStrings = [
         "google",
         "bot",
         "yahoo",
@@ -39,8 +39,8 @@ function is_bot(string $user_agent): int
         "mechanize",
         "facebookexternal",
     ];
-    foreach ($bot_strings as $bot) {
-        if (strpos($user_agent, $bot) !== false) {
+    foreach ($botStrings as $bot) {
+        if (false !== strpos($user_agent, $bot)) {
             return 1;
         }
     }
@@ -163,7 +163,8 @@ function FILESIZE_BYTES(string $original): int
 /**
  * @return string
  */
-function uid(): string{
+function uid(): string
+{
     $php_uniq = uniqid('', true);
     return sprintf('%04x%04x-%02x', mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xff))
         . substr($php_uniq, 0, 2) . '-' . substr($php_uniq, 2, 4) . '-' . substr($php_uniq, 6, 4) . '-' .

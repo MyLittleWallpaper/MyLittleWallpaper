@@ -102,7 +102,7 @@ const PUB_PATH_CAT = PUB_PATH . (CATEGORY != '' ? 'c/' . CATEGORY . '/' : '');
 
 $visits = $db->getRecord('visits', ['field' => 'id', 'value' => 1]);
 
-if (!empty($_SERVER['HTTP_USER_AGENT']) && is_bot($_SERVER['HTTP_USER_AGENT']) === 0) {
+if (!empty($_SERVER['HTTP_USER_AGENT']) && isBot($_SERVER['HTTP_USER_AGENT']) === 0) {
     $data = [
         'count' => $visits['count'] + 1,
     ];
