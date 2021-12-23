@@ -43,7 +43,7 @@
 
         "gumlet/php-image-resize": "^2.0",
         "phpmailer/phpmailer": "^6.5",
-        "razielanarki/hyperlight": ">=0.1"
+        "scrivo/highlight.php": "^9.18"
     },
     "require-dev": {
         "kalessil/production-dependencies-guard": "dev-master",

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 // Check that correct entry point was used
+use Highlight\Highlighter;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
 
@@ -138,36 +139,36 @@ $jsonCode = '{
 
 $pageHtml .= '<p>Example of list.json response (indentation and line wrapping added for readability):<br /></p>';
 
-$hyperLight = new Hyperlight\Hyperlight('javascript');
-$pageHtml   .= '<p class="source-code">' . $hyperLight->render($jsonCode) . '</p>';
+$highLight = new Highlighter();
+$pageHtml  .= '<p class="source-code">' . $highLight->highlight('json', $jsonCode)->value . '</p>';
 
 $pageHtml .= '<h3 style="margin:30px 0 2px 0;">The API returns following parameters:</h3>';
 $pageHtml .= '<table class="parameter-table">';
 $pageHtml .= '<tr>';
-$pageHtml .= '<td class="api-field"><h4>search_tags</h4><em>always present</em></td>';
-$pageHtml .= '<td class="api-description"><p>Tags used in search as an array.</p>' .
+$pageHtml  .= '<td class="api-field"><h4>search_tags</h4><em>always present</em></td>';
+$pageHtml  .= '<td class="api-description"><p>Tags used in search as an array.</p>' .
     '<p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"search_tags":["Fluttershy","Minimalistic","author:vexx3"]') . '</div></td>';
-$pageHtml .= '</tr>';
+    $highLight->highlight('json', '"search_tags":["Fluttershy","Minimalistic","author:vexx3"]')->value . '</div></td>';
+$pageHtml  .= '</tr>';
 $pageHtml .= '<tr>';
-$pageHtml .= '<td class="api-field"><h4>amount</h4><em>always present</em></td>';
-$pageHtml .= '<td class="api-description"><p>Amount of wallpapers in result.</p>' .
+$pageHtml  .= '<td class="api-field"><h4>amount</h4><em>always present</em></td>';
+$pageHtml  .= '<td class="api-description"><p>Amount of wallpapers in result.</p>' .
     '<p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"amount":7') . '</div></td>';
-$pageHtml .= '</tr>';
+    $highLight->highlight('json', '"amount":7')->value . '</div></td>';
+$pageHtml  .= '</tr>';
 $pageHtml .= '<tr>';
-$pageHtml .= '<td class="api-field"><h4>offset</h4>' .
+$pageHtml  .= '<td class="api-field"><h4>offset</h4>' .
     '<em>always present in list.json response, never in random.json response</em></td>';
-$pageHtml .= '<td class="api-description"><p>Offset of the listing.</p><p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"offset":80') . '</div></td>';
-$pageHtml .= '</tr>';
+$pageHtml  .= '<td class="api-description"><p>Offset of the listing.</p><p>For example:</p><div class="source-code">' .
+    $highLight->highlight('json', '"offset":80')->value . '</div></td>';
+$pageHtml  .= '</tr>';
 $pageHtml .= '<tr>';
-$pageHtml .= '<td class="api-field"><h4>search_total</h4>' .
+$pageHtml  .= '<td class="api-field"><h4>search_total</h4>' .
     '<em>always present in list.json response, never in random.json response</em></td>';
-$pageHtml .= '<td class="api-description"><p>Amount of total results of the search.</p>' .
+$pageHtml  .= '<td class="api-description"><p>Amount of total results of the search.</p>' .
     '<p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"search_total":132') . '</div></td>';
-$pageHtml .= '</tr>';
+    $highLight->highlight('json', '"search_total":132')->value . '</div></td>';
+$pageHtml  .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>result</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description">' .
@@ -193,7 +194,7 @@ $jsonCode = '"result":[
     }
 ]';
 
-$pageHtml .= '<div class="source-code">' . $hyperLight->render($jsonCode) . '</div>';
+$pageHtml .= '<div class="source-code">' . $highLight->highlight('json', $jsonCode)->value . '</div>';
 $pageHtml .= '</tr>';
 $pageHtml .= '</table>';
 
@@ -202,40 +203,41 @@ $pageHtml .= '<table class="parameter-table">';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>title</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Wallpaper title.</p><p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"title":"Rainbow Dash wallpaper pack"') . '</div></td>';
+    $highLight->highlight('json', '"title":"Rainbow Dash wallpaper pack"')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>imageid</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Wallpaper image identifier.</p>' .
     '<p>This identifier can be used to get thumbnails from the site: <code>' .
     PROTOCOL . SITE_DOMAIN . '/image.php?image=[imageid]</code>, for example</p><div class="source-code">' .
-    $hyperLight->render('"imageid":"504726d1982d86.18038044"') . '</div></td>';
+    $highLight->highlight('json', '"imageid":"504726d1982d86.18038044"')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>downloadurl</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Wallpaper download URL.</p><p>For example:</p><div class="source-code">' .
-    $hyperLight->render(
+    $highLight->highlight(
+        'json',
         '"downloadurl":"http:\/\/softfang.deviantart.com\/art\/Minimalist-Wallpaper-43-Wonderbolts-287463909"'
-    ) . '</div></td>';
+    )->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>dimensions</h4><em>present if applicable</em></td>';
 $pageHtml .= '<td class="api-description">' .
     '<p>Wallpaper dimensions. Not present if not applicable, like with Android live wallpapers and themes.</p>' .
     '<p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"dimensions":{"width":"1920","height":"1080"}') . '</div></td>';
+    $highLight->highlight('json', '"dimensions":{"width":"1920","height":"1080"}')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>authors</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Wallpaper authors as an array.</p><p>For example:</p>' .
     '<div class="source-code">' .
-    $hyperLight->render('"authors":["CaNoN-lb","impala99"]') . '</div></td>';
+    $highLight->highlight('json', '"authors":["CaNoN-lb","impala99"]')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>clicks</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Amount of wallpaper download link clicks.</p><p>For example:</p>' .
     '<div class="source-code">' .
-    $hyperLight->render('"clicks":"35"') . '</div></td>';
+    $highLight->highlight('json', '"clicks":"35"')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '</table>';
 

@@ -142,34 +142,21 @@ table.parameter-table td.api-field>p{margin:0;padding:4px 10px 0 10px;font-size:
 table.parameter-table td.api-description{padding:0 20px;background:#fff;}
 table.parameter-table td.api-description div.source-code{margin-bottom:18px;}
 
-/* theme based on vibrant-ink.css from hyperlight */
+/* Code highlighting, default highlight.js theme */
 .source-code{background:#f0f0f0;color:#333;white-space:pre;overflow:auto;padding:1em;font-family:monospace;border:1px solid #ccc;font-size:14px;}
-.source-code.none{color:#996;}
-.source-code .keyword{color:#f60;}
-.source-code .keyword.literal{color:#fc0;}
-.source-code .keyword.type{color:#fc0;}
-.source-code .keyword.builtin{color:#fc0;}
-.source-code .keyword.operator{color:#f60;}
-.source-code .preprocessor{color:#996;}
-.source-code .comment{color:#93c;}
-.source-code .comment .doc{color:#399;}
-.source-code .identifier{color:#111;}
-.source-code .string,.source-code .char{color:#080;}
-.source-code .escaped{color:#aaa;}
-.source-code .number,.source-code .tag{color:#f6e;}
-.source-code .regex{color:#4bc;}
-.source-code .operator{color:#888;}
-.source-code .attribute{color:#f60;}
-.source-code .tag,.source-code .variable{color:#4bc;}
-.source-code .tag .identifier,.source-code .variable .identifier{color:#4bc;}
-.source-code .whitespace{background:#333;}
-.source-code .error{border-bottom:1px solid red;}
-.source-code.xml{color:#ddd;}
-.source-code.xml .tag{color:#888;}
-.source-code.xml .attribute{color:#888;}
-.source-code.xml .preprocessor .keyword{color:#996;}
-.source-code.xml .meta,.source-code.xml .meta .keyword{color:#399;}
-.source-code.cpp .preprocessor .identifier{color:#996;}
+.hljs {display: block;overflow-x: auto;padding: 0.5em;background: #F0F0F0;}
+.hljs, .hljs-subst {color: #444;}
+.hljs-comment {color: #888888;}
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name {font-weight: bold;}
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion {color: #880000;}
+.hljs-title, .hljs-section {color: #880000;font-weight: bold;}
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo {color: #BC6060;}
+.hljs-literal {color: #78A960;}
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition {color: #397300;}
+.hljs-meta {color: #1f7199;}
+.hljs-meta-string {color: #4d99bf;}
+.hljs-emphasis {font-style: italic;}
+.hljs-strong {font-weight: bold;}
 
 /* jQPlot */
 .jqplot-target{position:relative;color:#666;font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;font-size:1em;}

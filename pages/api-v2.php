@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Highlight\Highlighter;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
 
@@ -21,7 +22,7 @@ $pageHtml   .= '<p>JSON endpoint for this call is ' .
     '<a href="' . PROTOCOL . SITE_DOMAIN . '/c/all/api/v2/favourites.json" target="_blank">' .
     PROTOCOL . SITE_DOMAIN . '/c/all/api/v2/featured.json</a>. ' .
     'This call wil return <strong>all</strong> user\'s favourites regardless of category in the URL.</p>';
-$hyperLight = new Hyperlight\Hyperlight('php');
+$highLight  = new Highlighter();
 $pageHtml   .= '<h3 style="margin:24px 0 2px 0;">Request parameters</h3>';
 $pageHtml   .= '<table class="parameter-table">';
 $pageHtml   .= '<tr>';
@@ -40,7 +41,10 @@ $pageHtml   .= '<td class="api-field"><h4>hash</h4><em>required</em></td>';
 $pageHtml   .= '<td class="api-description">' .
     '<p><strong>SHA256 hash generated from string containing userName, API token and requestId.</strong></p>' .
     '<p>For example (PHP):</p><div class="source-code">' .
-    $hyperLight->render('<?php' . "\n" . '$requestHash = hash(\'sha256\', $userName . $apiToken . $requestId);') .
+    $highLight->highlight(
+        'php',
+        '<?php' . "\n" . '$requestHash = hash(\'sha256\', $userName . $apiToken . $requestId);'
+    )->value .
     '</div><p>Unique request ID is used as part of hash generation to keep the string unique on each call.</p></td>';
 $pageHtml   .= '</tr>';
 $pageHtml   .= '<tr>';
@@ -62,17 +66,15 @@ $pageHtml   .= '<td class="api-description"><p>Result offset.</p>' .
 $pageHtml   .= '</tr>';
 $pageHtml   .= '</table>';
 
-$hyperLight = new Hyperlight\Hyperlight('javascript');
-
 $pageHtml .= '<h3 style="margin:30px 0 2px 0;">The API returns following parameters:</h3>';
 $pageHtml .= '<p>The API call returns the information formatted in JSON.</p>';
 $pageHtml .= '<table class="parameter-table">';
 $pageHtml .= '<tr>';
-$pageHtml .= '<td class="api-field"><h4>amount</h4><em>always present</em></td>';
-$pageHtml .= '<td class="api-description"><p>Amount of wallpapers in result.</p>' .
+$pageHtml  .= '<td class="api-field"><h4>amount</h4><em>always present</em></td>';
+$pageHtml  .= '<td class="api-description"><p>Amount of wallpapers in result.</p>' .
     '<p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"amount":7') . '</div></td>';
-$pageHtml .= '</tr>';
+    $highLight->highlight('json', '{"amount":7}')->value . '</div></td>';
+$pageHtml  .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>result</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description">' .
@@ -102,7 +104,7 @@ $jsonCode = '"result":[
   }
 ]';
 
-$pageHtml .= '<div class="source-code">' . $hyperLight->render($jsonCode) . '</div>';
+$pageHtml .= '<div class="source-code">' . $highLight->highlight('json', $jsonCode)->value . '</div>';
 $pageHtml .= '</tr>';
 $pageHtml .= '</table>';
 
@@ -111,54 +113,56 @@ $pageHtml .= '<table class="parameter-table">';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>title</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Wallpaper title.</p><p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"title":"Rainbow Dash wallpaper pack"') . '</div></td>';
+    $highLight->highlight('json', '{"title":"Rainbow Dash wallpaper pack"}')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>imageId</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Wallpaper image identifier.</p>' .
     '<p>This identifier can be used to get thumbnails from the site: <code>' .
     PROTOCOL . SITE_DOMAIN . '/image.php?image=[imageid]</code>, for example</p><div class="source-code">' .
-    $hyperLight->render('"imageId":"504726d1982d86.18038044"') . '</div></td>';
+    $highLight->highlight('json', '{"imageId":"504726d1982d86.18038044"}')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>downloadURL</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Wallpaper download URL.</p><p>For example:</p><div class="source-code">' .
-    $hyperLight->render(
-        '"downloadURL":"http:\/\/softfang.deviantart.com\/art\/Minimalist-Wallpaper-43-Wonderbolts-287463909"'
-    ) . '</div></td>';
+    $highLight->highlight(
+        'json',
+        '{"downloadURL":"http:\/\/softfang.deviantart.com\/art\/Minimalist-Wallpaper-43-Wonderbolts-287463909"}'
+    )->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>fullImageURL</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Direct link to wallpaper image.</p>' .
     '<p>For example:</p><div class="source-code">' .
-    $hyperLight->render(
-        '"fullImageURL":' . json_encode(PROTOCOL . SITE_DOMAIN . '/images/o_5551868684f4a1.44660109.jpg')
-    ) . '</div></td>';
+    $highLight->highlight(
+        'json',
+        '{"fullImageURL":' . json_encode(PROTOCOL . SITE_DOMAIN . '/images/o_5551868684f4a1.44660109.jpg}')
+    )->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>dimensions</h4><em>present if applicable</em></td>';
 $pageHtml .= '<td class="api-description">' .
     '<p>Wallpaper dimensions. Not present if not applicable, like with Android live wallpapers and themes.</p>' .
     '<p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"dimensions":{"width":1920,"height":1080}') . '</div></td>';
+    $highLight->highlight('json', '{"dimensions":{"width":1920,"height":1080}}')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>authors</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Wallpaper authors as an array.</p>' .
     '<p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"authors":["CaNoN-lb","impala99"]') . '</div></td>';
+    $highLight->highlight('json', '{"authors":["CaNoN-lb","impala99"]}')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>clicks</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Amount of wallpaper download link clicks.</p>' .
     '<p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"clicks":35') . '</div></td>';
+    $highLight->highlight('json', '{"clicks":35}')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '<tr>';
 $pageHtml .= '<td class="api-field"><h4>favourites</h4><em>always present</em></td>';
 $pageHtml .= '<td class="api-description"><p>Amount of wallpaper favourites.</p>' .
     '<p>For example:</p><div class="source-code">' .
-    $hyperLight->render('"favourites":35') . '</div></td>';
+    $highLight->highlight('json', '{"favourites":35}')->value . '</div></td>';
 $pageHtml .= '</tr>';
 $pageHtml .= '</table>';
 
