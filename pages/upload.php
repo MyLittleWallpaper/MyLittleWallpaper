@@ -17,14 +17,13 @@ if (!empty($ban['ip']) && $ban['ip'] == USER_IP) {
 } else {
     $banned = false;
 }
-$redirect        = false;
-$error           = false;
-$non_other_error = false;
+$redirect = false;
+$error    = false;
 
 $submitPage = new BasicPage();
 $submitPage->setPageTitleAddition('Submit');
 
-if (CATEGORY == 'all') {
+if (CATEGORY === 'all') {
     $pageContents = '<div id="content"><div>';
     $pageContents .= '<h1>Submit a wallpaper</h1>';
     $pageContents .= '<p>Please select a category before submitting a wallpaper.</p>';
@@ -532,9 +531,15 @@ if (CATEGORY == 'all') {
 					success: function(data) {
 						if (data.result != \'OK\') {
 							if (data.result == \'Found\') {
-								$("#duplicate_found span.dialogtext").html("The wallpaper you\'re about to submit was found in the database. If you\'re submitting several wallpapers from one page (for example a deviation with several wallpapers), just ignore this warning.");
+								$("#duplicate_found span.dialogtext").html("The wallpaper you\'re about to submit "
+								  + "was found in the database. If you\'re submitting several wallpapers from one "
+								  + "page (for example a deviation with several wallpapers), just ignore this warning."
+								);
 							} else {
-								$("#duplicate_found span.dialogtext").html("The wallpaper you\'re about to submit was found in the moderation queue. If you\'re submitting several wallpapers from one page (for example a deviation with several wallpapers), just ignore this warning.");
+								$("#duplicate_found span.dialogtext").html("The wallpaper you\'re about to submit "
+								  + "was found in the moderation queue. If you\'re submitting several wallpapers "
+								  + "from one page (for example a deviation with several wallpapers), just ignore this"
+								  + " warning.");
 							}
 							$("#duplicate_found").dialog("open");
 						} else {
