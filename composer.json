@@ -1,5 +1,35 @@
 {
     "license": "BSD-3-Clause",
+    "extra": {
+        "production-dependencies-guard": [
+            "check-lock-file",
+            "check-description",
+            "check-license",
+            "check-abandoned",
+
+            "accept-license:Apache-1.0",
+            "accept-license:Apache-1.1",
+            "accept-license:Apache-2.0",
+            "accept-license:BSD-2-Clause",
+            "accept-license:BSD-3-Clause",
+            "accept-license:ISC",
+            "accept-license:LGPL",
+            "accept-license:LGPL-2.0",
+            "accept-license:LGPL-2.1",
+            "accept-license:LGPL-2.1-only",
+            "accept-license:LGPL-2.1-or-later",
+            "accept-license:LGPL-3.0",
+            "accept-license:LGPL-3.0-only",
+            "accept-license:LGPL-3.0-or-later",
+            "accept-license:MIT",
+            "accept-license:MPL-2.0",
+            "accept-license:OSL-1.0",
+            "accept-license:OSL-1.1",
+            "accept-license:OSL-2.0",
+            "accept-license:OSL-2.1",
+            "accept-license:OSL-3.0"
+        ]
+    },
     "require": {
         "php": "^7.4 || ~8.0.0 || 8.1.0",
         "ext-curl": "*",
@@ -16,6 +46,7 @@
         "razielanarki/hyperlight": ">=0.1"
     },
     "require-dev": {
+        "kalessil/production-dependencies-guard": "dev-master",
         "overtrue/phplint": "^3.0.6 || ^4.0",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",

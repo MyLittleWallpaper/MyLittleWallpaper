@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5440f6c773e75e18521dfac8763741d",
+    "content-hash": "9bf31ca19fa89bf65051a7511a2c9319",
     "packages": [
         {
             "name": "gumlet/php-image-resize",
@@ -332,6 +332,63 @@
                 }
             ],
             "time": "2020-11-10T18:47:58+00:00"
+        },
+        {
+            "name": "kalessil/production-dependencies-guard",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kalessil/production-dependencies-guard.git",
+                "reference": "3fc04d73dfe3f8ef170180ef27ad20fb95ef71de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kalessil/production-dependencies-guard/zipball/3fc04d73dfe3f8ef170180ef27ad20fb95ef71de",
+                "reference": "3fc04d73dfe3f8ef170180ef27ad20fb95ef71de",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0|^2.0",
+                "ext-json": "*",
+                "php": "^7.0|^8.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0|^2.0",
+                "ext-xdebug": "*",
+                "infection/infection": "^0.9",
+                "phpunit/phpunit": "^6.5",
+                "rregeer/phpunit-coverage-check": "^0.1"
+            },
+            "default-branch": true,
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Kalessil\\Composer\\Plugins\\ProductionDependenciesGuard\\Guard"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kalessil\\Composer\\Plugins\\ProductionDependenciesGuard\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vladimir Reznichenko",
+                    "email": "kalessil@gmail.com",
+                    "role": "maintainer"
+                }
+            ],
+            "description": "Prevents adding of development packages into require-section (should be require-dev).",
+            "homepage": "https://github.com/kalessil/production-dependencies-guard",
+            "support": {
+                "issues": "https://github.com/kalessil/production-dependencies-guard/issues",
+                "source": "https://github.com/kalessil/production-dependencies-guard/tree/master"
+            },
+            "time": "2021-06-11T06:14:27+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -3907,6 +3964,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "kalessil/production-dependencies-guard": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,
