@@ -936,11 +936,15 @@ class WallpaperList extends Output
 
         // Fetch the wallpapers
         if ($this->displayOrder == self::ORDER_RANDOM) {
-            for ($a = 0; $a < $this->wallpapersPerPage; $a++) {
-                $randomOffset = random_int(0, ($this->wallpaperSearchCount - 1));
-                $res           = $this->db->query($sql . "LIMIT 1 OFFSET " . $randomOffset, $this->sqlData);
-                while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-                    $this->wallpapers[] = new Wallpaper($row);
+            if ($this->wallpaperSearchCount === 0) {
+                $this->wallpapers = [];
+            } else {
+                for ($a = 0; $a < $this->wallpapersPerPage; $a++) {
+                    $randomOffset = random_int(0, ($this->wallpaperSearchCount - 1));
+                    $res          = $this->db->query($sql . "LIMIT 1 OFFSET " . $randomOffset, $this->sqlData);
+                    while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
+                        $this->wallpapers[] = new Wallpaper($row);
+                    }
                 }
             }
         } else {
