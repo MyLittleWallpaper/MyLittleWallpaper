@@ -1,0 +1,7 @@
+parameters:
+    level: 4
+    bootstrapFiles:
+        - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
+        - checks-bootstrap.php
+    excludePaths:
+        - '%currentWorkingDirectory%/vendor/*'
