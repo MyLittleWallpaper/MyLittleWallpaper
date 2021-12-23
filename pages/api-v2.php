@@ -20,7 +20,7 @@ $pageHtml   .= '<p>API call to get personal favourites. To use this API call, AP
     'This can be found on account <a href="' . PUB_PATH_CAT . '/account" target="_blank">settings page</a>.</p>';
 $pageHtml   .= '<p>JSON endpoint for this call is ' .
     '<a href="' . PROTOCOL . SITE_DOMAIN . '/c/all/api/v2/favourites.json" target="_blank">' .
-    PROTOCOL . SITE_DOMAIN . '/c/all/api/v2/featured.json</a>. ' .
+    PROTOCOL . SITE_DOMAIN . '/c/all/api/v2/favourites.json</a>. ' .
     'This call wil return <strong>all</strong> user\'s favourites regardless of category in the URL.</p>';
 $highLight  = new Highlighter();
 $pageHtml   .= '<h3 style="margin:24px 0 2px 0;">Request parameters</h3>';
