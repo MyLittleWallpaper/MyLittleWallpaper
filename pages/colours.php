@@ -75,7 +75,7 @@ foreach ($colours as $scol => $dcol) {
         '<span style="%s%s">#%s</span>',
         'font-family:monospace;display:block;float:left;height:21px;width:75px;',
         'border-radius:10px 0 0 10px;padding:5px 0 0 7px;',
-        Format::htmlEntities($scol)
+        Format::htmlEntities((string)$scol)
     );
     $html .= '<span style="display:block;float:left;width:85px;height:25px;background:#' . $dcol .
         ';border-radius:0 10px 10px 0;box-shadow:-1px 0 6px #aaa;">&nbsp;</span>';
@@ -100,7 +100,7 @@ foreach ($colours as $scol => $dcol) {
         '<span style="%s%s">#%s</span>',
         'font-family:monospace;display:block;float:left;height:21px;width:75px;',
         'border-radius:10px 0 0 10px;padding:5px 0 0 7px;',
-        Format::htmlEntities($scol)
+        Format::htmlEntities((string)$scol)
     );
     $html .= '<span style="display:block;float:left;width:85px;height:25px;background:#' . $dcol .
         ';border-radius:0 10px 10px 0;box-shadow:-1px 0 6px #aaa;">&nbsp;</span>';

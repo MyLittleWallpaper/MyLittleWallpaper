@@ -11,14 +11,14 @@ namespace MyLittleWallpaper\classes\output;
 class BasicXML extends Output
 {
     /**
-     * @var array|string|null
+     * @var string|null
      */
-    private $contents;
+    private ?string $contents;
 
     /**
-     * @param array|string|null $contents
+     * @param string|null $contents
      */
-    public function __construct($contents = null)
+    public function __construct(?string $contents = null)
     {
         if ($contents !== null) {
             $this->setContents($contents);
@@ -26,11 +26,11 @@ class BasicXML extends Output
     }
 
     /**
-     * @param array $contents
+     * @param string $contents
      *
      * @return void
      */
-    public function setContents(array $contents): void
+    public function setContents(string $contents): void
     {
         $this->contents = $contents;
     }
