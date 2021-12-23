@@ -11,6 +11,9 @@ use MyLittleWallpaper\classes\Session;
 
 const THEME = 'stylev3';
 
+// @todo fix
+// phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
+// phpcs:disable PSR1.Files.SideEffects
 // Server protocol
 $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
     $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";

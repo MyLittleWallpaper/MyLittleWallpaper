@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Files.SideEffects
 $time_start = microtime(true);
+// phpcs:enable
+// phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
 
 use MyLittleWallpaper\classes\Format;
 
@@ -11,6 +14,7 @@ const ROOT_DIR = __DIR__ . '/../';
 define('PUB_PATH', str_replace($_SERVER['DOCUMENT_ROOT'], '', DOC_DIR));
 
 // Get the request URI
+// phpcs:disable PSR1.Files.SideEffects
 $originalRequestUri = $_SERVER['REQUEST_URI'];
 $requestUri         = $originalRequestUri;
 
@@ -225,3 +229,4 @@ if (strcmp($pageType, 'images') === 0) {
         require_once(ROOT_DIR . 'pages/errors/' . $page . '.php');
     }
 }
+// phpcs:enable

@@ -1,6 +1,7 @@
 <?php
 
-use MyLittleWallpaper\classes\Category\Category;
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\Navigation\Navigation;
 
@@ -18,23 +19,14 @@ if (!empty($response->getResponseVariables()->javaScriptFiles)) {
     }
 }
 
-/**
- * @var $category_list Category[]
- */
 $category_list = $response->getResponseVariables()->category_list;
 
-$categoriesMeta = '';
 $allCategories  = '';
 foreach ($category_list as $category) {
     if ($allCategories !== '') {
         $allCategories .= ', ';
     }
     $allCategories .= Format::htmlEntities($category->getName());
-}
-if (CATEGORY_NAME === '') {
-    $categoriesMeta = $allCategories;
-} else {
-    $categoriesMeta = CATEGORY_NAME;
 }
 
 $menu          = '			<div id="menu">' . "\n";
@@ -80,38 +72,68 @@ if (!empty($activeSubMenu)) {
     $menu .= '			</div>' . "\n";
 }
 
-echo '<!DOCTYPE html>
-<html lang="en">
+echo sprintf(
+    "<!DOCTYPE html>
+<html lang=\"en\">
 	<head>
-		<meta charset="utf-8">
-		<meta name="description" content="Searchable listing of ' . $allCategories . ' wallpapers.">
-		<link rel="shortcut icon" href="' . PUB_PATH . 'favicon.ico">
-		<meta name="twitter:title" content="' . $response->getResponseVariables()->titleAddition .
-    (CATEGORY_NAME != '' ? Format::htmlEntities(CATEGORY_NAME) . ' | ' : '') . 'My Little Wallpaper - Wallpapers are Magic">
-		<meta name="twitter:domain" content="' . $_SERVER['SERVER_NAME'] . '">
-		<meta name="twitter:site" content="@MLWallpaper">
-		<meta name="twitter:url" content="http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '">' .
-    $response->getResponseVariables()->meta . '
-		' . $response->getResponseVariables()->rss . '
-		<title>' . $response->getResponseVariables()->titleAddition .
-    (CATEGORY_NAME != '' ? Format::htmlEntities(CATEGORY_NAME) . ' | ' : '') . 'My Little Wallpaper - Wallpapers are Magic</title>
-		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/style.css?v=' . urlencode($version) . '" media="all">
-		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/jquery-ui-1.11.4.structure.min.css?v=' .
-    urlencode($version) . '" media="all">
-		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/jquery-ui-1.11.4.theme.css?v=' .
-    urlencode($version) . '" media="all">
-		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-1.12.4.min.js?v=' . urlencode($version) . '"></script>
-		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery.lazyload-1.9.6.min.js?v=' . urlencode($version) . '"></script>
-		<script type="text/javascript" src="' . PUB_PATH . 'js/perfect-scrollbar.jquery-0.6.11.min.js?v=' .
-    urlencode($version) . '"></script>
-		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery.tagsinput-1.3.3.js?v=' . urlencode($version) . '"></script>
-		<script type="text/javascript" src="' . PUB_PATH . 'js/vex.combined-2.0.1.js?v=' . urlencode($version) . '"></script>
-		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-ui-1.11.4.min.js?v=' . urlencode($version) . '"></script>
-		<script type="text/javascript" src="' . PUB_PATH . 'js/header.js?v=' . urlencode($version) . '"></script>' .
-    $javaScriptIncludes . '
-		' . $response->getResponseVariables()->javaScript . '
+		<meta charset=\"utf-8\">
+		<meta name=\"description\" content=\"Searchable listing of %s wallpapers.\">
+		<link rel=\"shortcut icon\" href=\"%sfavicon.ico\">
+		<meta name=\"twitter:title\" content=\"%s%sMy Little Wallpaper - Wallpapers are Magic\">
+		<meta name=\"twitter:domain\" content=\"%s\">
+		<meta name=\"twitter:site\" content=\"@MLWallpaper\">
+		<meta name=\"twitter:url\" content=\"http://%s%s\">%s
+		%s
+		<title>%s%sMy Little Wallpaper - Wallpapers are Magic</title>
+		<link type=\"text/css\" rel=\"stylesheet\" href=\"%sstylev3/style.css?v=%s\" media=\"all\">
+		<link type=\"text/css\" rel=\"stylesheet\" href=\"%s?v=%s\" media=\"all\">
+		<link type=\"text/css\" rel=\"stylesheet\" href=\"%sstylev3/jquery-ui-1.11.4.theme.css?v=%s\" media=\"all\">
+		<script type=\"text/javascript\" src=\"%sjs/jquery-1.12.4.min.js?v=%s\"></script>
+		<script type=\"text/javascript\" src=\"%sjs/jquery.lazyload-1.9.6.min.js?v=%s\"></script>
+		<script type=\"text/javascript\" src=\"%sjs/perfect-scrollbar.jquery-0.6.11.min.js?v=%s\"></script>
+		<script type=\"text/javascript\" src=\"%sjs/jquery.tagsinput-1.3.3.js?v=%s\"></script>
+		<script type=\"text/javascript\" src=\"%sjs/vex.combined-2.0.1.js?v=%s\"></script>
+		<script type=\"text/javascript\" src=\"%sjs/jquery-ui-1.11.4.min.js?v=%s\"></script>
+		<script type=\"text/javascript\" src=\"%sjs/header.js?v=%s\"></script>%s
+		%s
 	</head>
-	<body lang="en"' . (!empty($activeSubMenu) ? ' class="additional-padding"' : '') . '>' . "\n";
+	<body lang=\"en\"%s>\n",
+    $allCategories,
+    PUB_PATH,
+    $response->getResponseVariables()->titleAddition,
+    CATEGORY_NAME !== '' ? Format::htmlEntities(CATEGORY_NAME) . ' | ' : '',
+    $_SERVER['SERVER_NAME'],
+    $_SERVER['SERVER_NAME'],
+    $_SERVER['REQUEST_URI'],
+    $response->getResponseVariables()->meta,
+    $response->getResponseVariables()->rss,
+    $response->getResponseVariables()->titleAddition,
+    CATEGORY_NAME !== '' ? Format::htmlEntities(CATEGORY_NAME) . ' | ' : '',
+    PUB_PATH,
+    urlencode($version),
+    PUB_PATH,
+    'stylev3/jquery-ui-1.11.4.structure.min.css',
+    urlencode($version),
+    PUB_PATH,
+    urlencode($version),
+    PUB_PATH,
+    urlencode($version),
+    PUB_PATH,
+    urlencode($version),
+    PUB_PATH,
+    urlencode($version),
+    PUB_PATH,
+    urlencode($version),
+    PUB_PATH,
+    urlencode($version),
+    PUB_PATH,
+    urlencode($version),
+    PUB_PATH,
+    urlencode($version),
+    $javaScriptIncludes,
+    $response->getResponseVariables()->javaScript,
+    !empty($activeSubMenu) ? ' class="additional-padding"' : ''
+);
 
 echo '		<header>' . "\n";
 echo '			<div id="categoryselect">' . "\n";
@@ -147,7 +169,9 @@ if (!$user->getIsAnonymous()) {
     echo '<br /><br />';
 }
 echo '<div class="links" style="border:2px solid #bbb;background:#ddd;padding:8px;"><strong>GitHub:</strong><br />
-<a href="https://github.com/MyLittleWallpaper/MyLittleWallpaper" target="_blank">Issue tracker and source code</a><br /><br />
+<a href="https://github.com/MyLittleWallpaper/MyLittleWallpaper" target="_blank">
+    Issue tracker and source code
+</a><br /><br />
 <strong>Discord:</strong><br />
 <a href="https://discord.gg/GWVG7Bu">Discord server</a><br /><br />
 <strong>Related wallpaper sites:</strong><br />

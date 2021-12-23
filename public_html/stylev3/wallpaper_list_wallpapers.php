@@ -1,14 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\Tag\Tag;
-use MyLittleWallpaper\classes\Wallpaper;
 
 global $response, $user;
 
-/**
- * @var $wallpapers Wallpaper[]
- */
 $wallpapers = $response->getResponseVariables()->wallpapers;
 
 foreach ($wallpapers as $wallpaper) {
@@ -37,14 +35,17 @@ foreach ($wallpapers as $wallpaper) {
             $wallpaper->getId() . '" id="fav_a_' . $wallpaper->getId() . '" href="#fav">' .
             ($isFav ? 'Remove from favs' : 'Add to favourites') . '</a>' . "\n";
     } else {
-        $actions .= '							<br /><a class="favourite fav_disabled" href="#fav">Login to favourite</a>' .
-            "\n";
+        $actions .= '							<br /><a class="favourite fav_disabled" href="#fav">' .
+            'Login to favourite</a>' . "\n";
     }
     $actions .= '						</div>' . "\n";
-
-    echo '			<div class="image_container ' . ($response->getResponseVariables(
-        )->large_wallpaper_thumbs ? 'image_container_large' : 'image_container_small') . '" id="image_container_' .
-        $wallpaper->getId() . '_' . $rand_id . '"><div>' . "\n";
+    if ($response->getResponseVariables()->large_wallpaper_thumbs) {
+        $class = ('image_container_large');
+    } else {
+        $class = ('image_container_small');
+    }
+    echo '			<div class="image_container ' . $class .
+        '" id="image_container_' . $wallpaper->getId() . '_' . $rand_id . '"><div>' . "\n";
     echo '				<div class="image_basicinfo">' . "\n";
     echo '					<div class="imagebox">' . "\n";
     echo '						<a class="image_preview grouped_images" id="a_' . $wallpaper->getId() .
