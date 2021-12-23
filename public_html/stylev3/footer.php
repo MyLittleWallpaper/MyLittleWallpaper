@@ -9,8 +9,14 @@ $usersonline = 0;
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 	$usersonline = $row['cnt'];
 }
-$topvisits = explode('|', trim(file_get_contents(ROOT_DIR.'topvisitors')));
+if (file_exists(ROOT_DIR . 'topvisitors')) {
+    $topvisits = explode('|', trim(file_get_contents(ROOT_DIR.'topvisitors')));
+} else {
+    $topvisits[0] = 0;
+}
+
 if ($usersonline > $topvisits[0]) {
+    // @todo Store this in database
 	file_put_contents(ROOT_DIR.'topvisitors', $usersonline.'|'.date('Y-m-d H:i:s'));
 }
 

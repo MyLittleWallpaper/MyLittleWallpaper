@@ -41,7 +41,7 @@ class Password
     public static function doesPasswordNeedRehash(string $hash): bool
     {
         // @todo Check parameters
-        return strpos($hash, '$argon2id$') === 0;
+        return strpos($hash, '$argon2id$') !== 0;
     }
 
     /**

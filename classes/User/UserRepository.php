@@ -75,7 +75,7 @@ class UserRepository
             if (Password::doesPasswordNeedRehash($userRow['password'])) {
                 $this->updatePassword($userRow['id'], $password);
             }
-            return null;
+            return $user;
         }
         return null;
     }

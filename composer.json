@@ -3,6 +3,7 @@
     "require": {
         "php": "^7.4 || ~8.0.0 || 8.1.0",
         "ext-curl": "*",
+        "ext-bcmath": "*",
         "ext-gd": "*",
         "ext-mbstring": "*",
         "ext-memcache": "*",
@@ -10,6 +11,7 @@
         "ext-pdo": "*",
         "ext-zlib": "*",
 
+        "gumlet/php-image-resize": "^2.0",
         "phpmailer/phpmailer": "^6.5",
         "razielanarki/hyperlight": ">=0.1"
     },

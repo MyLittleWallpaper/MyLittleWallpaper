@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-define("FILE_FOLDER", 'files/');
-define("DBNAME", '');
-define("DBUSER", '');
-define("DBPASS", '');
-define("DBHOST", 'localhost');
+// @todo Use vlucas/phpdotenv
+// Please note that the configuration below is for local development with a Vagrant machine
 
-define("HASHKEY", '');
-define("SESSIONPREFIX", '');
+const FILE_FOLDER = 'files/';
+const DBNAME      = 'mlwp';
+const DBUSER      = 'mlwp';
+const DBPASS      = 'aoGMq8r9fbyLgLY9yZ6kcshcw4DBuX';
+const DBHOST      = 'localhost';
+
+const HASHKEY = 'will-be-removed';
+const SESSIONPREFIX = 'local-session';

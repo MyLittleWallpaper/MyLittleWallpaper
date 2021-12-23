@@ -99,8 +99,8 @@ if (!empty($page)) {
                     $isFav = $wallpaper->getIsFavourite($user->getId());
                     $html  .= sprintf(
                         '%s<a style="%s" class="%s" data-wallpaperid="%s" id="fav_a_%s" href="#fav">%s</a>' . "\n",
-                        'margin-left:2px;',
                         '					',
+                        'margin-left:2px;',
                         'button favourite fav_active',
                         $wallpaper->getId(),
                         $wallpaper->getId(),

@@ -22,12 +22,12 @@ class BasicPage extends Output
     /**
      * @var string
      */
-    private string $javaScript;
+    private string $javaScript = '';
 
     /**
      * @var string
      */
-    private string $meta;
+    private string $meta = '';
 
     /**
      * @var bool

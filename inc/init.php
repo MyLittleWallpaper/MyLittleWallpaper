@@ -97,7 +97,7 @@ define('CATEGORY', $category);
 define('CATEGORY_NAME', $category_name);
 define('CATEGORY_ID', $category_id);
 
-setcookie('category_id', CATEGORY_ID, time() + (3600 * 24 * 60), '/');
+setcookie('category_id', (string)CATEGORY_ID, time() + (3600 * 24 * 60));
 const PUB_PATH_CAT = PUB_PATH . (CATEGORY != '' ? 'c/' . CATEGORY . '/' : '');
 
 $visits = $db->getRecord('visits', ['field' => 'id', 'value' => 1]);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\WallpaperList;
 
@@ -37,7 +39,7 @@ echo '						<label>Sort by: </label><br />' . "\n";
 echo '						<select name="sort">' . "\n";
 $sorts = array(WallpaperList::ORDER_DATE_ADDED, WallpaperList::ORDER_POPULARITY);
 foreach ($sorts as $sort) {
-	echo '							<option value="' . $sort . '"' . (isset($_GET['sort']) && $_GET['sort'] == $sort ? ' selected="selected"' : '') . '>' . Format::htmlEntities(WallpaperList::GET_ORDER_TITLE($sort)) . '</option>' . "\n";
+	echo '							<option value="' . $sort . '"' . (isset($_GET['sort']) && $_GET['sort'] == $sort ? ' selected="selected"' : '') . '>' . Format::htmlEntities(WallpaperList::getOrderTitle($sort)) . '</option>' . "\n";
 }
 echo '						</select>' . "\n";
 echo '					</div>' . "\n";
@@ -47,7 +49,7 @@ echo '						<select name="size">' . "\n";
 echo '							<option value="0">All sizes</option>' . "\n";
 $resolutions = array(WallpaperList::RESOLUTION_3840X2160, WallpaperList::RESOLUTION_2560X1600, WallpaperList::RESOLUTION_2560X1440, WallpaperList::RESOLUTION_1920X1200, WallpaperList::RESOLUTION_1920X1080, WallpaperList::RESOLUTION_1680X1050, WallpaperList::RESOLUTION_1366X768);
 foreach ($resolutions as $resolution) {
-	echo '							<option value="' . $resolution . '"' . (isset($_GET['size']) && $_GET['size'] == $resolution ? ' selected="selected"' : '') . '>' . WallpaperList::GET_RESOLUTION_TITLE($resolution) . '</option>' . "\n";
+	echo '							<option value="' . $resolution . '"' . (isset($_GET['size']) && $_GET['size'] == $resolution ? ' selected="selected"' : '') . '>' . WallpaperList::getResolutionTitle($resolution) . '</option>' . "\n";
 }
 echo '						</select>' . "\n";
 echo '					</div>' . "\n";
@@ -83,7 +85,12 @@ echo '			</form>' . "\n";
 echo '			<div style="position:absolute;bottom:16px;right:16px;font-size:11px;"><img src="' . PUB_PATH . THEME . '/images/fin.png" alt="Finland" /> &nbsp; Made in Finland</div>' . "\n";
 echo '			<div style="position:absolute;top:16px;right:16px;"><label id="rss">RSS' . ($response->getResponseVariables()->rss_search != '' ? ' for this search' : '') . ':</label> <a href="' . PUB_PATH_CAT . 'feed/' . $response->getResponseVariables()->rss_search . '">link</a></div>' . "\n";
 echo '			<p>Account registration has been fixed. You can register an account <a href="' . PUB_PATH_CAT . 'register">here</a></p>';
-echo '			<p>Tasty PHP 8.0 & MySQL 8.0 with <a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.mylittlewallpaper.com" target="_blank">TLS 1.3</a></p>';
+$phpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+echo sprintf(
+    '			<p>Tasty PHP %s & MySQL 8.0 with <a href="%s" target="_blank">TLS 1.3</a></p>',
+    $phpVersion,
+    'https://www.ssllabs.com/ssltest/analyze.html?d=www.mylittlewallpaper.com'
+);
 echo '			<div style="clear:both;"></div>' . "\n";
 echo '		</div>' . "\n";
 

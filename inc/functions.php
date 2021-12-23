@@ -125,10 +125,10 @@ function FILESIZE_FORMAT(int $bytes, string $decimal = ','): string
         $result = $bytes . " B";
     } elseif ($bytes / 1024 < 1000) {
         $result = number_format(round($bytes / 1024, 2), 2, $decimal, ' ') . " kB";
-    } elseif (bcdiv($bytes, '1048576', 2) < 1000) {
-        $result = number_format(bcdiv($bytes, '1048576', 2), 2, $decimal, ' ') . " MB";
+    } elseif (bcdiv((string)$bytes, '1048576', 2) < 1000) {
+        $result = number_format((float)bcdiv((string)$bytes, '1048576', 2), 2, $decimal, ' ') . " MB";
     } else {
-        $result = number_format(bcdiv($bytes, '1073741824', 2), 2, $decimal, ' ') . " GB";
+        $result = number_format((float)bcdiv((string)$bytes, '1073741824', 2), 2, $decimal, ' ') . " GB";
     }
     return $result;
 }
@@ -143,8 +143,8 @@ function FILESIZE_FORMAT(int $bytes, string $decimal = ','): string
  */
 function FILESIZE_BYTES(string $original): int
 {
-    $val  = preg_replace("/[^0-9\\.,kKmMgG]/", '', trim($original));
-    $num  = (float)str_replace(',', '.', preg_replace("/[^0-9\\.,]/", '', $val));
+    $val  = preg_replace("/[^0-9.,kKmMgG]/", '', trim($original));
+    $num  = (float)str_replace(',', '.', preg_replace("/[^0-9.,]/", '', $val));
     $last = strtolower($val[strlen($val) - 1]);
     switch ($last) {
         case 'g':
@@ -157,7 +157,7 @@ function FILESIZE_BYTES(string $original): int
             $num *= 1024;
             break;
     }
-    return $num;
+    return (int)$num;
 }
 
 /**

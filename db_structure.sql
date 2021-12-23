@@ -480,6 +480,10 @@ CREATE TABLE `wallpaper_tag_aspect` (
   KEY `tag_aspect` (`tag_aspect_id`),
   KEY `wallpaper` (`wallpaper_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_swedish_ci;
+INSERT INTO tag_aspect (name) VALUES ('16:9');
+INSERT INTO tag_aspect (name) VALUES ('16:10');
+INSERT INTO tag_aspect (name) VALUES ('4:3');
+INSERT INTO tag_aspect (name) VALUES ('21:9');
 
 --
 -- Table structure for table `wallpaper_tag_colour`
@@ -527,6 +531,15 @@ CREATE TABLE `wallpaper_tag_platform` (
   KEY `tag_platform` (`tag_platform_id`),
   KEY `wallpaper` (`wallpaper_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_swedish_ci;
+INSERT INTO tag_platform (name) VALUES ('Desktop');
+INSERT INTO tag_platform (name) VALUES ('Mobile');
+INSERT INTO tag_platform (name) VALUES ('Android Live Wallpaper');
+INSERT INTO tag_platform (name) VALUES ('iPhone');
+INSERT INTO tag_platform (name) VALUES ('Android');
+INSERT INTO tag_platform (name) VALUES ('Windows Phone');
+INSERT INTO tag_platform (name) VALUES ('Android Theme');
+INSERT INTO tag_platform (name) VALUES ('iPad');
+INSERT INTO tag_platform (name) VALUES ('Dual screen');
 
 --
 -- Final view structure for view `wallpaper_tag_search`

@@ -798,7 +798,7 @@ class WallpaperList extends Output
         $sql = <<<SQL
             SELECT w.id, w.name, w.url, w.filename, w.file, w.width, w.height, w.mime, w.timeadded, w.clicks, w.favs,
                    w.no_aspect, w.no_resolution, w.direct_with_link FROM 
-            wallpaper w
+            wallpaper w 
         SQL;
 
         $this->sqlJoins = "";

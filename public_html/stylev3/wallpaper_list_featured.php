@@ -1,12 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Featured wallpaper list template.
- * @author Petri Haikonen <sharkmachine@ecxol.net>
- * @package MyLittleWallpaper
- * @subpackage DefaultTemplate
+ *
+ * @global Response $response
+ * @global User     $user
  */
 
 global $response, $user;
+
+use MyLittleWallpaper\classes\Response;
+use MyLittleWallpaper\classes\User\User;
 
 echo "\n".'		<!-- Wallpaper edit dialog -->'."\n";
 echo '		<div id="wallpaper_edit" style="display:none;" title="Edit wallpaper information">'."\n";
@@ -35,7 +41,7 @@ echo '		<div class="imagelistcontainer"><div id="galleryimages" style="margin:20
 if (ACTIVE_PAGE === 'featured') {
 	echo '			<h1>Featured</h1>' . "\n";
 	echo '			<p>This section contains wallpapers picked by the staff. All wallpapers here are at least in 1920x1080 resolution.</p>';
-	echo '			<div class="wallpapercount wallpapercount_featured">' . $response->getResponseVariables()->wallpaper_count . ' wallpaper' . ($response->responseVariables->wallpaper_count !== 1 ? 's' : '') . ' found.</div>';
+	echo '			<div class="wallpapercount wallpapercount_featured">' . $response->getResponseVariables()->wallpaper_count . ' wallpaper' . ($response->getResponseVariables()->wallpaper_count !== 1 ? 's' : '') . ' found.</div>';
 } elseif (ACTIVE_PAGE === 'favourites') {
 	echo '			<h1>My Favourites</h1>'."\n";
 } else {

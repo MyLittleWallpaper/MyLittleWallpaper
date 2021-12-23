@@ -64,8 +64,14 @@ class Database
             throw new PDOException('Database connection failed, missing ' . $miss . '.');
         }
 
+        $options = [
+            PDO::ATTR_ORACLE_NULLS      => PDO::NULL_NATURAL,
+            PDO::ATTR_STRINGIFY_FETCHES => false,
+            PDO::ATTR_EMULATE_PREPARES  => false,
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8mb4\''
+        ];
         $dsn       = 'mysql:dbname=' . $database . ';host=' . $host;
-        $this->dbh = new PDO($dsn, $username, $password, [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8mb4\'']);
+        $this->dbh = new PDO($dsn, $username, $password, $options);
         $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -95,13 +101,13 @@ class Database
     }
 
     /**
-     * @param string $table
-     * @param array  $fields
-     * @param array  $conditions
-     * @param array  $order
-     * @param array  $limit
-     * @param array  $join
-     * @param bool   $group
+     * @param string     $table
+     * @param array      $fields
+     * @param array      $conditions
+     * @param array      $order
+     * @param array|null $limit
+     * @param array      $join
+     * @param bool       $group
      *
      * @return array
      * @throws PDOException
@@ -111,7 +117,7 @@ class Database
         array $fields = [],
         array $conditions = [],
         array $order = [],
-        array $limit = [],
+        ?array $limit = [],
         array $join = [],
         bool $group = false
     ): array {
@@ -415,9 +421,9 @@ class Database
      * @param array     $fields
      * @param array     $join
      *
-     * @return array
+     * @return array|false
      */
-    public function getRecord(string $table, $id, array $fields = [], array $join = []): array
+    public function getRecord(string $table, $id, array $fields = [], array $join = [])
     {
         $select = "";
         if (!empty($fields)) {
@@ -518,7 +524,7 @@ class Database
                     foreach ($this->dbh->query("SELECT LAST_INSERT_ID() `id`") as $row) {
                         $return_id = $row['id'];
                     }
-                    return $return_id;
+                    return (int)$return_id;
                 }
 
                 // Updates an existing record

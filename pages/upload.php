@@ -129,7 +129,7 @@ if (CATEGORY === 'all') {
                     } else {
                         switch ($_FILES['Filedata']['error']) {
                             case UPLOAD_ERR_FORM_SIZE:
-                                $error = 'The file is too big, limit ' . FILESIZE_FORMAT($_POST['MAX_FILE_SIZE']) .
+                                $error = 'The file is too big, limit ' . FILESIZE_FORMAT((int)$_POST['MAX_FILE_SIZE']) .
                                     '.';
                                 break;
                             case UPLOAD_ERR_INI_SIZE:
@@ -309,9 +309,9 @@ if (CATEGORY === 'all') {
                                 $colours  = array_keys($cl['colours']);
                                 $col      = $colours[0];
                                 $amnt     = $cl['percent'];
-                                $tag_r    = base_convert(substr($col, 0, 2), 16, 10);
-                                $tag_g    = base_convert(substr($col, 2, 2), 16, 10);
-                                $tag_b    = base_convert(substr($col, 4, 2), 16, 10);
+                                $tag_r    = base_convert(substr((string)$col, 0, 2), 16, 10);
+                                $tag_g    = base_convert(substr((string)$col, 2, 2), 16, 10);
+                                $tag_b    = base_convert(substr((string)$col, 4, 2), 16, 10);
                                 $savedata = [
                                     'wallpaper_id' => $imageid,
                                     'tag_r'        => $tag_r,

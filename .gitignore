@@ -28,3 +28,15 @@
 
 # Ah, the so wonderful Windows and its Thumbs.db files
 Thumbs.db
+
+# Ignore local Vagrant box things
+/.vagrant
+
+# Ignore uploaded wallpapers
+/temp
+/files
+!/temp/.gitkeep
+!/files/.gitkeep
+!/files/cache/.gitkeep
+!/files/moderate/.gitkeep
+!/files/thumb/.gitkeep

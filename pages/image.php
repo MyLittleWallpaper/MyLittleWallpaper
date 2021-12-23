@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 global $db, $image, $resize, $original;
 
+use Gumlet\ImageResize;
+
 if (!empty($image)) {
     $last_modified = filemtime(ROOT_DIR . FILE_FOLDER . $image);
     if (
@@ -47,36 +49,22 @@ if (!empty($image)) {
                     readfile(ROOT_DIR . FILE_FOLDER . 'thumb/thumb1_' . $file['file']);
                 }
             } else {
-                $res_w = 200;
-                $res_h = 150;
-                exec(
-                    "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
-                    "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r1.jpg"
-                );
+                $image = new ImageResize(ROOT_DIR . FILE_FOLDER . $file['file']);
+                $image->resizeToBestFit(200, 150);
+                $image->save(ROOT_DIR . FILE_FOLDER . 'cache/' . $file['file'] . 'r1.jpg', IMAGETYPE_JPEG, 90);
                 if ($file['height'] > 700) {
-                    $res_w = 640;
-                    $res_h = 480;
-                    exec(
-                        "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
-                        "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r2.jpg"
-                    );
-                    $res_w = 457;
-                    $res_h = 342;
-                    exec(
-                        "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
-                        "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r3.jpg"
-                    );
+                    $image = new ImageResize(ROOT_DIR . FILE_FOLDER . $file['file']);
+                    $image->resizeToBestFit(640, 480);
+                    $image->save(ROOT_DIR . FILE_FOLDER . 'cache/' . $file['file'] . 'r2.jpg', IMAGETYPE_JPEG, 90);
+
+                    $image = new ImageResize(ROOT_DIR . FILE_FOLDER . $file['file']);
+                    $image->resizeToBestFit(457, 342);
+                    $image->save(ROOT_DIR . FILE_FOLDER . 'cache/' . $file['file'] . 'r3.jpg', IMAGETYPE_JPEG, 90);
                 } else {
-                    $res_w = 400;
-                    $res_h = 300;
-                    exec(
-                        "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
-                        "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r2.jpg"
-                    );
-                    exec(
-                        "convert " . ROOT_DIR . FILE_FOLDER . $file['file'] . " -resize " . $res_w . "x" . $res_h .
-                        "\\> -quality 90% " . ROOT_DIR . FILE_FOLDER . "cache/" . $file['file'] . "r3.jpg"
-                    );
+                    $image = new ImageResize(ROOT_DIR . FILE_FOLDER . $file['file']);
+                    $image->resizeToBestFit(400, 300);
+                    $image->save(ROOT_DIR . FILE_FOLDER . 'cache/' . $file['file'] . 'r2.jpg', IMAGETYPE_JPEG, 90);
+                    $image->save(ROOT_DIR . FILE_FOLDER . 'cache/' . $file['file'] . 'r3.jpg', IMAGETYPE_JPEG, 90);
                 }
 
                 rename(
