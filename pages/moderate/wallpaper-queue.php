@@ -166,9 +166,9 @@ if ($user->getIsAdmin()) {
                         $colours  = array_keys($cl['colours']);
                         $col      = $colours[0];
                         $amount   = $cl['percent'];
-                        $tag_r    = base_convert(substr($col, 0, 2), 16, 10);
-                        $tag_g    = base_convert(substr($col, 2, 2), 16, 10);
-                        $tag_b    = base_convert(substr($col, 4, 2), 16, 10);
+                        $tag_r    = base_convert(substr((string)$col, 0, 2), 16, 10);
+                        $tag_g    = base_convert(substr((string)$col, 2, 2), 16, 10);
+                        $tag_b    = base_convert(substr((string)$col, 4, 2), 16, 10);
                         $saveData = [
                             'wallpaper_id' => $imageId,
                             'tag_r'        => $tag_r,
@@ -445,7 +445,7 @@ if ($user->getIsAdmin()) {
 						text: "Ok",
 						click: function() {
 							$.ajax({
-								url: "' . PUB_PATH . 'ajax/denysubmission?id=' . urlencode($wallpaperData['id']) .
+								url: "' . PUB_PATH . 'ajax/denysubmission?id=' . $wallpaperData['id'] .
                                   '&reason=" + encodeURIComponent($("#denyreason option:selected").val()),
 								success: function(data) {
 									if (data.result != "OK") {
@@ -489,7 +489,7 @@ if ($user->getIsAdmin()) {
         $pageContents .= '</select></p></div>';
         $pageContents .= '<form class="labelForm" style="padding:25px 0 0 0;" method="post" action="' . PUB_PATH_CAT .
             'moderate/wallpaper-queue" enctype="multipart/form-data" accept-charset="utf-8">';
-        $pageContents .= '<input type="hidden" name="id" value="' . Format::htmlEntities($wallpaperData['id']) . '" />';
+        $pageContents .= '<input type="hidden" name="id" value="' . $wallpaperData['id'] . '" />';
         $pageContents .= sprintf(
             '<div><label>%s</label><input type="text" autocomplete="off" name="name" style="%s" value="%s"/></div>',
             'Title:',
@@ -542,7 +542,7 @@ if ($user->getIsAdmin()) {
 
         $category_list = $category_repository->getCategoryList();
         foreach ($category_list as $category) {
-            $pageContents .= '<option value="' . Format::htmlEntities($category->getId()) . '"' .
+            $pageContents .= '<option value="' . $category->getId() . '"' .
                 ((int)$wallpaperData['series'] === $category->getId() ? ' selected="selected"' : '') . '>' .
                 Format::htmlEntities($category->getName()) . '</option>';
         }

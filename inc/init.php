@@ -63,7 +63,7 @@ if (!empty($category)) {
         }
     }
 } elseif (!empty($_COOKIE['category_id'])) {
-    $selected_category = $category_repository->getCategoryById($_COOKIE['category_id']);
+    $selected_category = $category_repository->getCategoryById((int)$_COOKIE['category_id']);
     if ($selected_category instanceof Category) {
         $category      = $selected_category->getUrlName();
         $category_name = $selected_category->getName();
