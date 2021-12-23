@@ -102,10 +102,6 @@ mysql -u mlwp -p"${mysql_pwd}" "mlwp" -e "INSERT INTO tag_artist (name, oldname)
 mysql -u mlwp -p"${mysql_pwd}" "mlwp" -e "INSERT INTO tag_artist (name, oldname) VALUES ('SailorCardKnight', '');"
 mysql -u mlwp -p"${mysql_pwd}" "mlwp" -e "INSERT INTO tag_artist (name, oldname) VALUES ('ExtrahoVinco', '');"
 
-
-# Composer install
-composer install
-
 # nginx configuration
 grep -qF 'local.mlwp' /etc/hosts || sudo sed -i '$ a 192.168.56.20 local.mlwp' /etc/hosts
 sudo rm /etc/nginx/sites-enabled/site.conf /etc/nginx/sites-available/site.conf
@@ -124,8 +120,8 @@ sudo sed -i 's,^[;]\?upload_max_filesize =.*$,upload_max_filesize = 32M,' /etc/p
 sudo sed -i 's,^[;]\?post_max_size =.*$,post_max_size = 64M,' /etc/php/7.4/fpm/php.ini
 sudo sed -Ei 's/memory_limit = 128/memory_limit=512/g' /etc/php/7.4/fpm/php.ini
 
-# Restart PHP-FPM
-sudo systemctl restart php7.4-fpm
+# Composer install
+cd /vagrant && composer install
 
 # Ensure services have been enabled
 sudo systemctl enable mysql
