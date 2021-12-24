@@ -3,6 +3,8 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
+
 if (PHP_SAPI !== 'cli') {
     exit();
 }
@@ -16,6 +18,7 @@ $_SERVER['REMOTE_ADDR'] = '';
 
 require_once(ROOT_DIR . 'inc/init.php');
 
+$db          = Database::getInstance();
 $data        = [strtotime('-5 minutes')];
 $sql         = "select count(1) cnt from (select distinct ip from user_session WHERE time > ?) a";
 $res         = $db->query($sql, $data);

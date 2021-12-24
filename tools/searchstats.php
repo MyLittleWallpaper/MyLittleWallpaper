@@ -23,6 +23,7 @@ $_SERVER['REMOTE_ADDR'] = '';
 
 require_once(ROOT_DIR . 'inc/init.php');
 
+$db          = Database::getInstance();
 $beforestamp = gmmktime((int)gmdate('H'), 0, 0, (int)gmdate('n'), (int)gmdate('j'), (int)gmdate('Y'));
 $res         = $db->query("SELECT url, time FROM visit_log ORDER BY time");
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {

@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
 $return = [];
+$db     = Database::getInstance();
 
 $sql    = "SELECT name, alternate FROM tag WHERE name LIKE ? OR alternate LIKE ? ORDER BY name LIMIT 50";
 $srch   = (!empty($_GET['term']) ? "%" . $_GET['term'] . "%" : '');

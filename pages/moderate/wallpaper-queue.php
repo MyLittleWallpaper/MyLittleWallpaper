@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 global $user, $category_repository;
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\GetCommonColours;
 use MyLittleWallpaper\classes\output\BasicPage;
@@ -11,6 +12,7 @@ use MyLittleWallpaper\classes\Response;
 
 const ACTIVE_PAGE = 'wallpaper-queue';
 
+$db                 = Database::getInstance();
 $wallpaperQueuePage = new BasicPage();
 $wallpaperQueuePage->setPageTitleAddition('Submitted wallpapers');
 

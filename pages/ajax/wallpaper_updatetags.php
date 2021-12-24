@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
 use MyLittleWallpaper\classes\Tag\Tag;
 use MyLittleWallpaper\classes\Wallpaper;
 
+$db         = Database::getInstance();
 $updateTags = new BasicPage();
 $updateTags->setNoContainer();
 

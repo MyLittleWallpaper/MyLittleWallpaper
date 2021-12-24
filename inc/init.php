@@ -37,7 +37,7 @@ if ($startSession) {
 // Conficuration and initialization
 require_once(ROOT_DIR . 'inc/config.php');
 
-$db       = new Database(DBUSER, DBPASS, DBNAME, DBHOST);
+$db       = Database::getInstance();
 $memcache = new Memcache();
 $memcache->connect('localhost', 11211);
 

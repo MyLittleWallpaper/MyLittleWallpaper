@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
 global $user;
 
 $return = [];
+$db     = Database::getInstance();
 
 if (!empty($_GET['id'])) {
     $sql    = "SELECT id, name, url, no_resolution, direct_with_link FROM wallpaper WHERE id = ? LIMIT 1";

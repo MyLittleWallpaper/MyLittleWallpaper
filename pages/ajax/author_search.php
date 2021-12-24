@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
 $return = [];
+$db     = Database::getInstance();
 
 $sql          = <<<SQL
     SELECT name, oldname FROM tag_artist WHERE (name LIKE ? OR oldname LIKE ?) AND deleted = 0 ORDER BY name LIMIT 50

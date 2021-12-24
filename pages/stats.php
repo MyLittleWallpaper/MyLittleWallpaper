@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
 
 const ACTIVE_PAGE = 'stats';
+$db        = Database::getInstance();
 $statspage = new BasicPage();
 $statspage->setPageTitleAddition('Stats');
 

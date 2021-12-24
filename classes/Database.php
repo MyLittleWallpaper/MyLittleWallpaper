@@ -25,6 +25,22 @@ class Database
     private PDO $dbh;
 
     /**
+     * @var Database|null
+     */
+    private static ?Database $instance = null;
+
+    /**
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new Database(DBUSER, DBPASS, DBNAME, DBHOST);
+        }
+        return self::$instance;
+    }
+
+    /**
      * @param string $username Database server username
      * @param string $password Database server password
      * @param string $database Database name

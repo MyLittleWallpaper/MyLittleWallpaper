@@ -3,6 +3,7 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\GetCommonColours;
 
 if (PHP_SAPI !== 'cli') {
@@ -18,6 +19,7 @@ $_SERVER['REMOTE_ADDR'] = '';
 
 require_once(ROOT_DIR . 'inc/init.php');
 
+$db = Database::getInstance();
 $db->query("TRUNCATE TABLE wallpaper_tag_colour");
 
 $res = $db->query("SELECT * FROM wallpaper WHERE deleted = 0 ORDER BY id DESC");

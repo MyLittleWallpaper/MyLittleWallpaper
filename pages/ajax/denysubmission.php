@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
 global $user;
+
+$db = Database::getInstance();
 
 if ($user->getIsAdmin()) {
     $return = ['result' => 'Not found'];

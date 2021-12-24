@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\Wallpaper;
 
 global $page;
 
 require_once(ROOT_DIR . 'classes/Wallpaper.php');
+
+$db = Database::getInstance();
 
 if (!empty($page)) {
     $wallpaperData = $db->getRecord('wallpaper', ['field' => 'file', 'value' => $page]);

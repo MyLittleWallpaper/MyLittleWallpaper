@@ -11,7 +11,7 @@ if (PHP_SAPI !== 'cli') {
 
 require_once('../config.php');
 require_once('../lib/db.inc.php');
-$db = new Database(DBUSER, DBPASS, DBNAME, DBHOST);
+$db = Database::getInstance();
 
 $db->query("TRUNCATE TABLE tag_artist");
 $db->query("TRUNCATE TABLE wallpaper_tag_artist");

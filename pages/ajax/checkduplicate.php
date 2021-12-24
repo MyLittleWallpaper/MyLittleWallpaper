@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
 $return = ['result' => 'OK'];
+$db     = Database::getInstance();
 
 if (isset($_GET['url'])) {
     $theurl = '';

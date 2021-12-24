@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
 $return = [];
+$db     = Database::getInstance();
 
 $sql    = "SELECT name FROM tag_platform WHERE name LIKE ? ORDER BY name LIMIT 50";
 $srch   = (!empty($_GET['term']) ? "%" . $_GET['term'] . "%" : '');

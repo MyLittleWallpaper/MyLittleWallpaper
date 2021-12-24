@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
@@ -19,6 +20,7 @@ $assigned = [
     $srch2,
     $srch2,
 ];
+$db = Database::getInstance();
 
 $sql = <<<SQL
 (SELECT name, '' previous, alternate FROM tag WHERE name LIKE ? OR alternate LIKE ?)

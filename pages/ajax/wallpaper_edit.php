@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
 global $user;
 
 $return = ['success' => 0, 'error' => 'Wallpaper not found.'];
+$db     = Database::getInstance();
 
 $banned = false;
 $sql    = "SELECT ip FROM ban WHERE ip = ?";

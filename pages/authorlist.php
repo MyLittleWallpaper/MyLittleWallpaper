@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
@@ -10,6 +11,7 @@ $html       = '';
 $fields     = [['table' => 'tag_artist', 'field' => 'name']];
 $order      = [['table' => 'tag_artist', 'field' => 'name']];
 $conditions = [['table' => 'tag_artist', 'field' => 'deleted', 'value' => '0', 'operator' => '=']];
+$db         = Database::getInstance();
 
 $taglist = $db->getList('tag_artist', $fields, $conditions, $order);
 

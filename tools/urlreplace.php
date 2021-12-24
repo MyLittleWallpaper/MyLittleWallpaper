@@ -11,7 +11,7 @@ if (PHP_SAPI !== 'cli') {
 
 require_once('../config.php');
 require_once('../lib/db.inc.php');
-$db = new Database(DBUSER, DBPASS, DBNAME, DBHOST);
+$db = Database::getInstance();
 
 $res = $db->query("SELECT * FROM `wallpaper` WHERE url like 'http://speedymclight%';");
 

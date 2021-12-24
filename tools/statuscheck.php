@@ -15,7 +15,7 @@ exit();
 
 require_once('../config.php');
 require_once('../lib/db.inc.php');
-$db = new Database(DBUSER, DBPASS, DBNAME, DBHOST);
+$db = Database::getInstance();
 
 $res = $db->query(
     "SELECT * FROM wallpaper WHERE deleted = 0 AND direct_with_link = 0 ORDER BY last_checked, id LIMIT 13"
