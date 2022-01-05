@@ -8,6 +8,7 @@ $time_start = microtime(true);
 // phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
 
 use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\Session;
 
 const DOC_DIR  = __DIR__ . '/';
 const ROOT_DIR = __DIR__ . '/../';
@@ -181,7 +182,7 @@ if (strcmp($pageType, 'images') === 0) {
         $image    = substr($page, 3, 23);
         require_once(ROOT_DIR . 'pages/image.php');
     } else {
-        session_start();
+        Session::startSession();
         require_once(ROOT_DIR . 'pages/errors/404.php');
     }
 } else {

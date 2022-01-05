@@ -32,6 +32,16 @@ class Session
     private Memcache $memcache;
 
     /**
+     * @var string
+     */
+    private static string $cacheLimiter = 'nocache';
+
+    /**
+     * @var int|null
+     */
+    private static ?int $cacheExpire = null;
+
+    /**
      * @param Database|null $db       If null, looks for $GLOBALS['db']
      * @param Memcache|null $memcache If null, looks for $GLOBALS['memcache']
      */
@@ -105,6 +115,52 @@ class Session
             $this->memcache->set($memcache_key, (int)$userId, 0, 3600 * 30);
             $this->db->saveArray('user_session', ['id' => $session_id, 'ip' => USER_IP, 'time' => time()]);
         }
+    }
+
+    /**
+     * @param string $cacheLimiter
+     *
+     * @return void
+     */
+    public static function setCacheLimiter(string $cacheLimiter): void
+    {
+        self::$cacheLimiter = $cacheLimiter;
+    }
+
+    /**
+     * @param int|null $cacheExpire
+     *
+     * @return void
+     */
+    public static function setCacheExpire(?int $cacheExpire): void
+    {
+        self::$cacheExpire = $cacheExpire;
+    }
+
+    /**
+     * @return void
+     */
+    public static function startSession(): void
+    {
+        $secure = (!empty($_SERVER['HTTPS']) && 'off' !== $_SERVER['HTTPS']);
+        if ($secure) {
+            session_name('__Host-' . session_name());
+        }
+        session_set_cookie_params(
+            [
+                'lifetime' => 0,
+                'secure'   => $secure,
+                'httponly' => true,
+                'path'     => '/',
+                'samesite' => 'Strict'
+            ]
+        );
+        session_cache_limiter(self::$cacheLimiter);
+        if (null !== self::$cacheExpire) {
+            session_cache_expire(self::$cacheExpire);
+        }
+
+        session_start();
     }
 
     /**

@@ -6,6 +6,7 @@ global $category, $redirectOk, $startSession, $pageType, $page;
 
 use MyLittleWallpaper\classes\Category\Category;
 use MyLittleWallpaper\classes\Category\CategoryRepository;
+use MyLittleWallpaper\classes\Cookie;
 use MyLittleWallpaper\classes\Database;
 use MyLittleWallpaper\classes\Session;
 
@@ -31,7 +32,7 @@ require_once(ROOT_DIR . 'vendor/autoload.php');
 
 // Start session
 if ($startSession) {
-    session_start();
+    Session::startSession();
 }
 
 // Conficuration and initialization
@@ -65,8 +66,8 @@ if (!empty($category)) {
             $page     = '404';
         }
     }
-} elseif (!empty($_COOKIE['category_id'])) {
-    $selected_category = $category_repository->getCategoryById((int)$_COOKIE['category_id']);
+} elseif (null !== Cookie::getCookie('category_id')) {
+    $selected_category = $category_repository->getCategoryById((int)Cookie::getCookie('category_id'));
     if ($selected_category instanceof Category) {
         $category      = $selected_category->getUrlName();
         $category_name = $selected_category->getName();
@@ -75,7 +76,7 @@ if (!empty($category)) {
             header('Location: /c/' . $category . '/' . $redirectPageUrl);
             exit();
         }
-    } elseif ($_COOKIE['category_id'] == 0) {
+    } elseif ('0' === Cookie::getCookie('category_id')) {
         $category      = 'all';
         $category_name = '';
         $category_id   = 0;
@@ -100,7 +101,7 @@ define('CATEGORY', $category);
 define('CATEGORY_NAME', $category_name);
 define('CATEGORY_ID', $category_id);
 
-setcookie('category_id', (string)CATEGORY_ID, time() + (3600 * 24 * 60));
+Cookie::setCookie('category_id', (string)CATEGORY_ID, time() + (3600 * 24 * 60));
 const PUB_PATH_CAT = PUB_PATH . (CATEGORY != '' ? 'c/' . CATEGORY . '/' : '');
 
 $visits = $db->getRecord('visits', ['field' => 'id', 'value' => 1]);

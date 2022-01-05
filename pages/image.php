@@ -5,6 +5,7 @@ declare(strict_types=1);
 global $db, $image, $resize, $original;
 
 use Gumlet\ImageResize;
+use MyLittleWallpaper\classes\Session;
 
 if (!empty($image)) {
     $last_modified = filemtime(ROOT_DIR . FILE_FOLDER . $image);
@@ -14,9 +15,9 @@ if (!empty($image)) {
         (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) || isset($_SERVER['HTTP_IF_NONE_MATCH']))
     ) {
         if ($last_modified <= strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'] . ' UTC')) {
-            session_cache_limiter('private');
-            session_cache_expire(60 * 24 * 7);
-            session_start();
+            Session::setCacheLimiter('private');
+            Session::setCacheExpire(60 * 24 * 7);
+            Session::startSession();
 
             header('HTTP/1.1 304 Not Modified');
             exit();
@@ -26,9 +27,9 @@ if (!empty($image)) {
     $file = $db->getRecord('wallpaper', ['field' => 'file', 'value' => $image]);
     if (!empty($file['id']) && $file['deleted'] == '0') {
         if (file_exists(ROOT_DIR . FILE_FOLDER . $file['file'])) {
-            session_cache_limiter('private');
-            session_cache_expire(60 * 24 * 7);
-            session_start();
+            Session::setCacheLimiter('private');
+            Session::setCacheExpire(60 * 24 * 7);
+            Session::startSession();
 
             if ($original && ($file['direct_with_link'] == '1')) {
                 header("Last-Modified: " . gmdate('D, d M Y H:i:s', $last_modified));
@@ -92,14 +93,14 @@ if (!empty($image)) {
                 }
             }
         } else {
-            session_start();
+            Session::startSession();
             require_once(ROOT_DIR . 'pages/errors/404.php');
         }
     } else {
-        session_start();
+        Session::startSession();
         require_once(ROOT_DIR . 'pages/errors/404.php');
     }
 } else {
-    session_start();
+    Session::startSession();
     require_once(ROOT_DIR . 'pages/errors/404.php');
 }
