@@ -53,7 +53,11 @@ if (
         $loadtime    = $row['load_time'];
         $loadtimemax = $row['damax'];
     }
-    $savedata = ['time' => $before, 'load_time' => round($loadtime, 4), 'load_time_max' => round($loadtimemax, 4)];
+    $savedata = [
+        'time'          => $before,
+        'load_time'     => round((float)$loadtime, 4),
+        'load_time_max' => round((float)$loadtimemax, 4)
+    ];
     $db->saveArray('page_loadtime_avg', $savedata);
 }
 if ($beforestamp == gmmktime((int)gmdate('H'), 0, 0, (int)gmdate('n'), (int)gmdate('j'), (int)gmdate('Y'))) {
