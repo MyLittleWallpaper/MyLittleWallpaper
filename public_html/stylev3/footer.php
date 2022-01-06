@@ -4,27 +4,6 @@ declare(strict_types=1);
 
 global $user, $db, $time_start, $response;
 
-// @todo fix
-// phpcs:disable Generic.Files.LineLength.TooLong
-
-$data = [strtotime('-5 minutes')];
-$sql = "select count(1) cnt from (select distinct ip from user_session WHERE time > ?) a";
-$res = $db->query($sql, $data);
-$usersonline = 0;
-while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-    $usersonline = $row['cnt'];
-}
-if (file_exists(ROOT_DIR . 'topvisitors')) {
-    $topvisits = explode('|', trim(file_get_contents(ROOT_DIR . 'topvisitors')));
-} else {
-    $topvisits[0] = 0;
-}
-
-if ($usersonline > $topvisits[0]) {
-    // @todo Store this in database
-    file_put_contents(ROOT_DIR . 'topvisitors', $usersonline . '|' . date('Y-m-d H:i:s'));
-}
-
 echo "\n" . '		<footer>';
 echo '			<div class="info">&copy; 2012-' . date('Y') . ' My Little Wallpaper, all wallpapers &copy; to their respective artists.</div>' . "\n";
 echo '			<div class="contact">Running version <strong>' . file_get_contents(ROOT_DIR . 'VERSION') . '</strong></div>' . "\n";
