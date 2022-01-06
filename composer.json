@@ -47,7 +47,7 @@
     },
     "require-dev": {
         "kalessil/production-dependencies-guard": "dev-master",
-        "overtrue/phplint": "^3.0.6 || ^4.0",
+        "overtrue/phplint": "^3.0.6",
         "phpstan/phpstan": "^1.2",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
@@ -66,6 +66,11 @@
     "autoload-dev": {
         "psr-4": {
             "MyLittleWallpaperTests\\": "tests"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.26"
         }
     }
 }
