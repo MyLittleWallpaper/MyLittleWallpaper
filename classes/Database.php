@@ -35,7 +35,7 @@ class Database
     public static function getInstance(): self
     {
         if (self::$instance === null) {
-            self::$instance = new Database(DBUSER, DBPASS, DBNAME, DBHOST);
+            self::$instance = new Database($_ENV['DBUSER'], $_ENV['DBPASS'], $_ENV['DBNAME'], $_ENV['DBHOST']);
         }
         return self::$instance;
     }

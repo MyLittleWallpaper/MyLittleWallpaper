@@ -8,21 +8,21 @@ $imageFound = false;
 if (!empty($image)) {
     $file = $db->getRecord('wallpaper_submit', ['field' => 'file', 'value' => $image]);
     if (!empty($file['id'])) {
-        if (file_exists(ROOT_DIR . FILE_FOLDER . 'moderate/' . $file['file'])) {
+        if (file_exists(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'moderate/' . $file['file'])) {
             $res_w   = 960;
             $res_h   = 540;
-            $imgdata = @getimagesize(ROOT_DIR . FILE_FOLDER . 'moderate/' . $file['file']);
+            $imgdata = @getimagesize(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'moderate/' . $file['file']);
             if ($imgdata) {
                 [, , $imgtype] = $imgdata;
                 switch ($imgtype) {
                     case IMAGETYPE_GIF:
-                        $image = imagecreatefromgif(ROOT_DIR . FILE_FOLDER . 'moderate/' . $file['file']);
+                        $image = imagecreatefromgif(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'moderate/' . $file['file']);
                         break;
                     case IMAGETYPE_JPEG:
-                        $image = imagecreatefromjpeg(ROOT_DIR . FILE_FOLDER . 'moderate/' . $file['file']);
+                        $image = imagecreatefromjpeg(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'moderate/' . $file['file']);
                         break;
                     case IMAGETYPE_PNG:
-                        $image = imagecreatefrompng(ROOT_DIR . FILE_FOLDER . 'moderate/' . $file['file']);
+                        $image = imagecreatefrompng(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'moderate/' . $file['file']);
                         break;
                     default:
                         $image = false;
@@ -36,7 +36,7 @@ if (!empty($image)) {
 
                 if (($max_x > $w || empty($max_x)) && ($max_y > $h || empty($max_y))) {
                     header('Content-Type: ' . $file['mime']);
-                    echo file_get_contents(ROOT_DIR . FILE_FOLDER . 'moderate/' . $file['fileid']);
+                    echo file_get_contents(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'moderate/' . $file['fileid']);
                     imagedestroy($image);
                 } else {
                     if (empty($max_x)) {

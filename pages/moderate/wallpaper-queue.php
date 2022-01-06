@@ -30,8 +30,8 @@ if ($user->getIsAdmin()) {
             if (!empty($wallpaperData)) {
                 if (
                     rename(
-                        ROOT_DIR . FILE_FOLDER . 'moderate/' . $wallpaperData['file'],
-                        ROOT_DIR . FILE_FOLDER . $wallpaperData['file']
+                        ROOT_DIR . $_ENV['FILE_FOLDER'] . 'moderate/' . $wallpaperData['file'],
+                        ROOT_DIR . $_ENV['FILE_FOLDER'] . $wallpaperData['file']
                     )
                 ) {
                     $saveAuthor   = '';
@@ -162,7 +162,7 @@ if ($user->getIsAdmin()) {
                         }
                     }
                     $colours       = new GetCommonColours();
-                    $coloursResult = $colours->getColours(ROOT_DIR . FILE_FOLDER . $wallpaperData['file']);
+                    $coloursResult = $colours->getColours(ROOT_DIR . $_ENV['FILE_FOLDER'] . $wallpaperData['file']);
 
                     foreach ($coloursResult as $cl) {
                         $colours  = array_keys($cl['colours']);

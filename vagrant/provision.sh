@@ -120,6 +120,11 @@ sudo sed -i 's,^[;]\?upload_max_filesize =.*$,upload_max_filesize = 32M,' /etc/p
 sudo sed -i 's,^[;]\?post_max_size =.*$,post_max_size = 64M,' /etc/php/7.4/fpm/php.ini
 sudo sed -Ei 's/memory_limit = 128/memory_limit=512/g' /etc/php/7.4/fpm/php.ini
 
+# Copy Vagrant .env config
+if [ ! -f .env ]; then
+  cd /vagrant && cp .env.vagrant .env
+fi
+
 # Composer install
 cd /vagrant && composer install
 

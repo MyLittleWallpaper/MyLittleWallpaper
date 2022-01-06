@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MyLittleWallpaper\classes;
 
+use function array_key_exists;
 use function strpos;
 
 class Password
@@ -19,6 +20,9 @@ class Password
     {
         if (password_verify($plainTextPassword, $hash)) {
             return true;
+        }
+        if (!array_key_exists('HASHKEY', $_ENV)) {
+            return false;
         }
         return hash_equals($hash, self::legacyPasswordHash($plainTextPassword, $salt));
     }
@@ -59,6 +63,6 @@ class Password
             }
         }
         $data = base64_encode(gzcompress($password . $saltProcess));
-        return hash_hmac('whirlpool', $data, HASHKEY);
+        return hash_hmac('whirlpool', $data, $_ENV['HASHKEY'] ?? '');
     }
 }

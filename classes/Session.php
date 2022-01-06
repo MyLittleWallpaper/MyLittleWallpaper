@@ -95,7 +95,7 @@ class Session
     public function logUserOut(): void
     {
         if ($this->getSessionUserId() > 0) {
-            $session_id   = $_SESSION[SESSIONPREFIX . '_session_id'];
+            $session_id   = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
             $memcache_key = 'session_' . $session_id . '_' . USER_IP;
             $this->db->query("DELETE FROM user_session WHERE id = ? AND ip = ?", [$session_id, USER_IP]);
             $this->memcache->set($memcache_key, 0, 0, 3600 * 30);
@@ -110,7 +110,7 @@ class Session
     public function logUserIn(int $userId): void
     {
         if ($this->getSessionUserId() == 0) {
-            $session_id   = $_SESSION[SESSIONPREFIX . '_session_id'];
+            $session_id   = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
             $memcache_key = 'session_' . $session_id . '_' . USER_IP;
             $this->memcache->set($memcache_key, (int)$userId, 0, 3600 * 30);
             $this->db->saveArray('user_session', ['id' => $session_id, 'ip' => USER_IP, 'time' => time()]);
@@ -168,10 +168,10 @@ class Session
      */
     private function getSessionUserId(): int
     {
-        if (empty($_SESSION[SESSIONPREFIX . '_session_id'])) {
-            $session_id = $_SESSION[SESSIONPREFIX . '_session_id'] = uid();
+        if (empty($_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'])) {
+            $session_id = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'] = uid();
         } else {
-            $session_id = $_SESSION[SESSIONPREFIX . '_session_id'];
+            $session_id = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
         }
         $memcache_key = 'session_' . $session_id . '_' . USER_IP;
         $userId       = $this->memcache->get($memcache_key);

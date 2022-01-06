@@ -14,6 +14,7 @@ ini_set('display_errors', '0');
 ini_set('log_errors', true);
 
 // Conficuration and initialization
+require_once('../vendor/autoload.php');
 require_once('../config.php');
 require_once('../lib/db.inc.php');
 $db = new Database(DBUSER, DBPASS, DBNAME, DBHOST);

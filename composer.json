@@ -43,7 +43,8 @@
 
         "gumlet/php-image-resize": "^2.0",
         "phpmailer/phpmailer": "^6.5",
-        "scrivo/highlight.php": "^9.18"
+        "scrivo/highlight.php": "^9.18",
+        "vlucas/phpdotenv": "^5.4"
     },
     "require-dev": {
         "kalessil/production-dependencies-guard": "dev-master",

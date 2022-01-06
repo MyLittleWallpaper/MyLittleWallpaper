@@ -16,7 +16,7 @@ $javaScript = '';
 if (!empty($page)) {
     $file = $db->getRecord('wallpaper', ['field' => 'file', 'value' => $page]);
     if (!empty($file['id']) && $file['deleted'] == '0') {
-        if (file_exists(ROOT_DIR . FILE_FOLDER . $file['file'])) {
+        if (file_exists(ROOT_DIR . $_ENV['FILE_FOLDER'] . $file['file'])) {
             if ($file['direct_with_link'] == '1') {
                 $downloadPage = new BasicPage();
 

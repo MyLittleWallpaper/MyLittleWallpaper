@@ -13,6 +13,7 @@ if (PHP_SAPI !== 'cli') {
 
 exit();
 
+require_once('../vendor/autoload.php');
 require_once('../config.php');
 require_once('../lib/db.inc.php');
 $db = Database::getInstance();

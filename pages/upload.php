@@ -84,9 +84,9 @@ if (CATEGORY === 'all') {
                     }
                     if (!$error) {
                         if ($user->getIsAdmin()) {
-                            $target = ROOT_DIR . FILE_FOLDER . $fileid;
+                            $target = ROOT_DIR . $_ENV['FILE_FOLDER'] . $fileid;
                         } else {
-                            $target = ROOT_DIR . FILE_FOLDER . 'moderate/' . $fileid;
+                            $target = ROOT_DIR . $_ENV['FILE_FOLDER'] . 'moderate/' . $fileid;
                         }
                         if (substr($imageurl, 0, 7) === 'http://') {
                             exec('wget -O ' . escapeshellarg($target) . ' ' . escapeshellarg($imageurl));
@@ -106,9 +106,9 @@ if (CATEGORY === 'all') {
                 } elseif (!empty($_FILES)) {
                     if ($_FILES['Filedata']['error'] == UPLOAD_ERR_OK) {
                         if ($user->getIsAdmin()) {
-                            $target = ROOT_DIR . FILE_FOLDER . $fileid;
+                            $target = ROOT_DIR . $_ENV['FILE_FOLDER'] . $fileid;
                         } else {
-                            $target = ROOT_DIR . FILE_FOLDER . 'moderate/' . $fileid;
+                            $target = ROOT_DIR . $_ENV['FILE_FOLDER'] . 'moderate/' . $fileid;
                         }
                         if (move_uploaded_file($_FILES['Filedata']['tmp_name'], $target)) {
                             $infected = '0';
@@ -303,7 +303,7 @@ if (CATEGORY === 'all') {
                                 }
                             }
                             $clrs       = new GetCommonColours();
-                            $clrsresult = $clrs->getColours(ROOT_DIR . FILE_FOLDER . $fileid);
+                            $clrsresult = $clrs->getColours(ROOT_DIR . $_ENV['FILE_FOLDER'] . $fileid);
 
                             foreach ($clrsresult as $cl) {
                                 $colours  = array_keys($cl['colours']);

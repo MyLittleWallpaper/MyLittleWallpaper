@@ -32,6 +32,9 @@ Thumbs.db
 # Ignore local Vagrant box things
 /.vagrant
 
+# Ignore .env file
+/.env
+
 # Ignore uploaded wallpapers
 /temp
 /files

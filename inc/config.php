@@ -2,14 +2,22 @@
 
 declare(strict_types=1);
 
-// @todo Use vlucas/phpdotenv
-// Please note that the configuration below is for local development with a Vagrant machine
+use Dotenv\Dotenv;
+use Dotenv\Repository\Adapter\EnvConstAdapter;
+use Dotenv\Repository\RepositoryBuilder;
 
-const FILE_FOLDER = 'files/';
-const DBNAME      = 'mlwp';
-const DBUSER      = 'mlwp';
-const DBPASS      = 'aoGMq8r9fbyLgLY9yZ6kcshcw4DBuX';
-const DBHOST      = 'localhost';
+$repository = RepositoryBuilder::createWithNoAdapters()
+    ->addAdapter(EnvConstAdapter::class)
+    ->immutable()->make();
 
-const HASHKEY = 'will-be-removed';
-const SESSIONPREFIX = 'local-session';
+$dotenv = Dotenv::create($repository, dirname(__DIR__));
+$dotenv->load();
+$dotenv->required(
+    [
+        'FILE_FOLDER',
+        'DBHOST',
+        'DBNAME',
+        'DBUSER',
+        'DBPASS',
+    ]
+);
