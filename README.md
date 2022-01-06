@@ -6,14 +6,7 @@ TODO: Write description
 
 * **Linux OS**, will not run on Windows
 * **PHP 7.4+**
-  * ext-curl
-  * ext-bcmath
-  * ext-gd
-  * ext-mbstring
-  * ext-memcache
-  * ext-json
-  * ext-pdo
-  * ext-zlib
+  * Run `composer install` to see if you are missing any required extensions.
 * **MySQL 5.5+** or **MariaDB 5.5+**
 * **ImageMagick**, *convert* command line tool used
 * **Clam AntiVirus daemon**
