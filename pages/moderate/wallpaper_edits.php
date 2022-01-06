@@ -5,7 +5,7 @@ declare(strict_types=1);
 // phpcs:disable
 
 // @todo Rewrite
-/*$time_start = microtime(true);
+/*
 define('INDEX', true);
 
 // We want all possible errors, but not to show them
