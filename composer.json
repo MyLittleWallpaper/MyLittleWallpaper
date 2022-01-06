@@ -6,6 +6,7 @@
             "check-description",
             "check-license",
             "check-abandoned",
+            "white-list:symfony/error-handler",
 
             "accept-license:Apache-1.0",
             "accept-license:Apache-1.1",
@@ -45,6 +46,7 @@
         "gumlet/php-image-resize": "^2.0",
         "phpmailer/phpmailer": "^6.5",
         "scrivo/highlight.php": "^9.18",
+        "symfony/webpack-encore-bundle": "^1.13",
         "vlucas/phpdotenv": "^5.4"
     },
     "require-dev": {
@@ -72,6 +74,10 @@
         }
     },
     "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "kalessil/production-dependencies-guard": true
+        },
         "platform": {
             "php": "7.4.26"
         }

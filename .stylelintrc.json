@@ -1,0 +1,19 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "no-descending-specificity": null,
+    "selector-list-comma-newline-after": null,
+    "font-family-no-missing-generic-family-keyword": [
+      true,
+      {
+        "ignoreFontFamilies": [
+          "Font Awesome 5 Pro"
+        ]
+      }
+    ]
+  },
+  "ignoreFiles": [
+    "node_modules",
+    "public_html/assets/*"
+  ]
+}

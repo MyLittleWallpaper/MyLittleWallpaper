@@ -9,7 +9,7 @@ use MyLittleWallpaper\classes\Response;
 
 global $user;
 
-$return = ['success' => 0, 'error' => 'Wallpaper not found.'];
+$return = ['success' => false, 'error' => 'Wallpaper not found.'];
 $db     = Database::getInstance();
 
 $banned = false;
@@ -323,7 +323,7 @@ if ($banned) {
                             ];
                             $db->saveArray('wallpaper_tag_aspect', $data);
                         }
-                        $return['novalidate'] = 1;
+                        $return['novalidate'] = true;
                     } else {
                         $savedata = [
                             'user_id'      => (!$user->getIsAnonymous() ? $user->getId() : 0),
@@ -338,7 +338,7 @@ if ($banned) {
                         ];
                         $db->saveArray('wallpaper_edit', $savedata);
                     }
-                    $return['success'] = 1;
+                    $return['success'] = true;
                 }
             }
         }

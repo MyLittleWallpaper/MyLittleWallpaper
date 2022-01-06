@@ -3,8 +3,10 @@
  * @constructor
  */
 function WallpaperList(settings) {
-  var wallpaperList = this;
-  var defaultSettings = {
+  "use strict";
+
+  let wallpaperList = this;
+  let defaultSettings = {
     "ajaxLoadMorePage": "",
     "ajaxRedirect": "",
     "basePathUrl": "",
@@ -21,7 +23,7 @@ function WallpaperList(settings) {
   wallpaperList.settings = defaultSettings;
 
   // Get the settings
-  for (var prop in settings) {
+  for (let prop in settings) {
     if (settings.hasOwnProperty(prop)) {
       wallpaperList.settings[prop] = settings[prop];
     }
@@ -31,7 +33,7 @@ function WallpaperList(settings) {
 
   wallpaperList.initialise = function() {
     wallpaperList.pageTriggers();
-    var tagsInputConfig = {
+    let tagsInputConfig = {
       autocomplete_url: wallpaperList.settings.basePathUrl + "ajax/tag_search",
       autocomplete: {
         "focus": function(event)  {
@@ -44,10 +46,10 @@ function WallpaperList(settings) {
     jQuery("#search").tagsInput(tagsInputConfig);
     jQuery("#searchAny").tagsInput(tagsInputConfig);
     jQuery("#searchExclude").tagsInput(tagsInputConfig);
-    jQuery("#toggleAdvanced").click(function() {
-      var advancedSearch = jQuery("#advancedSearch");
-      var searchAny = jQuery("#searchAny");
-      var searchExclude = jQuery("#searchExclude");
+    jQuery("#toggleAdvanced").on("click", function() {
+      let advancedSearch = jQuery("#advancedSearch");
+      let searchAny = jQuery("#searchAny");
+      let searchExclude = jQuery("#searchExclude");
       if (advancedSearch.is(":visible")) {
         advancedSearch.hide();
         searchAny.attr("name", "");
@@ -65,36 +67,43 @@ function WallpaperList(settings) {
     wallpaperList.initialiseEditDialog();
     wallpaperList.initialiseEditDialogAutoCompleteFields();
     wallpaperList.windowScroll();
-    jQuery(window).scroll(function() {
+    jQuery(window).on("scroll", function() {
       wallpaperList.windowScroll();
     });
   };
 
   wallpaperList.pageTriggers = function() {
-    var images = jQuery("img.lazyload").on("load", function() {
+    jQuery("img.lazyload").on("load", function() {
       jQuery(this).removeClass("lazyload");
     });
 
-    var favButtons = jQuery("a.fav_active");
-    favButtons.click(function(e) {
-      var wallpaperId = jQuery(this).data('wallpaperid');
+    let favButtons = jQuery("a.fav_active");
+    favButtons.on("click", function(e) {
+      let wallpaperId = jQuery(this).data("wallpaperid");
       jQuery.ajax({
         url: wallpaperList.settings.basePathUrl + "ajax/wallpaper-fav?wallpaperId=" + encodeURIComponent(wallpaperId),
-        cache: false,
-        success: function (data) {
+        cache: false
+      }).then(
+        /**
+         * @param {!Object} data
+         * @param {!string} data.favCount
+         * @param {!string} data.favButtonText
+         */
+        function (data) {
           jQuery("#fav_count_" + wallpaperId).text(data.favCount);
           jQuery("#fav_a_" + wallpaperId).text(data.favButtonText);
-        }
-      });
+        },
+        handleAjaxFailure
+      );
       e.preventDefault();
     });
     favButtons.removeClass("fav_active");
 
-    jQuery("a.wallinfo").click(function() {
-      wallpaperList.toggleInfo(jQuery(this).data('id'));
+    jQuery("a.wallinfo").on("click", function() {
+      wallpaperList.toggleInfo(jQuery(this).data("id"));
     });
-    jQuery("a.editwall").click(function() {
-      wallpaperList.editWall(jQuery(this).data('id'));
+    jQuery("a.editwall").on("click", function() {
+      wallpaperList.editWall(jQuery(this).data("id"));
     });
   };
 
@@ -126,11 +135,18 @@ function WallpaperList(settings) {
               url: wallpaperList.settings.basePathUrl + "ajax/wallpaper_edit",
               type: "POST",
               data: jQuery("#wallpaper_edit_form").serialize(),
-              success: function(data) {
-                var dialogMessage = jQuery("#dialog-message");
+            }).then(
+              /**
+               * @param {Object} data
+               * @param {?boolean} data.success
+               * @param {?string} data.error
+               * @param {?boolean} data.novalidate
+               */
+              function (data) {
+                let dialogMessage = jQuery("#dialog-message");
 
                 if (typeof(data.success) !== "undefined") {
-                  if (data.success == '0') {
+                  if (!data.success) {
                     dialogMessage.dialog("option", "title", "Error");
                     if (typeof(data.error) !== "undefined") {
                       dialogMessage.find("p").text(data.error);
@@ -143,11 +159,13 @@ function WallpaperList(settings) {
                     if (typeof(data.novalidate) !== "undefined") {
                       jQuery.ajax({
                         url: wallpaperList.settings.basePathUrl + "ajax/wallpaper_updatetags?id=" + encodeURIComponent(jQuery("#wallid").val()),
-                        cache: false,
-                        success: function(newtags) {
+                        cache: false
+                      }).then(
+                        function(newtags) {
                           jQuery("#image_info_id" + jQuery("#wallid").val()).html(newtags);
-                        }
-                      });
+                        },
+                        handleAjaxFailure
+                      );
                     } else {
                       dialogMessage.find("p").text("New wallpaper information submitted to moderation. It might take a few days for it to be approved.");
                       dialogMessage.dialog("open");
@@ -159,13 +177,16 @@ function WallpaperList(settings) {
                   dialogMessage.find("p").text("Unknown error.");
                   dialogMessage.dialog("open");
                 }
-              }
-            });
+              },
+              handleAjaxFailure
+            );
           }
         },
         {
           text: "Cancel",
-          click: function() { jQuery(this).dialog("close"); }
+          click: function() {
+            jQuery(this).dialog("close");
+          }
         }
       ],
       close: function(event, ui) {
@@ -177,8 +198,8 @@ function WallpaperList(settings) {
   };
 
   wallpaperList.initialiseEditDialogAutoCompleteFields = function() {
-    jQuery("#tags").bind("keydown", function(event) {
-      if (event.keyCode === jQuery.ui.keyCode.TAB && jQuery(this).data("autocomplete").menu.active) {
+    jQuery("#tags").on("keydown", function(event) {
+      if (event.code === "Tab" && jQuery(this).data("autocomplete").menu.active) {
         event.preventDefault();
       }
     }).autocomplete({
@@ -188,7 +209,7 @@ function WallpaperList(settings) {
         }, response);
       },
       search: function() {
-        var term = extractLast(this.value);
+        let term = extractLast(this.value);
         if (term.length < 2) {
           return false;
         }
@@ -197,7 +218,7 @@ function WallpaperList(settings) {
         return false;
       },
       select: function(event, ui) {
-        var terms = split(this.value);
+        let terms = split(this.value);
         terms.pop();
         terms.push(ui.item.value);
         terms.push("");
@@ -217,8 +238,8 @@ function WallpaperList(settings) {
           .appendTo(ul);
       }
     };
-    jQuery("#author").bind("keydown", function(event) {
-      if (event.keyCode === jQuery.ui.keyCode.TAB && jQuery(this).data("autocomplete").menu.active) {
+    jQuery("#author").on("keydown", function(event) {
+      if (event.code === "Tab" && jQuery(this).data("autocomplete").menu.active) {
         event.preventDefault();
       }
     }).autocomplete({
@@ -228,7 +249,7 @@ function WallpaperList(settings) {
         }, response);
       },
       search: function() {
-        var term = extractLast(this.value);
+        let term = extractLast(this.value);
         if (term.length < 2) {
           return false;
         }
@@ -237,7 +258,7 @@ function WallpaperList(settings) {
         return false;
       },
       select: function(event, ui) {
-        var terms = split(this.value);
+        let terms = split(this.value);
         terms.pop();
         terms.push(ui.item.value);
         terms.push("");
@@ -257,8 +278,8 @@ function WallpaperList(settings) {
           .appendTo(ul);
       }
     };
-    jQuery("#platform").bind("keydown", function(event) {
-      if (event.keyCode === jQuery.ui.keyCode.TAB && jQuery(this).data("autocomplete").menu.active) {
+    jQuery("#platform").on("keydown", function(event) {
+      if (event.code === "Tab" && jQuery(this).data("autocomplete").menu.active) {
         event.preventDefault();
       }
     }).autocomplete({
@@ -268,7 +289,7 @@ function WallpaperList(settings) {
         }, response);
       },
       search: function() {
-        var term = extractLast(this.value);
+        let term = extractLast(this.value);
         if (term.length < 2) {
           return false;
         }
@@ -277,7 +298,7 @@ function WallpaperList(settings) {
         return false;
       },
       select: function(event, ui) {
-        var terms = split(this.value);
+        let terms = split(this.value);
         terms.pop();
         terms.push(ui.item.value);
         terms.push("");
@@ -288,13 +309,13 @@ function WallpaperList(settings) {
   };
 
   wallpaperList.toggleInfo = function(id) {
-    var wallpaperInfoContainer = jQuery("#image_container_" + id + ">div");
+    let wallpaperInfoContainer = jQuery("#image_container_" + id + ">div");
     if (wallpaperInfoContainer.width() > (wallpaperList.settings.largeWallpaperThumbs ? 478 : 221) + 150) {
       if (!wallpaperInfoContainer.is(":animated")) {
         wallpaperList.hideExtraInfo("#image_container_" + id + ">div", true);
       }
     } else {
-      if (wallpaperList.infoOpen !== "" && wallpaperList.infoOpen != id) {
+      if (wallpaperList.infoOpen !== "" && wallpaperList.infoOpen !== id) {
         wallpaperList.hideExtraInfo("#image_container_" + wallpaperList.infoOpen + ">div", false);
       }
       if (!wallpaperInfoContainer.is(":animated")) {
@@ -308,8 +329,8 @@ function WallpaperList(settings) {
   };
 
   wallpaperList.hideExtraInfo = function(el, hide_all) {
-    var grow_amount = wallpaperList.getGrowAmount(el);
-    var animation_hide = {};
+    let grow_amount = wallpaperList.getGrowAmount(el);
+    let animation_hide;
     jQuery(el).css("z-index", "499");
     jQuery(el).children("div.image_extra_info").css("z-index", "499");
     if (jQuery(el).children("div.image_basicinfo").offset().left + jQuery(el).children("div.image_basicinfo").width() + grow_amount + 15 > jQuery(window).width()) {
@@ -336,8 +357,8 @@ function WallpaperList(settings) {
   };
 
   wallpaperList.showExtraInfo = function(el) {
-    var grow_amount = wallpaperList.getGrowAmount(el);
-    var animation_show = {};
+    let grow_amount = wallpaperList.getGrowAmount(el);
+    let animation_show;
 
     jQuery(el).parent().height(jQuery(el).height());
     jQuery(el).css("z-index", "500");
@@ -358,7 +379,7 @@ function WallpaperList(settings) {
       };
     }
     if (jQuery(el).children("div.image_extra_info").outerHeight(true) > jQuery(el).outerHeight(true)) {
-      var padding = jQuery(el).children("div.image_extra_info").outerHeight(true) - jQuery(el).children("div.image_extra_info").height();
+      let padding = jQuery(el).children("div.image_extra_info").outerHeight(true) - jQuery(el).children("div.image_extra_info").height();
       jQuery(el).children("div.image_extra_info").css({"height": jQuery(el).outerHeight(true) - padding, "overflow": "auto", "width": 370});
       jQuery(el).children("div.image_extra_info").children().css("margin-right", 5);
       if (jQuery(el).children("div.image_basicinfo").offset().left + jQuery(el).children("div.image_basicinfo").width() + grow_amount + 15 > jQuery(window).width()) {
@@ -373,12 +394,11 @@ function WallpaperList(settings) {
 
   wallpaperList.getGrowAmount = function(el) {
     if (jQuery(el).children("div.image_extra_info").width() > 215 || jQuery(el).children("div.image_extra_info").outerHeight(true) > jQuery(el).outerHeight(true)) {
-      if (jQuery(el).children("div.image_extra_info").width() == 215) {
+      if (jQuery(el).children("div.image_extra_info").width() === 215) {
         jQuery(el).children("div.image_extra_info").css("width", 365);
       }
       return 375;
     } else {
-      //var padding = jQuery(el).children("div.image_extra_info").outerHeight(true) - jQuery(el).children("div.image_extra_info").height();
       return 225;
     }
   };
@@ -386,10 +406,20 @@ function WallpaperList(settings) {
   wallpaperList.editWall = function(id) {
     jQuery.ajax({
       url: wallpaperList.settings.basePathUrl + "ajax/wallpaper_info?id=" + encodeURIComponent(id),
-      cache: false,
-      success: function(data) {
+      cache: false
+    }).then(
+      /**
+       * @param {Object} data
+       * @param {!number} data.id
+       * @param {!string} data.name
+       * @param {!string} data.author
+       * @param {!string} data.tags
+       * @param {!string} data.platform
+       * @param {!string} data.url
+       */
+      function(data) {
         if (typeof(data.name) !== "undefined") {
-          jQuery("#wallid").val(data.id);
+          jQuery("#wallid").val(data.id.toFixed());
           jQuery("#name").val(data.name);
           jQuery("#author").val(data.author);
           jQuery("#tags").val(data.tags);
@@ -397,8 +427,9 @@ function WallpaperList(settings) {
           jQuery("#url").val(data.url);
           jQuery("#wallpaper_edit").dialog("open");
         }
-      }
-    });
+      },
+      handleAjaxFailure
+    );
     return false;
   };
 
@@ -407,11 +438,15 @@ function WallpaperList(settings) {
       if (!wallpaperList.alreadyloading && !wallpaperList.noMore) {
         wallpaperList.alreadyloading = true;
         jQuery.ajax({
-          url: wallpaperList.settings.basePathUrl + 'ajax/' + wallpaperList.settings.ajaxLoadMorePage +
-            wallpaperList.settings.ajaxRedirect + (wallpaperList.settings.ajaxRedirect !== '' ? '&' : '?') +
-            'page=' + wallpaperList.nextPage,
-          cache: false,
-          success: function(data) {
+          url: wallpaperList.settings.basePathUrl + "ajax/" + wallpaperList.settings.ajaxLoadMorePage +
+            wallpaperList.settings.ajaxRedirect + (wallpaperList.settings.ajaxRedirect !== "" ? "&" : "?") +
+            "page=" + wallpaperList.nextPage,
+          cache: false
+        }).then(
+          /**
+           * {!string} @param data
+           */
+          function(data) {
             if (data === "") {
               wallpaperList.noMore = true;
             } else {
@@ -420,8 +455,9 @@ function WallpaperList(settings) {
               wallpaperList.pageTriggers();
             }
             wallpaperList.alreadyloading = false;
-          }
-        });
+          },
+          handleAjaxFailure
+        );
       }
     }
   };

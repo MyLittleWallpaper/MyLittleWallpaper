@@ -30,7 +30,7 @@ if (!empty($_GET['wallpaperId']) && !$user->getIsAnonymous()) {
         $db->saveArray('wallpaper', ['favs' => $favCount], $wallpaper->getId());
 
         $return['favCount']       = $favCount . ' fav' . ($favCount != 1 ? 's' : '');
-        $return['favCountNumber'] = (int)$favCount;
+        $return['favCountNumber'] = $favCount;
     }
 }
 

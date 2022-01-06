@@ -1,15 +1,16 @@
-/* <![CDATA[ */
-$(document).ready(function(){
+jQuery(function() {
+  "use strict";
+  jQuery("#category-select").on("change", function () {
+    let value = jQuery(this).val();
+    let pageURI = jQuery(this).data("redirect-page-url");
+    if (value !== "0") {
+      window.location.href = "/c/" + value + "/" + pageURI;
+    } else {
+      window.location.href = "/c/all/" + pageURI;
+    }
 
+  });
 });
-
-function change_category(el, pageURI) {
-	if ($(el).val() != '0') {
-		window.location.href = '/c/' + $(el).val() + '/' + pageURI;
-	} else {
-		window.location.href = '/c/all/' + pageURI;
-	}
-}
 
 /**
  * @param {string} el
@@ -90,12 +91,3 @@ function download_image_enlarge(el, width) {
 		}
 	}
 }
-
-function split( val ) {
-	return val.split( /,\s*/ );
-}
-function extractLast( term ) {
-	return split( term ).pop();
-}
-
-/* ]]> */

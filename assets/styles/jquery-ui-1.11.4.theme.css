@@ -1,183 +1,266 @@
-/*!
- * jQuery UI CSS Framework 1.11.4
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- *
- * http://api.jqueryui.com/category/theming/
- *
- * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana%2CArial%2Csans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=4px&bgColorHeader=cccccc&bgTextureHeader=highlight_soft&bgImgOpacityHeader=75&borderColorHeader=aaaaaa&fcHeader=222222&iconColorHeader=222222&bgColorContent=ffffff&bgTextureContent=flat&bgImgOpacityContent=75&borderColorContent=aaaaaa&fcContent=222222&iconColorContent=222222&bgColorDefault=e6e6e6&bgTextureDefault=glass&bgImgOpacityDefault=75&borderColorDefault=d3d3d3&fcDefault=555555&iconColorDefault=888888&bgColorHover=dadada&bgTextureHover=glass&bgImgOpacityHover=75&borderColorHover=999999&fcHover=212121&iconColorHover=454545&bgColorActive=ffffff&bgTextureActive=glass&bgImgOpacityActive=65&borderColorActive=aaaaaa&fcActive=212121&iconColorActive=454545&bgColorHighlight=fbf9ee&bgTextureHighlight=glass&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=glass&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
+/*
+ * jQuery UI style tweaks
  */
 
-/* My Little Wallpaper tweaks */
-.ui-menu{max-height:192px;overflow:auto;}
-.ui-menu .ui-menu-item{margin:0;padding:0;zoom:1;width:100%;}
-.ui-menu .ui-menu-divider{margin:5px -2px 5px -2px;height:0;font-size:0;line-height:0;border-width:1px 0 0 0;}
-.ui-menu .ui-menu-item a{text-decoration:none;display:block;padding:4px 14px;line-height:1.5;zoom:1;font-weight:normal;}
-.ui-autocomplete{max-height:192px;overflow-y:auto;overflow-x:hidden;}
-.ui-autocomplete .ui-menu-item a{padding:4px 24px 4px 14px;}
+.ui-menu {
+  max-height: 192px;
+  overflow: auto;
+}
 
-/* Component containers
-----------------------------------*/
+.ui-menu .ui-menu-item {
+  margin: 0;
+  padding: 0;
+  zoom: 1;
+  width: 100%;
+}
+
+.ui-menu .ui-menu-divider {
+  margin: 5px -2px;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+  border-width: 1px 0 0;
+}
+
+.ui-state-focus a,
+.ui-state-hover a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.ui-state-active a {
+  color: #212121;
+  text-decoration: none;
+}
+
+.ui-state-focus a:hover,
+.ui-state-focus a:link,
+.ui-state-focus a:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+.ui-state-active a:link,
+.ui-state-active a:visited {
+  color: #212121;
+  text-decoration: none;
+}
+
+.ui-state-hover a:hover,
+.ui-state-hover a:link,
+.ui-state-hover a:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+.ui-menu .ui-menu-item a {
+  text-decoration: none;
+  display: block;
+  padding: 4px 14px;
+  line-height: 1.5;
+  zoom: 1;
+  font-weight: normal;
+}
+
+.ui-autocomplete {
+  max-height: 192px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.ui-autocomplete .ui-menu-item a {
+  padding: 4px 24px 4px 14px;
+}
+
 .ui-widget {
-	font-family: "Trebuchet MS",Verdana,Arial,sans-serif;
-	font-size: 1.1em;
+  font-family: "Trebuchet MS", Verdana, Arial, sans-serif;
+  font-size: 1.1em;
 }
+
 .ui-widget .ui-widget {
-	font-size: 1em;
+  font-size: 1em;
 }
+
 .ui-widget input,
 .ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
-	font-family: "Trebuchet MS",Verdana,Arial,sans-serif;
-	font-size: 1em;
-}
-.ui-widget-content {
-	border: 1px solid #ddd;
-	background: #eee;
-	color: #333;
-}
-.ui-dialog {
-	border: 1px solid #eee;
-	background: #fafafa;
-	color: #333;
-}
-.ui-widget-header {
-	border: 1px solid #4C647D;
-	background: #4C647D;
-	color: #fff;
-	font-weight: bold;
-}
-.ui-widget-header>.ui-button {
-	border:1px solid #4C647D !important;
-	background: #4C647D;
-	color: #fff;
-	outline:none;
+  font-family: "Trebuchet MS", Verdana, Arial, sans-serif;
+  font-size: 1em;
 }
 
-/* Interaction states
-----------------------------------*/
+.ui-widget-content {
+  border: 1px solid #ddd;
+  background: #eee;
+  color: #333;
+}
+
+.ui-dialog {
+  border: 1px solid #eee;
+  background: #fafafa;
+  color: #333;
+}
+
+.ui-widget-header {
+  border: 1px solid #4c647d;
+  background: #4c647d;
+  color: #fff;
+  font-weight: bold;
+}
+
+.ui-widget-header > .ui-button {
+  border: 1px solid #4c647d !important;
+  background: #4c647d;
+  color: #fff;
+  outline: none;
+}
+
 .ui-state-default,
 .ui-widget-content .ui-state-default {
-	border:1px solid #fafafa;
-	font-weight:bold;
+  border: 1px solid #fafafa;
+  font-weight: bold;
 }
+
 .ui-state-hover,
 .ui-widget-content .ui-state-hover,
 .ui-state-focus,
-.ui-widget-content .ui-state-focus{
-	border: none !important;
-	background:#4C647D;
-	font-weight:bold;
-	color:#fff;
-	border-radius:3px;
-}
-.ui-widget-header .ui-state-hover,
-.ui-widget-header .ui-state-focus {
-	border: 1px solid #4C647D !important;
-	background:#4C647D !important;
+.ui-widget-content .ui-state-focus {
+  border: none !important;
+  background: #4c647d;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 3px;
 }
 
-.ui-state-hover a,
-.ui-state-hover a:hover,
-.ui-state-hover a:link,
-.ui-state-hover a:visited,
-.ui-state-focus a,
-.ui-state-focus a:hover,
-.ui-state-focus a:link,
-.ui-state-focus a:visited {
-	color:#fff;
-	text-decoration:none;
+.ui-widget-header .ui-state-hover,
+.ui-widget-header .ui-state-focus {
+  border: 1px solid #4c647d !important;
+  background: #4c647d !important;
 }
+
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-	border: 1px solid #aaaaaa;
-	background: #ffffff;
-	font-weight: normal;
-	color: #212121;
+  border: 1px solid #aaa;
+  background: #fff;
+  font-weight: normal;
+  color: #212121;
 }
-.ui-state-active a,
-.ui-state-active a:link,
-.ui-state-active a:visited {
-	color: #212121;
-	text-decoration: none;
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button.ui-state-default {
+  border-radius: 0;
+  background: #1f3d5c;
+  font-family: arial, verdana, sans-serif;
+  font-size: 15px;
+  border: none;
+  padding: 8px 12px !important;
+  color: #fff;
+  text-transform: uppercase;
+  position: relative;
+  top: -2px;
+  cursor: pointer;
+  font-weight: normal !important;
 }
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button.ui-state-default{border-radius:0;background:#1F3D5C;font-family:arial,verdana,sans-serif;font-size:15px;border:none;padding:8px 12px !important;color:#fff;text-transform:uppercase;position:relative;top:-2px;cursor:pointer;font-weight:normal !important;}
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button.ui-state-hover{background:#4C647D;}
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button>span{padding:0 !important;}
 
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button.ui-state-hover {
+  background: #4c647d;
+}
 
-/* Interaction Cues
-----------------------------------*/
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button > span {
+  padding: 0 !important;
+}
+
 .ui-state-highlight,
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
-	border: 1px solid #fcefa1;
-	background: #fbf9ee;
-	color: #363636;
+  border: 1px solid #fcefa1;
+  background: #fbf9ee;
+  color: #363636;
 }
+
 .ui-state-highlight a,
 .ui-widget-content .ui-state-highlight a,
 .ui-widget-header .ui-state-highlight a {
-	color: #363636;
+  color: #363636;
 }
+
 .ui-state-error,
 .ui-widget-content .ui-state-error,
 .ui-widget-header .ui-state-error {
-	border: 1px solid #cd0a0a;
-	background: #fef1ec;
-	color: #cd0a0a;
+  border: 1px solid #cd0a0a;
+  background: #fef1ec;
+  color: #cd0a0a;
 }
+
 .ui-state-error a,
 .ui-widget-content .ui-state-error a,
 .ui-widget-header .ui-state-error a {
-	color: #cd0a0a;
+  color: #cd0a0a;
 }
+
 .ui-state-error-text,
 .ui-widget-content .ui-state-error-text,
 .ui-widget-header .ui-state-error-text {
-	color: #cd0a0a;
+  color: #cd0a0a;
 }
+
 .ui-priority-primary,
 .ui-widget-content .ui-priority-primary,
 .ui-widget-header .ui-priority-primary {
-	font-weight: bold;
+  font-weight: bold;
 }
+
 .ui-priority-secondary,
 .ui-widget-content .ui-priority-secondary,
 .ui-widget-header .ui-priority-secondary {
-	opacity: .7;
-	filter:Alpha(Opacity=70); /* support: IE8 */
-	font-weight: normal;
+  opacity: 0.7;
+  font-weight: normal;
 }
+
 .ui-state-disabled,
 .ui-widget-content .ui-state-disabled,
 .ui-widget-header .ui-state-disabled {
-	opacity: .35;
-	filter:Alpha(Opacity=35); /* support: IE8 */
-	background-image: none;
-}
-.ui-state-disabled .ui-icon {
-	filter:Alpha(Opacity=35); /* support: IE8 - See #6059 */
+  opacity: 0.35;
+  background-image: none;
 }
 
-/* Icons
-----------------------------------*/
+.ui-icon {
+  width: 16px;
+  height: 16px;
+  background-image: url("images/ui-icons_222222_256x240.png");
+}
 
-/* states and images */
-.ui-icon { width: 16px; height: 16px; background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-widget-content .ui-icon {background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-widget-header .ui-icon {background-image: url("images/ui-icons_ffffff_256x240.png") !important; }
-.ui-widget-header .ui-state-hover .ui-icon {background-image: url("images/ui-icons_222222_256x240.png") !important; }
-.ui-state-default .ui-icon {background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-state-active .ui-icon {background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-state-highlight .ui-icon {background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url("images/ui-icons_ffffff_256x240.png"); }
+.ui-widget-content .ui-icon {
+  background-image: url("images/ui-icons_222222_256x240.png");
+}
+
+.ui-widget-header .ui-icon {
+  background-image: url("images/ui-icons_ffffff_256x240.png") !important;
+}
+
+.ui-widget-header .ui-state-hover .ui-icon {
+  background-image: url("images/ui-icons_222222_256x240.png") !important;
+}
+
+.ui-state-default .ui-icon {
+  background-image: url("images/ui-icons_222222_256x240.png");
+}
+
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
+  background-image: url("images/ui-icons_222222_256x240.png");
+}
+
+.ui-state-active .ui-icon {
+  background-image: url("images/ui-icons_222222_256x240.png");
+}
+
+.ui-state-highlight .ui-icon {
+  background-image: url("images/ui-icons_222222_256x240.png");
+}
+
+.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {
+  background-image: url("images/ui-icons_ffffff_256x240.png");
+}
 
 /* positioning */
 .ui-icon-blank { background-position: 16px 16px; }
@@ -317,7 +400,6 @@
 .ui-icon-seek-prev { background-position: -48px -160px; }
 .ui-icon-seek-end { background-position: -64px -160px; }
 .ui-icon-seek-start { background-position: -80px -160px; }
-/* ui-icon-seek-first is deprecated, use ui-icon-seek-start instead */
 .ui-icon-seek-first { background-position: -80px -160px; }
 .ui-icon-stop { background-position: -96px -160px; }
 .ui-icon-eject { background-position: -112px -160px; }
@@ -357,36 +439,44 @@
 .ui-icon-gripsmall-diagonal-se { background-position: -64px -224px; }
 .ui-icon-grip-diagonal-se { background-position: -80px -224px; }
 
-
-/* Misc visuals
-----------------------------------*/
-
-/* Corner radius */
 .ui-corner-all,
 .ui-corner-top,
 .ui-corner-left,
 .ui-corner-tl {
-	border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
 }
+
 .ui-corner-all,
 .ui-corner-top,
 .ui-corner-right,
 .ui-corner-tr {
-	border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
 }
+
 .ui-corner-all,
 .ui-corner-bottom,
 .ui-corner-left,
 .ui-corner-bl {
-	border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
+
 .ui-corner-all,
 .ui-corner-bottom,
 .ui-corner-right,
 .ui-corner-br {
-	border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 /* Overlays */
-.ui-widget-overlay { background: #666 ; opacity: .5;filter:Alpha(Opacity=50); }
-.ui-widget-shadow { margin: -5px 0 0 -5px; padding: 5px; background: #000 ; opacity: .2;filter:Alpha(Opacity=20); -moz-border-radius: 5px; -khtml-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+.ui-widget-overlay {
+  background: #666;
+  opacity: 0.5;
+}
+
+.ui-widget-shadow {
+  margin: -5px 0 0 -5px;
+  padding: 5px;
+  background: #000;
+  opacity: 0.2;
+  border-radius: 5px;
+}

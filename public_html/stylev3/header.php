@@ -106,7 +106,7 @@ echo '<!DOCTYPE html>
 
 echo '		<header>' . "\n";
 echo '			<div id="categoryselect">' . "\n";
-echo '				Select category: <select onchange="change_category(this, \'' . $redirectPageUrl . '\');">' . "\n";
+echo '				Select category: <select id="category-select" data-redirect-page-url="' . $redirectPageUrl . '">' . "\n";
 echo '					<option value="0">All</option>';
 
 foreach ($category_list as $category) {
