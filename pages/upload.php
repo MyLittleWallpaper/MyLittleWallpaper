@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\GetCommonColours;
+use MyLittleWallpaper\classes\Helpers;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
 
@@ -324,15 +325,11 @@ if (CATEGORY === 'all') {
                             }
 
                             if (!$noaspect) {
-                                $aspect = aspect($source_X, $source_Y);
-                                $res    = $db->query("SELECT id, name FROM tag_aspect WHERE name = ?", [$aspect]);
-                                while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-                                    $data = [
-                                        'tag_aspect_id' => $row['id'],
-                                        'wallpaper_id'  => $imageid,
-                                    ];
-                                    $db->saveArray('wallpaper_tag_aspect', $data);
-                                }
+                                $data = [
+                                    'tag_aspect_id' => Helpers::getTagAspectId($source_X, $source_Y),
+                                    'wallpaper_id'  => $imageid,
+                                ];
+                                $db->saveArray('wallpaper_tag_aspect', $data);
                             }
                             $_SESSION['success'] = true;
                             $redirect            = true;
@@ -342,8 +339,8 @@ if (CATEGORY === 'all') {
                             } else {
                                 $type = 'desktop';
                             }
-                            if ($type != 'mobile') {
-                                $aspect = aspect($source_X, $source_Y);
+                            if ($type !== 'mobile') {
+                                $aspect = Helpers::getAspectRatio($source_X, $source_Y);
                             } else {
                                 $aspect = '';
                             }

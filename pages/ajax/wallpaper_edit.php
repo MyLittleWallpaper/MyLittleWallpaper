@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use MyLittleWallpaper\classes\Database;
+use MyLittleWallpaper\classes\Helpers;
 use MyLittleWallpaper\classes\output\BasicJSON;
 use MyLittleWallpaper\classes\Response;
 
@@ -316,15 +317,11 @@ if ($banned) {
                             }
                         }
                         if (!$noaspect) {
-                            $aspect = aspect($row['width'], $row['height']);
-                            $res    = $db->query("SELECT id, name FROM tag_aspect WHERE name = ?", [$aspect]);
-                            while ($rivi = $res->fetch(PDO::FETCH_ASSOC)) {
-                                $data = [
-                                    'tag_aspect_id' => $rivi['id'],
-                                    'wallpaper_id'  => $imageid,
-                                ];
-                                $db->saveArray('wallpaper_tag_aspect', $data);
-                            }
+                            $data = [
+                                'tag_aspect_id' => Helpers::getTagAspectId($row['width'], $row['height']),
+                                'wallpaper_id'  => $imageid,
+                            ];
+                            $db->saveArray('wallpaper_tag_aspect', $data);
                         }
                         $return['novalidate'] = 1;
                     } else {

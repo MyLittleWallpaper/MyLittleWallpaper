@@ -484,6 +484,7 @@ INSERT INTO tag_aspect (name) VALUES ('16:9');
 INSERT INTO tag_aspect (name) VALUES ('16:10');
 INSERT INTO tag_aspect (name) VALUES ('4:3');
 INSERT INTO tag_aspect (name) VALUES ('21:9');
+INSERT INTO tag_aspect (name) VALUES ('32:9');
 
 --
 -- Table structure for table `wallpaper_tag_colour`

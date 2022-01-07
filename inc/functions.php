@@ -73,38 +73,6 @@ function GCD(int $a, int $b): int
 }
 
 /**
- * @param int $a
- * @param int $b
- *
- * @return string
- */
-function aspect(int $a, int $b): string
-{
-    $gcd   = GCD($a, $b);
-    $a     = $a / $gcd;
-    $b     = $b / $gcd;
-    $ratio = $a . ":" . $b;
-
-    if ($ratio != '4:3' && $ratio != '16:9' && $ratio != '16:10' && $ratio != '21:9') {
-        $difference_a = abs((4 / 3) - ($a / $b));
-        $difference_b = abs((16 / 9) - ($a / $b));
-        $difference_c = abs((16 / 10) - ($a / $b));
-        // phpcs:disable
-        $difference_d = abs((21 / 9) - ($a / $b)); // @todo Support for this aspect
-        // phpcs:enable
-
-        if ($difference_a < $difference_b && $difference_a < $difference_c) {
-            $ratio = '4:3';
-        } elseif ($difference_b < $difference_a && $difference_b < $difference_c) {
-            $ratio = '16:9';
-        } else {
-            $ratio = '16:10';
-        }
-    }
-    return $ratio;
-}
-
-/**
  * Formats the filesize.
  * For example if the file size is over 1024 bytes, the result is returned in kilobytes.
  *
