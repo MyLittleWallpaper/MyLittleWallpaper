@@ -64,6 +64,8 @@ div.image_container_large>div{width:478px;}
 div.image_container_small div.image_basicinfo{width:221px;}
 div.image_container_large div.image_basicinfo{width:478px;}
 div.imagebox{padding:10px;text-align:center;}
+div.imagebox img.lazyload{opacity:0;}
+div.imagebox img{color:#ddd;font-size:1px;transition:opacity 0.5s}
 div.image_info{padding:0 12px 10px 12px;width:195px;}
 div.image_info>div{display:inline-block;font-size:13px;margin-bottom:3px;}
 div.image_info>div label{width:60px;text-transform:uppercase;display:inline-block;font-size:11px;font-weight:bold;}

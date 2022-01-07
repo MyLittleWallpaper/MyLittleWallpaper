@@ -52,11 +52,17 @@ foreach ($wallpapers as $wallpaper) {
         '" href="#preview" onclick="return image_preview(this, \'image_preview_' . $wallpaper->getId() . '\', \'' .
         Format::escapeQuotes($wallpaper->getImageThumbnailLink(2)) . '\', \'' .
         Format::escapeQuotes($wallpaper->getDownloadLink()) . '\');">' . "\n";
-    echo '							<img class="lazy" style="width:' . $imaged[0] . 'px;height:' . $imaged[1] .
-        'px" src="' . PUB_PATH . THEME . '/images/gray_small.png" data-original="' . Format::htmlEntities(
+    /** @noinspection HtmlUnknownTarget */
+    echo sprintf(
+        '							<img loading="lazy" class="lazyload" style="%s" src="%s" alt="%s" title="%s" />%s',
+        'width:' . $imaged[0] . 'px;height:' . $imaged[1] . 'px;',
+        Format::htmlEntities(
             $wallpaper->getImageThumbnailLink($response->getResponseVariables()->large_wallpaper_thumbs ? 3 : 1)
-        ) . '" alt="' . Format::htmlEntities($wallpaper->getName()) . '" title="' .
-        Format::htmlEntities($wallpaper->getName()) . '" />' . "\n";
+        ),
+        Format::htmlEntities($wallpaper->getName()),
+        Format::htmlEntities($wallpaper->getName()),
+        "\n"
+    );
     echo '						</a>' . "\n";
     echo '					</div>' . "\n";
     if ($response->getResponseVariables()->large_wallpaper_thumbs) {

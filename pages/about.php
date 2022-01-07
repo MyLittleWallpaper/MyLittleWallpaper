@@ -64,16 +64,8 @@ $pageHtml .= sprintf(
     'jQuery UI Team'
 );
 $pageHtml .= sprintf(
-    '<li>jQuery Lazy Load &copy; <a href="%s" target="_blank">Mika Tuupola</a></li>',
-    'https://appelsiini.net/projects/lazyload/'
-);
-$pageHtml .= sprintf(
     '<li>jQuery Tags Input &copy; <a href="%s" target="_blank">XOXCO, Inc</a></li>',
     'https://github.com/xoxco/jQuery-Tags-Input'
-);
-$pageHtml .= sprintf(
-    '<li>Perfect Scrollbar &copy; <a href="%s" target="_blank">HyeonJe Jun</a></li>',
-    'https://github.com/noraesae/perfect-scrollbar-bower'
 );
 $pageHtml .= sprintf(
     '<li>vex dialog &copy; <a href="%s" target="_blank">Adam Schwartz</a></li>',
