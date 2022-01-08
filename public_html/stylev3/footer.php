@@ -43,6 +43,19 @@ echo sprintf(
 );
 echo '</div>' . "\n";
 
+$version = file_get_contents(ROOT_DIR . 'VERSION');
 echo '		</footer>' . "\n";
+/** @noinspection HtmlUnknownTarget */
+echo sprintf(
+    '      <script defer src="%sjs/cookieconsent-2.7.2.min.js?v=%s"></script>',
+    PUB_PATH,
+    urlencode($version)
+);
+/** @noinspection HtmlUnknownTarget */
+echo sprintf(
+    '      <script defer src="%sjs/cookieconsent-init.js?v=%s"></script>',
+    PUB_PATH,
+    urlencode($version)
+);
 echo '	</body>' . "\n";
 echo '</html>';

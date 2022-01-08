@@ -99,7 +99,7 @@ echo '<!DOCTYPE html>
 		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery.tagsinput-1.3.3.js?v=' . urlencode($version) . '"></script>
 		<script type="text/javascript" src="' . PUB_PATH . 'js/vex.combined-2.3.3.min.js?v=' . urlencode($version) . '"></script>
 		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-ui-1.13.0.min.js?v=' . urlencode($version) . '"></script>
-		<script type="text/javascript" src="' . PUB_PATH . 'js/header.js?v=' . urlencode($version) . '"></script>' .
+		<script type="text/javascript" src="' . PUB_PATH . 'js/header.js?v=' . urlencode($version) . '-2"></script>' .
     $javaScriptIncludes . '
 		' . $response->getResponseVariables()->javaScript . '
 	</head>
