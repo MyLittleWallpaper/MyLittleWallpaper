@@ -108,7 +108,7 @@ echo '		<div style="clear:both;"></div>' . "\n\n";
 echo '		<!-- Wallpapers -->' . "\n";
 echo '		<div id="galleryimages">' . "\n";
 if ($response->getResponseVariables()->maxJoinAmountExceeded) {
-    echo '			<div class="warning">Search too complex, please remove tags from the search.</div>';
+    echo '			<div class="search-warning">Search too complex, please remove tags from the search.</div>';
 }
 echo '			<div class="wallpapercount">' . $response->getResponseVariables()->wallpaper_count . ' wallpaper' . ($response->getResponseVariables()->wallpaper_count != 1 ? 's' : '') . ' found.</div>';
 

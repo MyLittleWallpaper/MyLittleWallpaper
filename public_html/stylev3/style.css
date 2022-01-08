@@ -49,6 +49,7 @@ input[type="submit"]:hover,input[type="button"]:hover,input[type="reset"]:hover{
 /* Errors and notices */
 div.error{border:1px solid #b66;padding:10px;background:#fee;color:#800;margin-bottom:20px;font-size:16px;border-radius:10px;}
 div.success{border:1px solid #66b;padding:10px;background:#eef;color:#000;margin-bottom:20px;font-size:16px;border-radius:10px;}
+div.warning{border:1px solid #aa6;padding:10px;background:#ffd;color:#000;margin-bottom:20px;font-size:16px;border-radius:10px;}
 
 /* Basic page */
 div.basic_page_container{padding:40px 30px 30px 30px;background:#f6f6f6;}
@@ -112,7 +113,7 @@ div.taglist_select_letter{font-size:16px;font-weight:bold;text-transform:upperca
 div.taglist_letter_tags{margin-left:40px;}
 div.taglist_tag{float:left;margin-right:4px;margin-bottom:4px;}
 div.taglist_tag a:link,div.taglist_tag a:visited,div.taglist_tag a:active{display:block;float:left;padding:2px 8px;background:#fff;border-radius:3px;font-size:11px;}
-div.warning{background:#ffd;border:1px solid #dd8;padding:8px;border-radius:3px;margin:10px;color:#772;font-weight:bold;text-shadow:1px 1px #fff;}
+div.search-warning{background:#ffd;border:1px solid #dd8;padding:8px;border-radius:3px;margin:10px;color:#772;font-weight:bold;text-shadow:1px 1px #fff;}
 
 /* Wallpaper download */
 .wallpaperdld>img{max-width:100%;}
