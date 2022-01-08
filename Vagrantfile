@@ -12,6 +12,10 @@ Vagrant.configure("2") do |config|
     exec "vagrant #{ARGV.join(' ')}"
   end
 
+  if File.exist? "Vagrantfile.local"
+    instance_eval File.read("Vagrantfile.local"), "Vagrantfile.local"
+  end
+
   config.vagrant.plugins = ['vagrant-vbguest']
   config.vm.box = "ubuntu/focal64"
   config.vm.network "private_network", ip: "192.168.56.20"
