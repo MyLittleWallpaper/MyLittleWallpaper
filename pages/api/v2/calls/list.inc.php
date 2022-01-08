@@ -30,7 +30,7 @@ if (!empty($_GET['limit']) && filter_var($_GET['limit'], FILTER_VALIDATE_INT) !=
 }
 $wallpaperList->setWallpapersPerPage($limit);
 if (!empty($_GET['offset']) && filter_var($_GET['offset'], FILTER_VALIDATE_INT) !== false && $_GET['offset'] >= 0) {
-    $wallpaperList->setOffset($_GET['offset']);
+    $wallpaperList->setOffset((int)$_GET['offset']);
 }
 if (CATEGORY_ID > 0) {
     $wallpaperList->setCategory(CATEGORY_ID);
@@ -62,6 +62,6 @@ foreach ($wallpapers as $wallpaper) {
     $wallpaperData['favourites'] = $wallpaper->getFavourites();
     $returnData['result'][]      = $wallpaperData;
 }
-$returnData['amount'] = (int)$amount;
+$returnData['amount'] = $amount;
 
 return $returnData;

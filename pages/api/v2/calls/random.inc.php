@@ -44,6 +44,6 @@ foreach ($wallpapers as $wallpaper) {
     $wallpaperData['favourites'] = $wallpaper->getFavourites();
     $returnData['result'][]      = $wallpaperData;
 }
-$returnData['amount'] = (int)$amount;
+$returnData['amount'] = $amount;
 
 return $returnData;

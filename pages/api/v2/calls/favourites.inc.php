@@ -47,21 +47,21 @@ if (!empty($_GET['limit']) && filter_var($_GET['limit'], FILTER_VALIDATE_INT) !=
     $limit = 10;
 }
 $wallpaperList->setWallpapersPerPage($limit);
-if (!empty($_GET['sort']) && $_GET['sort'] == 'popularity') {
+if (!empty($_GET['sort']) && $_GET['sort'] === 'popularity') {
     $wallpaperList->setDisplayOrder(WallpaperList::ORDER_POPULARITY);
     if (
         !empty($_GET['offset']) && filter_var($_GET['offset'], FILTER_VALIDATE_INT) !== false &&
         $_GET['offset'] >= 0
     ) {
-        $wallpaperList->setOffset($_GET['offset']);
+        $wallpaperList->setOffset((int)$_GET['offset']);
     }
-} elseif (!empty($_GET['sort']) && $_GET['sort'] == 'random') {
+} elseif (!empty($_GET['sort']) && $_GET['sort'] === 'random') {
     $wallpaperList->setDisplayOrder(WallpaperList::ORDER_RANDOM);
 } elseif (
     !empty($_GET['offset']) && filter_var($_GET['offset'], FILTER_VALIDATE_INT) !== false &&
     $_GET['offset'] >= 0
 ) {
-    $wallpaperList->setOffset($_GET['offset']);
+    $wallpaperList->setOffset((int)$_GET['offset']);
 }
 $wallpaperList->setSearchFavouritesUserId($userId);
 $wallpaperList->loadWallpapers();
@@ -88,6 +88,6 @@ foreach ($wallpapers as $wallpaper) {
     $wallpaperData['favourites'] = $wallpaper->getFavourites();
     $returnData['result'][]      = $wallpaperData;
 }
-$returnData['amount'] = (int)$amount;
+$returnData['amount'] = $amount;
 
 return $returnData;

@@ -23,7 +23,7 @@ $wallpaperList->setDisplayOrder(WallpaperList::ORDER_RANDOM);
 $wallpaperList->loadWallpapers();
 $wallpapers = $wallpaperList->getWallpapers();
 
-$returnData = ['search_tags' => $wallpaperList->getSearchTagsWithType(), 'amount' => 0];
+$returnData = ['search_tags' => $wallpaperList->getSearchTagsWithType()];
 $amount     = 0;
 foreach ($wallpapers as $wallpaper) {
     $amount++;
@@ -45,6 +45,6 @@ foreach ($wallpapers as $wallpaper) {
     $wallpaperData['clicks'] = (string)$wallpaper->getClicks();
     $returnData['result'][]  = $wallpaperData;
 }
-$returnData['amount'] = (int)$amount;
+$returnData['amount'] = $amount;
 
 return $returnData;
