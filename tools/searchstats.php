@@ -101,9 +101,12 @@ while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
     $str     .= '<tr>';
     $str     .= '<td style="width:200px;border-bottom:1px solid #ccc;padding:4px 0;font-weight:bold;">' .
         Format::htmlEntities($row['tag']) . '</td>';
-    $str     .= '<td style="width:125px;border-bottom:1px solid #ccc;padding:4px 0;text-align:right;">' .
-        number_format($percent, 2, '.', '') . ' % &nbsp; <small>(' . number_format($row['searches'], 0, ',', ' ') .
-        ')</small></td>';
+    $str     .= sprintf(
+        '<td style="%s">%s %% &nbsp; <small>(%s)</small></td>',
+        'width:125px;border-bottom:1px solid #ccc;padding:4px 0;text-align:right;white-space:nowrap;',
+        number_format($percent, 2, '.', ''),
+        number_format($row['searches'], 0, ',', ' ')
+    );
     $str     .= '</tr>';
 }
 $str .= '</table>';
