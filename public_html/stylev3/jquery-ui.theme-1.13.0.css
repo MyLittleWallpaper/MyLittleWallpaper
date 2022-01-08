@@ -1,16 +1,3 @@
-/*!
- * jQuery UI CSS Framework 1.11.4
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- *
- * http://api.jqueryui.com/category/theming/
- *
- * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana%2CArial%2Csans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=4px&bgColorHeader=cccccc&bgTextureHeader=highlight_soft&bgImgOpacityHeader=75&borderColorHeader=aaaaaa&fcHeader=222222&iconColorHeader=222222&bgColorContent=ffffff&bgTextureContent=flat&bgImgOpacityContent=75&borderColorContent=aaaaaa&fcContent=222222&iconColorContent=222222&bgColorDefault=e6e6e6&bgTextureDefault=glass&bgImgOpacityDefault=75&borderColorDefault=d3d3d3&fcDefault=555555&iconColorDefault=888888&bgColorHover=dadada&bgTextureHover=glass&bgImgOpacityHover=75&borderColorHover=999999&fcHover=212121&iconColorHover=454545&bgColorActive=ffffff&bgTextureActive=glass&bgImgOpacityActive=65&borderColorActive=aaaaaa&fcActive=212121&iconColorActive=454545&bgColorHighlight=fbf9ee&bgTextureHighlight=glass&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=glass&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
- */
-
 /* My Little Wallpaper tweaks */
 .ui-menu{max-height:192px;overflow:auto;}
 .ui-menu .ui-menu-item{margin:0;padding:0;zoom:1;width:100%;}
@@ -18,6 +5,8 @@
 .ui-menu .ui-menu-item a{text-decoration:none;display:block;padding:4px 14px;line-height:1.5;zoom:1;font-weight:normal;}
 .ui-autocomplete{max-height:192px;overflow-y:auto;overflow-x:hidden;}
 .ui-autocomplete .ui-menu-item a{padding:4px 24px 4px 14px;}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button{border-radius:0;background:#1F3D5C;font-family:arial,verdana,sans-serif;font-size:15px;border:none;padding:8px 12px !important;color:#fff;text-transform:uppercase;position:relative;top:-2px;cursor:pointer;font-weight:normal !important;}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button>span{padding:0 !important;}
 
 /* Component containers
 ----------------------------------*/
@@ -26,30 +15,33 @@
 	font-size: 1.1em;
 }
 .ui-widget .ui-widget {
-	font-size: 1em;
+  font-size: 1em;
 }
 .ui-widget input,
 .ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
-	font-family: "Trebuchet MS",Verdana,Arial,sans-serif;
-	font-size: 1em;
+  font-family: "Trebuchet MS",Verdana,Arial,sans-serif;
+  font-size: 1em;
+}
+.ui-widget.ui-widget-content {
+  border: 1px solid #c5c5c5;
 }
 .ui-widget-content {
-	border: 1px solid #ddd;
-	background: #eee;
-	color: #333;
+  border: 1px solid #ddd;
+  background: #eee;
+  color: #333;
 }
 .ui-dialog {
-	border: 1px solid #eee;
-	background: #fafafa;
-	color: #333;
+  border: 1px solid #eee;
+  background: #fafafa;
+  color: #333;
 }
 .ui-widget-header {
-	border: 1px solid #4C647D;
-	background: #4C647D;
-	color: #fff;
-	font-weight: bold;
+  border: 1px solid #4C647D;
+  background: #4C647D;
+  color: #fff;
+  font-weight: bold;
 }
 .ui-widget-header>.ui-button {
 	border:1px solid #4C647D !important;
@@ -61,26 +53,31 @@
 /* Interaction states
 ----------------------------------*/
 .ui-state-default,
-.ui-widget-content .ui-state-default {
-	border:1px solid #fafafa;
-	font-weight:bold;
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-button,
+
+  /* We use html here because we need a greater specificity to make sure disabled
+  works properly when clicked or hovered */
+html .ui-button.ui-state-disabled:hover,
+html .ui-button.ui-state-disabled:active {
+  border:1px solid #fafafa;
+  font-weight:bold;
 }
 .ui-state-hover,
 .ui-widget-content .ui-state-hover,
-.ui-state-focus,
-.ui-widget-content .ui-state-focus{
-	border: none !important;
-	background:#4C647D;
-	font-weight:bold;
-	color:#fff;
-	border-radius:3px;
-}
 .ui-widget-header .ui-state-hover,
-.ui-widget-header .ui-state-focus {
-	border: 1px solid #4C647D !important;
-	background:#4C647D !important;
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus,
+.ui-button:hover,
+.ui-button:focus {
+  border: none !important;
+  background:#4C647D;
+  font-weight:bold;
+  color:#fff;
+  border-radius:3px;
 }
-
 .ui-state-hover a,
 .ui-state-hover a:hover,
 .ui-state-hover a:link,
@@ -88,28 +85,39 @@
 .ui-state-focus a,
 .ui-state-focus a:hover,
 .ui-state-focus a:link,
-.ui-state-focus a:visited {
-	color:#fff;
-	text-decoration:none;
+.ui-state-focus a:visited,
+a.ui-button:hover,
+a.ui-button:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+.ui-visual-focus {
+  box-shadow: 0 0 3px 1px rgb(94, 158, 214);
 }
 .ui-state-active,
 .ui-widget-content .ui-state-active,
-.ui-widget-header .ui-state-active {
-	border: 1px solid #aaaaaa;
-	background: #ffffff;
-	font-weight: normal;
-	color: #212121;
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+  border: 1px solid #aaa;
+  background: #fff;
+  font-weight: normal;
+  color: #212121;
+}
+.ui-menu .ui-menu-item .ui-state-active {
+  background:#4C647D;
+  color:#fff;
+  border-radius:3px;
 }
 .ui-state-active a,
 .ui-state-active a:link,
 .ui-state-active a:visited {
-	color: #212121;
-	text-decoration: none;
+  color: #212121;
+  text-decoration: none;
 }
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button.ui-state-default{border-radius:0;background:#1F3D5C;font-family:arial,verdana,sans-serif;font-size:15px;border:none;padding:8px 12px !important;color:#fff;text-transform:uppercase;position:relative;top:-2px;cursor:pointer;font-weight:normal !important;}
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button.ui-state-hover{background:#4C647D;}
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button>span{padding:0 !important;}
-
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button:hover{background:#4C647D;}
 
 /* Interaction Cues
 ----------------------------------*/
@@ -169,15 +177,38 @@
 ----------------------------------*/
 
 /* states and images */
-.ui-icon { width: 16px; height: 16px; background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-widget-content .ui-icon {background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-widget-header .ui-icon {background-image: url("images/ui-icons_ffffff_256x240.png") !important; }
-.ui-widget-header .ui-state-hover .ui-icon {background-image: url("images/ui-icons_222222_256x240.png") !important; }
-.ui-state-default .ui-icon {background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-state-active .ui-icon {background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-state-highlight .ui-icon {background-image: url("images/ui-icons_222222_256x240.png"); }
-.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url("images/ui-icons_ffffff_256x240.png"); }
+.ui-icon {
+  width: 16px;
+  height: 16px;
+}
+.ui-icon,
+.ui-widget-content .ui-icon {
+  background-image: url("images/ui-icons_222222_256x240.png");
+}
+.ui-widget-header .ui-icon {
+  background-image: url("images/ui-icons_ffffff_256x240.png");
+}
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon,
+.ui-button:hover .ui-icon,
+.ui-button:focus .ui-icon {
+  background-image: url("images/ui-icons_222222_256x240.png");
+}
+.ui-state-active .ui-icon,
+.ui-button:active .ui-icon {
+  background-image: url("images/ui-icons_ffffff_256x240.png");
+}
+.ui-state-highlight .ui-icon,
+.ui-button .ui-state-highlight.ui-icon {
+  background-image: url("images/ui-icons_222222_256x240.png");
+}
+.ui-state-error .ui-icon,
+.ui-state-error-text .ui-icon {
+  background-image: url("images/ui-icons_ffffff_256x240.png");
+}
+.ui-button .ui-icon {
+  background-image: url("images/ui-icons_ffffff_256x240.png");
+}
 
 /* positioning */
 .ui-icon-blank { background-position: 16px 16px; }
@@ -389,4 +420,4 @@
 
 /* Overlays */
 .ui-widget-overlay { background: #666 ; opacity: .5;filter:Alpha(Opacity=50); }
-.ui-widget-shadow { margin: -5px 0 0 -5px; padding: 5px; background: #000 ; opacity: .2;filter:Alpha(Opacity=20); -moz-border-radius: 5px; -khtml-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+.ui-widget-shadow { margin: -5px 0 0 -5px; padding: 5px; background: #000 ; opacity: .2;filter:Alpha(Opacity=20);border-radius: 5px; }

@@ -89,15 +89,16 @@ echo '<!DOCTYPE html>
 		' . $response->getResponseVariables()->rss . '
 		<title>' . $response->getResponseVariables()->titleAddition .
     (CATEGORY_NAME != '' ? Format::htmlEntities(CATEGORY_NAME) . ' | ' : '') . 'My Little Wallpaper - Wallpapers are Magic</title>
-		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/style.css?v=' . urlencode($version) . '-2" media="all">
-		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/jquery-ui-1.11.4.structure.min.css?v=' .
+		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/style.css?v=' . urlencode($version) . '-3" media="all">
+		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/jquery-ui.structure-1.13.0.min.css?v=' .
     urlencode($version) . '" media="all">
-		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/jquery-ui-1.11.4.theme.css?v=' .
+		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/jquery-ui.theme-1.13.0.css?v=' .
     urlencode($version) . '" media="all">
-		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-1.12.4.min.js?v=' . urlencode($version) . '"></script>
+		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-3.5.1.min.js?v=' . urlencode($version) . '"></script>
+		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-migrate-3.3.2.min.js?v=' . urlencode($version) . '"></script>
 		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery.tagsinput-1.3.3.js?v=' . urlencode($version) . '"></script>
-		<script type="text/javascript" src="' . PUB_PATH . 'js/vex.combined-2.0.1.js?v=' . urlencode($version) . '"></script>
-		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-ui-1.11.4.min.js?v=' . urlencode($version) . '"></script>
+		<script type="text/javascript" src="' . PUB_PATH . 'js/vex.combined-2.3.3.min.js?v=' . urlencode($version) . '"></script>
+		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-ui-1.13.0.min.js?v=' . urlencode($version) . '"></script>
 		<script type="text/javascript" src="' . PUB_PATH . 'js/header.js?v=' . urlencode($version) . '"></script>' .
     $javaScriptIncludes . '
 		' . $response->getResponseVariables()->javaScript . '

@@ -71,8 +71,12 @@ function WallpaperList(settings) {
   };
 
   wallpaperList.pageTriggers = function() {
-    var images = jQuery("img.lazyload").on("load", function() {
+    jQuery("img.lazyload").one("load", function() {
       jQuery(this).removeClass("lazyload");
+    }).each(function() {
+      if(this.complete) {
+        jQuery(this).removeClass("lazyload");
+      }
     });
 
     var favButtons = jQuery("a.fav_active");

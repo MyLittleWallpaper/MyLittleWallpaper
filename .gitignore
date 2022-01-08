@@ -20,7 +20,8 @@
 # PHPUnit cache file
 /.phpunit.result.cache
 
-# No including of composer packages
+# No including of Composer or Yarn packages
+/node_modules
 /vendor
 
 # Exclude javascript dev files, those can be downloaded manually

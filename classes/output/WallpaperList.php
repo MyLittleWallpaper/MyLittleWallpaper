@@ -1778,7 +1778,7 @@ class WallpaperList extends Output
      */
     public function getJavaScriptFiles(): array
     {
-        return ['wallpaper-list-2.0.0-beta-v3.js'];
+        return ['wallpaper-list-2.0.0-beta-v4.js'];
     }
 
     /**
