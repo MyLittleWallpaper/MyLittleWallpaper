@@ -6,7 +6,7 @@ const USER_IP = '127.0.0.1';
 const PROTOCOL = 'http';
 const SITE_DOMAIN = '127.0.0.1';
 
-const ROOT_DIR = '';
+const ROOT_DIR = __DIR__ . '/';
 const PUB_PATH_CAT = 'test';
 const PUB_PATH = '';
 const CATEGORY = '';

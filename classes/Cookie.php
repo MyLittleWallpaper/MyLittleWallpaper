@@ -29,6 +29,16 @@ class Cookie
     /**
      * @param string $name
      *
+     * @return void
+     */
+    public static function removeCookie(string $name): void
+    {
+        self::setCookie($name, '', time() - 3600);
+    }
+
+    /**
+     * @param string $name
+     *
      * @return string|null
      */
     public static function getCookie(string $name): ?string

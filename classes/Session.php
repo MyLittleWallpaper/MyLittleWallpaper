@@ -6,6 +6,8 @@ namespace MyLittleWallpaper\classes;
 
 use Exception;
 use Memcache;
+use MyLittleWallpaper\classes\Exception\InvalidParametersException;
+use MyLittleWallpaper\classes\Exception\UnableToCreateAuthorizationToken;
 use MyLittleWallpaper\classes\User\User;
 use MyLittleWallpaper\classes\User\UserRepository;
 use PDO;
@@ -44,6 +46,8 @@ class Session
     /**
      * @param Database|null $db       If null, looks for $GLOBALS['db']
      * @param Memcache|null $memcache If null, looks for $GLOBALS['memcache']
+     *
+     * @throws Exception
      */
     public function __construct(?Database $db = null, ?Memcache $memcache = null)
     {
@@ -70,16 +74,17 @@ class Session
     }
 
     /**
-     * Loads currently logged in user or generic user class for anonymous access.
+     * Loads currently logged-in user or generic user class for anonymous access.
      * @return User
+     * @throws UnableToCreateAuthorizationToken
      */
     public function loadUser(): User
     {
         $this->removeOldSessionData();
-        $user_id = $this->getSessionUserId();
+        $userId = $this->getSessionUserId();
 
-        if ($user_id > 0) {
-            $user = $this->userRepository->getUserById($user_id);
+        if ($userId > 0) {
+            $user = $this->userRepository->getUserById($userId);
             if ($user !== null) {
                 return $user;
             }
@@ -91,14 +96,16 @@ class Session
 
     /**
      * @return void
+     * @throws UnableToCreateAuthorizationToken
      */
     public function logUserOut(): void
     {
         if ($this->getSessionUserId() > 0) {
-            $session_id   = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
-            $memcache_key = 'session_' . $session_id . '_' . USER_IP;
-            $this->db->query("DELETE FROM user_session WHERE id = ? AND ip = ?", [$session_id, USER_IP]);
-            $this->memcache->set($memcache_key, 0, 0, 3600 * 30);
+            $sessionId   = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
+            $memcacheKey = 'session_' . $sessionId . '_' . USER_IP;
+            $this->db->query("DELETE FROM user_session WHERE id = ? AND ip = ?", [$sessionId, USER_IP]);
+            $this->memcache->set($memcacheKey, 0, 0, 3600 * 30);
+            Cookie::removeCookie('mlwpjwt');
         }
     }
 
@@ -106,14 +113,30 @@ class Session
      * @param int $userId
      *
      * @return void
+     * @throws InvalidParametersException
+     * @throws UnableToCreateAuthorizationToken
      */
     public function logUserIn(int $userId): void
     {
-        if ($this->getSessionUserId() == 0) {
-            $session_id   = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
-            $memcache_key = 'session_' . $session_id . '_' . USER_IP;
-            $this->memcache->set($memcache_key, (int)$userId, 0, 3600 * 30);
-            $this->db->saveArray('user_session', ['id' => $session_id, 'ip' => USER_IP, 'time' => time()]);
+        if ($this->getSessionUserId() === 0) {
+            $sessionId   = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
+            $memcacheKey = 'session_' . $sessionId . '_' . USER_IP;
+            $this->memcache->set($memcacheKey, $userId, 0, 3600 * 30);
+            $this->db->saveArray('user_session', ['id' => $sessionId, 'ip' => USER_IP, 'time' => time()]);
+
+            try {
+                // Set cookie for keeping user logged in
+                Cookie::setCookie(
+                    'mlwpjwt',
+                    JWT::createAuthorizationToken($sessionId),
+                    time() + (3600 * 24 * 14)
+                );
+            } catch (Exception $ex) {
+                // phpcs:disable Squiz.PHP.DiscouragedFunctions.Discouraged
+                /** @noinspection ForgottenDebugOutputInspection */
+                error_log((string)$ex);
+                // phpcse:enable
+            }
         }
     }
 
@@ -165,28 +188,57 @@ class Session
 
     /**
      * @return int
+     * @throws UnableToCreateAuthorizationToken
      */
     private function getSessionUserId(): int
     {
         if (empty($_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'])) {
-            $session_id = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'] = uid();
+            $sessionIdFromCookie = $this->getSessionIdFromCookieToken();
+            if ($sessionIdFromCookie === null) {
+                $sessionId = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'] = uid();
+            } else {
+                $sessionId = $sessionIdFromCookie;
+                $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'] = $sessionId;
+                // Regenerate cookie
+                Cookie::setCookie(
+                    'mlwpjwt',
+                    JWT::createAuthorizationToken($sessionId),
+                    time() + (3600 * 24 * 14)
+                );
+            }
         } else {
-            $session_id = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
+            $sessionId = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
         }
-        $memcache_key = 'session_' . $session_id . '_' . USER_IP;
-        $userId       = $this->memcache->get($memcache_key);
+        $memcacheKey = 'session_' . $sessionId . '_' . USER_IP;
+        $userId       = $this->memcache->get($memcacheKey);
         if ($userId !== false) {
             return (int)$userId;
         }
 
-        $result = $this->db->query("SELECT user_id FROM user_session WHERE id = ? AND ip = ?", [$session_id, USER_IP]);
-        while ($session_data = $result->fetch(PDO::FETCH_ASSOC)) {
-            $this->memcache->set($memcache_key, (int)$session_data['user_id'], 0, 3600 * 30);
-            return (int)$session_data['user_id'];
+        $result = $this->db->query("SELECT user_id FROM user_session WHERE id = ? AND ip = ?", [$sessionId, USER_IP]);
+        if (($sessionData = $result->fetch(PDO::FETCH_ASSOC)) !== false) {
+            $this->memcache->set($memcacheKey, (int)$sessionData['user_id'], 0, 3600 * 30);
+            return (int)$sessionData['user_id'];
         }
 
-        $this->memcache->set($memcache_key, 0, 0, 3600 * 30);
+        $this->memcache->set($memcacheKey, 0, 0, 3600 * 30);
         return 0;
+    }
+
+    /**
+     * @return string|null
+     */
+    private function getSessionIdFromCookieToken(): ?string
+    {
+        $token = Cookie::getCookie('mlwpjwt');
+        if ($token === null) {
+            return null;
+        }
+        try {
+            return JWT::getAuthorizationTokenSessionId($token);
+        } catch (Exception $ex) {
+            return null;
+        }
     }
 
     /**

@@ -6,6 +6,7 @@
             "check-description",
             "check-license",
             "check-abandoned",
+            "white-list:symfony/error-handler",
 
             "accept-license:Apache-1.0",
             "accept-license:Apache-1.1",
@@ -43,11 +44,17 @@
         "ext-zlib": "*",
 
         "gumlet/php-image-resize": "^2.0",
+        "paragonie/constant_time_encoding": "^2.4",
         "phpmailer/phpmailer": "^6.5",
         "scrivo/highlight.php": "^9.18",
-        "vlucas/phpdotenv": "^5.4"
+        "symfony/security-csrf": "^5.4",
+        "vlucas/phpdotenv": "^5.4",
+        "web-token/jwt-framework": "^2.2",
+        "web-token/jwt-encryption-algorithm-aesgcmkw": "^2.2"
     },
     "require-dev": {
+        "ext-openssl": "*",
+
         "kalessil/production-dependencies-guard": "dev-master",
         "overtrue/phplint": "^3.0.6",
         "phpstan/phpstan": "^1.2",
@@ -74,6 +81,10 @@
     "config": {
         "platform": {
             "php": "7.4.26"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "kalessil/production-dependencies-guard": true
         }
     }
 }

@@ -9,6 +9,6 @@ use Exception;
 /**
  * Invalid parameters given exception
  */
-class InvalidParametersException extends Exception
+final class InvalidParametersException extends Exception
 {
 }

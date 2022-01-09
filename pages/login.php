@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use MyLittleWallpaper\classes\CSRF;
 use MyLittleWallpaper\classes\Format;
 use MyLittleWallpaper\classes\output\BasicPage;
 use MyLittleWallpaper\classes\Response;
@@ -20,40 +21,56 @@ if (!empty($ban['ip']) && $ban['ip'] === USER_IP) {
     $banned = false;
 }
 
-$ipCount = 0;
-$captchaError = false;
-
+$failedLogins    = ['ip' => 0, 'username' => 0];
+$lockedFor5Mins  = false;
+$csrfCheckResult = true;
 $db->query("DELETE FROM login_attempt WHERE time < ?", [strtotime("-5 minutes")]);
-$result = $db->query("SELECT COUNT(*) cnt FROM login_attempt WHERE ip = ?", [USER_IP]);
-while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-    $ipCount = $row['cnt'];
-}
 
 if (!$user->getIsAnonymous()) {
     header('Location: ' . PUB_PATH_CAT);
 } else {
     $loginFailed = false;
     if (isset($_POST['username']) && !$banned) {
-        if ($ipCount > 4) {
-            // @todo Prevent login
+        $result = $db->query("SELECT COUNT(*) cnt FROM login_attempt WHERE ip = ?", [USER_IP]);
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $failedLogins['ip'] = $row['cnt'];
+        }
+        $result = $db->query("SELECT COUNT(*) cnt FROM login_attempt WHERE username = ?", [$_POST['username']]);
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $failedLogins['username'] = $row['cnt'];
+        }
+        if ($failedLogins['ip'] > 30 || $failedLogins['username'] > 10) {
+            $loginFailed    = true;
+            $lockedFor5Mins = true;
         }
         if (!$loginFailed) {
-            $userRepository = new UserRepository();
-            $loginUser      = $userRepository->getUserByUsernameAndPassword($_POST['username'], $_POST['password']);
-            if ($loginUser !== null && !$loginUser->getIsBanned()) {
-                $session->logUserIn($loginUser->getId());
-                header('Location: ' . PUB_PATH_CAT);
-            } else {
+            $requestCsrfToken = $_POST['csrf_token'] ?? '';
+            if (($csrfCheckResult = CSRF::isTokenValid('login', $requestCsrfToken)) === false) {
                 $loginFailed = true;
+            } else {
+                $userRepository = new UserRepository();
+                $loginUser      = $userRepository->getUserByUsernameAndPassword($_POST['username'], $_POST['password']);
+                if ($loginUser !== null && !$loginUser->getIsBanned()) {
+                    $session->logUserIn($loginUser->getId());
+                    header('Location: ' . PUB_PATH_CAT);
+                } else {
+                    $loginFailed = true;
+                }
             }
         }
 
         if ($loginFailed) {
-            $db->saveArray(
-                'login_attempt',
-                ['id' => uid(), 'username' => $_POST['username'], 'ip' => USER_IP, 'time' => time()]
-            );
-            $ipCount++;
+            if ($failedLogins['ip'] > 30) {
+                $db->saveArray(
+                    'login_attempt',
+                    ['id' => uid(), 'username' => '', 'ip' => USER_IP, 'time' => time()]
+                );
+            } else {
+                $db->saveArray(
+                    'login_attempt',
+                    ['id' => uid(), 'username' => $_POST['username'], 'ip' => USER_IP, 'time' => time()]
+                );
+            }
         }
     }
 
@@ -70,8 +87,10 @@ if (!$user->getIsAnonymous()) {
         $pageContents .= '<form class="labelForm" style="padding:5px 0 0 0;" action="' . PUB_PATH_CAT .
             'login" method="post" accept-charset="utf-8">';
         if ($loginFailed) {
-            if ($ipCount > 4 && $captchaError) {
-                $pageContents .= '<div class="error">Incorrect CAPTCHA.</div>';
+            if ($lockedFor5Mins) {
+                $pageContents .= '<div class="error">Too many failed login attempts, try again after 5 minutes.</div>';
+            } elseif (!$csrfCheckResult) {
+                $pageContents .= '<div class="error">CSRF prevention validation failed, please try again.</div>';
             } else {
                 $pageContents .= '<div class="error">Incorrect username or password.</div>';
             }
@@ -83,6 +102,10 @@ if (!$user->getIsAnonymous()) {
             '<input type="password" name="password" style="width:300px;" /></div>';
 
         $pageContents .= '<input type="submit" value="Log in" />';
+        $pageContents .= sprintf(
+            '<input type="hidden" name="csrf_token" value="%s" />',
+            CSRF::getToken('login')
+        );
         $pageContents .= '</form>';
     }
     $pageContents .= '</div></div>';

@@ -125,6 +125,10 @@ sudo systemctl restart php7.4-fpm
 if [ ! -f /vagrant/.env ]; then
   cd /vagrant && cp .env.vagrant .env
 fi
+# Generate encryption key if it doesn't exist
+if [ ! -f /vagrant/.ENCRYPTION_KEY ]; then
+  cd /vagrant && openssl rand -base64 32 > .ENCRYPTION_KEY
+fi
 
 # Composer install
 cd /vagrant && composer install

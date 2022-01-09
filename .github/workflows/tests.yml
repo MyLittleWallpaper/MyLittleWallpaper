@@ -38,5 +38,8 @@ jobs:
       - name: Run PHP_CodeSniffer
         run: ./vendor/bin/phpcs -p ./
 
+      - name: Setup encryption key
+        run: openssl rand -base64 32 > .ENCRYPTION_KEY
+
       - name: Run tests
         run: ./vendor/bin/phpunit tests/

@@ -37,6 +37,9 @@ Thumbs.db
 # Ignore .env file
 /.env
 
+# Ignore encryption key
+/.ENCRYPTION_KEY
+
 # Ignore uploaded wallpapers
 /temp
 /files
