@@ -14,6 +14,7 @@ class Tag extends AbstractTag
 {
     public const TAG_TYPE_CHARACTER = 'character';
     public const TAG_TYPE_GENERAL   = 'general';
+    public const TAG_TYPE_RACE      = 'race';
     public const TAG_TYPE_STYLE     = 'style';
 
     /**
@@ -84,6 +85,7 @@ class Tag extends AbstractTag
         switch ($val) {
             case self::TAG_TYPE_CHARACTER:
             case self::TAG_TYPE_GENERAL:
+            case self::TAG_TYPE_RACE:
             case self::TAG_TYPE_STYLE:
                 $this->type = $val;
         }

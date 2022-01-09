@@ -131,6 +131,8 @@ foreach ($wallpapers as $wallpaper) {
         $class = '';
         if ($tag->getType() == Tag::TAG_TYPE_CHARACTER) {
             $class = 'tagtype_character';
+        } elseif ($tag->getType() == Tag::TAG_TYPE_RACE) {
+            $class = 'tagtype_race';
         } elseif ($tag->getType() == Tag::TAG_TYPE_STYLE) {
             $class = 'tagtype_style';
         }

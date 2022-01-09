@@ -85,6 +85,7 @@ div.actions>a.download{width:117px;margin-right:4px;}
 div.actions>a.editwall{text-indent:-9999px;background-image:url("images/edit.png");background-repeat:no-repeat;background-position:50% 50%;width:35px;}
 div.actions>a.wallinfo{text-indent:-9999px;background-image:url("images/info.png");background-repeat:no-repeat;background-position:50% 50%;width:35px;margin-right:4px;}
 a.tagtype_character:link,a.tagtype_character:visited,a.tagtype_character:active{color:#090;}
+a.tagtype_race:link,a.tagtype_race:visited,a.tagtype_race:active{color:#609;}
 a.tagtype_style:link,a.tagtype_style:visited,a.tagtype_style:active{color:#900;}
 div.image_extra_info{position:absolute;top:0;width:215px;margin:10px 0;overflow:hidden;}
 div.image_container_small div.image_extra_info{left:221px;}
