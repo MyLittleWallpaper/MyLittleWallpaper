@@ -220,7 +220,7 @@ if (strcmp($pageType, 'images') === 0) {
     } elseif (strcmp($pageType, 'api') === 0) {
         $outputData = require ROOT_DIR . 'pages/api/' . $apiVersion . '/calls/' . $page . '.inc.php';
         if (isset($_GET['debug'])) {
-            $time                         = microtime(true) - TIME_START;
+            $time                        = microtime(true) - TIME_START;
             $outputData['generate_time'] = round($time, 4);
         }
         require_once(ROOT_DIR . 'pages/api/' . $apiVersion . '/output/' . $apiOutputFormat . '.inc.php');
