@@ -76,6 +76,7 @@ class Session
     /**
      * Loads currently logged-in user or generic user class for anonymous access.
      * @return User
+     * @throws InvalidParametersException
      * @throws UnableToCreateAuthorizationToken
      */
     public function loadUser(): User
@@ -96,6 +97,7 @@ class Session
 
     /**
      * @return void
+     * @throws InvalidParametersException
      * @throws UnableToCreateAuthorizationToken
      */
     public function logUserOut(): void
@@ -103,9 +105,11 @@ class Session
         if ($this->getSessionUserId() > 0) {
             $sessionId   = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
             $memcacheKey = 'session_' . $sessionId . '_' . USER_IP;
-            $this->db->query("DELETE FROM user_session WHERE id = ? AND ip = ?", [$sessionId, USER_IP]);
+            $this->db->query("DELETE FROM user_session WHERE id = ?", [$sessionId]);
             $this->memcache->set($memcacheKey, 0, 0, 3600 * 30);
             Cookie::removeCookie('mlwpjwt');
+            session_regenerate_id();
+            $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'] = uid();
         }
     }
 
@@ -122,8 +126,11 @@ class Session
             $sessionId   = $_SESSION[($_ENV['SESSIONPREFIX'] ?? '') . '_session_id'];
             $memcacheKey = 'session_' . $sessionId . '_' . USER_IP;
             $this->memcache->set($memcacheKey, $userId, 0, 3600 * 30);
-            $this->db->saveArray('user_session', ['id' => $sessionId, 'ip' => USER_IP, 'time' => time()]);
-
+            $this->db->saveArray(
+                'user_session',
+                ['id' => $sessionId, 'ip' => USER_IP, 'time' => time(), 'user_id' => $userId]
+            );
+            session_regenerate_id();
             try {
                 // Set cookie for keeping user logged in
                 Cookie::setCookie(
@@ -188,6 +195,7 @@ class Session
 
     /**
      * @return int
+     * @throws InvalidParametersException
      * @throws UnableToCreateAuthorizationToken
      */
     private function getSessionUserId(): int
@@ -215,9 +223,14 @@ class Session
             return (int)$userId;
         }
 
-        $result = $this->db->query("SELECT user_id FROM user_session WHERE id = ? AND ip = ?", [$sessionId, USER_IP]);
+        $result = $this->db->query("SELECT user_id FROM user_session WHERE id = ?", [$sessionId]);
         if (($sessionData = $result->fetch(PDO::FETCH_ASSOC)) !== false) {
             $this->memcache->set($memcacheKey, (int)$sessionData['user_id'], 0, 3600 * 30);
+            $this->db->saveArray(
+                'user_session',
+                ['ip' => USER_IP, 'time' => time()],
+                $sessionId
+            );
             return (int)$sessionData['user_id'];
         }
 
