@@ -226,10 +226,9 @@ class Session
         $result = $this->db->query("SELECT user_id FROM user_session WHERE id = ?", [$sessionId]);
         if (($sessionData = $result->fetch(PDO::FETCH_ASSOC)) !== false) {
             $this->memcache->set($memcacheKey, (int)$sessionData['user_id'], 0, 3600 * 30);
-            $this->db->saveArray(
-                'user_session',
-                ['ip' => USER_IP, 'time' => time()],
-                $sessionId
+            $this->db->query(
+                'UPDATE user_session SET `time` = ?, `ip` = ? WHERE id = ?',
+                [time(), USER_IP, $sessionId]
             );
             return (int)$sessionData['user_id'];
         }
