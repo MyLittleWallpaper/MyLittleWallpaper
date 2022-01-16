@@ -74,6 +74,11 @@ if (!empty($activeSubMenu)) {
     $menu .= '			</div>' . "\n";
 }
 
+$titleAddition = '';
+if (in_array(ACTIVE_PAGE, ['index', 'featured', 'random'])) {
+    $titleAddition .= ' wallpapers';
+}
+
 echo '<!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -81,14 +86,14 @@ echo '<!DOCTYPE html>
 		<meta name="description" content="Searchable listing of ' . $allCategories . ' wallpapers.">
 		<link rel="shortcut icon" href="' . PUB_PATH . 'favicon.ico">
 		<meta name="twitter:title" content="' . $response->getResponseVariables()->titleAddition .
-    (CATEGORY_NAME !== '' ? Format::htmlEntities(CATEGORY_NAME) . ' wallpapers | ' : '') .
+    (CATEGORY_NAME !== '' ? Format::htmlEntities(CATEGORY_NAME) . $titleAddition . ' | ' : '') .
     'My Little Wallpaper - Wallpapers are Magic">
 		<meta name="twitter:domain" content="' . $_SERVER['SERVER_NAME'] . '">
 		<meta name="twitter:url" content="http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '">' .
     $response->getResponseVariables()->meta . '
 		' . $response->getResponseVariables()->rss . '
 		<title>' . $response->getResponseVariables()->titleAddition .
-    (CATEGORY_NAME !== '' ? Format::htmlEntities(CATEGORY_NAME) . ' wallpapers | ' : '') .
+    (CATEGORY_NAME !== '' ? Format::htmlEntities(CATEGORY_NAME) . $titleAddition . ' | ' : '') .
     'My Little Wallpaper - Wallpapers are Magic</title>
 		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/style.css?v=' . urlencode($version) . '-3" media="all">
 		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/jquery-ui.structure-1.13.0.min.css?v=' .
