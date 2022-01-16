@@ -75,7 +75,7 @@ if (!empty($activeSubMenu)) {
 }
 
 $titleAddition = '';
-if (in_array(ACTIVE_PAGE, ['index', 'featured', 'random'])) {
+if (defined('ACTIVE_PAGE') && in_array(ACTIVE_PAGE, ['index', 'featured', 'random', 'download'])) {
     $titleAddition .= ' wallpapers';
 }
 

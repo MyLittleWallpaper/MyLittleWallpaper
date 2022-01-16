@@ -13,6 +13,8 @@ global $db, $page;
 $html       = '';
 $javaScript = '';
 
+const ACTIVE_PAGE = 'download';
+
 if (!empty($page)) {
     $file = $db->getRecord('wallpaper', ['field' => 'file', 'value' => $page]);
     if (!empty($file['id']) && $file['deleted'] == '0') {
