@@ -53,7 +53,7 @@ $category_repository = new CategoryRepository($db);
 if (!empty($category)) {
     if ($category == 'all') {
         $category      = 'all';
-        $category_name = '';
+        $category_name = 'All';
         $category_id   = 0;
     } else {
         $selected_category = $category_repository->getCategoryByUrlName($category);
@@ -78,7 +78,7 @@ if (!empty($category)) {
         }
     } elseif ('0' === Cookie::getCookie('category_id')) {
         $category      = 'all';
-        $category_name = '';
+        $category_name = 'All';
         $category_id   = 0;
         if ($redirectOk) {
             header('Location: /c/all/' . $redirectPageUrl);
@@ -90,7 +90,7 @@ if (!empty($category)) {
     }
 } else {
     $category      = 'all';
-    $category_name = '';
+    $category_name = 'All';
     $category_id   = 0;
     if ($redirectOk) {
         header('Location: /c/all/' . $redirectPageUrl);
