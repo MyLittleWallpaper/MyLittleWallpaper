@@ -110,6 +110,8 @@ a.ui-button:active,
   background:#4C647D;
   color:#fff;
   border-radius:3px;
+  border:none;
+  margin:0;
 }
 .ui-state-active a,
 .ui-state-active a:link,

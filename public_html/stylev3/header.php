@@ -93,7 +93,7 @@ echo '<!DOCTYPE html>
 		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/jquery-ui.structure-1.13.0.min.css?v=' .
     urlencode($version) . '" media="all">
 		<link type="text/css" rel="stylesheet" href="' . PUB_PATH . 'stylev3/jquery-ui.theme-1.13.0.css?v=' .
-    urlencode($version) . '" media="all">
+    urlencode($version) . '-2" media="all">
 		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-3.5.1.min.js?v=' . urlencode($version) . '"></script>
 		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery-migrate-3.3.2.min.js?v=' . urlencode($version) . '"></script>
 		<script type="text/javascript" src="' . PUB_PATH . 'js/jquery.tagsinput-1.3.3.js?v=' . urlencode($version) . '"></script>
