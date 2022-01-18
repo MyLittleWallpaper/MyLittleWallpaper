@@ -36,6 +36,7 @@
         "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-curl": "*",
+        "ext-dom": "*",
         "ext-gd": "*",
         "ext-mbstring": "*",
         "ext-memcache": "*",
@@ -49,8 +50,7 @@
         "scrivo/highlight.php": "^9.18",
         "symfony/security-csrf": "^5.4",
         "vlucas/phpdotenv": "^5.4",
-        "web-token/jwt-framework": "^2.2",
-        "web-token/jwt-encryption-algorithm-aesgcmkw": "^2.2"
+        "web-token/jwt-framework": "^2.2"
     },
     "require-dev": {
         "ext-openssl": "*",

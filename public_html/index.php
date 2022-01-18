@@ -46,6 +46,10 @@ if (
 ) {
     $pageType = 'errors';
     $page     = '403';
+} elseif ($requestUri === '/sitemap.xml') {
+    require_once(ROOT_DIR . 'inc/init.php');
+    require_once(ROOT_DIR . 'pages/sitemap.php');
+    return;
 } else {
     $qMarkPos = strpos($requestUri, '?');
     if ($qMarkPos !== false) {
