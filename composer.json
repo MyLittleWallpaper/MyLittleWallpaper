@@ -1,15 +1,89 @@
 {
+    "license": "BSD-3-Clause",
+    "extra": {
+        "production-dependencies-guard": [
+            "check-lock-file",
+            "check-description",
+            "check-license",
+            "check-abandoned",
+            "white-list:symfony/error-handler",
+
+            "accept-license:Apache-1.0",
+            "accept-license:Apache-1.1",
+            "accept-license:Apache-2.0",
+            "accept-license:BSD-2-Clause",
+            "accept-license:BSD-3-Clause",
+            "accept-license:ISC",
+            "accept-license:LGPL",
+            "accept-license:LGPL-2.0",
+            "accept-license:LGPL-2.1",
+            "accept-license:LGPL-2.1-only",
+            "accept-license:LGPL-2.1-or-later",
+            "accept-license:LGPL-3.0",
+            "accept-license:LGPL-3.0-only",
+            "accept-license:LGPL-3.0-or-later",
+            "accept-license:MIT",
+            "accept-license:MPL-2.0",
+            "accept-license:OSL-1.0",
+            "accept-license:OSL-1.1",
+            "accept-license:OSL-2.0",
+            "accept-license:OSL-2.1",
+            "accept-license:OSL-3.0"
+        ]
+    },
     "require": {
         "php": "^7.4 || ~8.0.0 || 8.1.0",
+        "ext-bcmath": "*",
+        "ext-ctype": "*",
         "ext-curl": "*",
+        "ext-dom": "*",
+        "ext-gd": "*",
+        "ext-mbstring": "*",
         "ext-memcache": "*",
         "ext-json": "*",
         "ext-pdo": "*",
+        "ext-zlib": "*",
 
+        "gumlet/php-image-resize": "^2.0",
+        "paragonie/constant_time_encoding": "^2.4",
         "phpmailer/phpmailer": "^6.5",
-        "razielanarki/hyperlight": ">=0.1"
+        "scrivo/highlight.php": "^9.18",
+        "symfony/security-csrf": "^5.4",
+        "vlucas/phpdotenv": "^5.4",
+        "web-token/jwt-framework": "^2.2"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
+        "ext-openssl": "*",
+
+        "kalessil/production-dependencies-guard": "dev-master",
+        "overtrue/phplint": "^3.0.6",
+        "phpunit/phpunit": "^9.5",
+        "roave/security-advisories": "dev-latest",
+        "slevomat/coding-standard": "^7.0.17",
+        "squizlabs/php_codesniffer": "^3.6.1"
+    },
+    "provide": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-mbstring": "*",
+        "symfony/polyfill-php73": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MyLittleWallpaper\\classes\\": "classes"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MyLittleWallpaperTests\\": "tests"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.26"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "kalessil/production-dependencies-guard": true
+        }
     }
 }

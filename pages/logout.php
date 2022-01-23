@@ -1,8 +1,11 @@
 <?php
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
+
+declare(strict_types=1);
+
+use MyLittleWallpaper\classes\CSRF;
 
 global $session;
 
 $session->logUserOut();
-header('Location: '.PUB_PATH_CAT);
+CSRF::clearTokens();
+header('Location: ' . PUB_PATH_CAT);

@@ -1,11 +1,13 @@
 <?php
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
-global $output_data;
 
-require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
+declare(strict_types=1);
 
-$apiResult = new BasicJSON($output_data);
+use MyLittleWallpaper\classes\output\BasicJSON;
+use MyLittleWallpaper\classes\Response;
+
+global $outputData;
+
+$apiResult = new BasicJSON($outputData);
 
 $response = new Response($apiResult);
 $response->output();

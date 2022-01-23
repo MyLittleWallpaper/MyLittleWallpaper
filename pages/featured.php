@@ -1,16 +1,17 @@
 <?php
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
 
-require_once(ROOT_DIR . 'classes/output/WallpaperList.php');
+declare(strict_types=1);
 
-define('ACTIVE_PAGE', 'featured');
+use MyLittleWallpaper\classes\output\WallpaperList;
+use MyLittleWallpaper\classes\Response;
+
+const ACTIVE_PAGE = 'featured';
 
 $wallpaper_list = new WallpaperList();
 $wallpaper_list->searchAddTag('Featured');
 $wallpaper_list->setWallpapersPerPage(25);
 if (CATEGORY_ID > 0) {
-	$wallpaper_list->setCategory(CATEGORY_ID);
+    $wallpaper_list->setCategory(CATEGORY_ID);
 }
 $wallpaper_list->loadWallpapers();
 $wallpaper_list->setLargeWallpaperThumbs(true);

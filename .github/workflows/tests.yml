@@ -1,0 +1,45 @@
+name: PHPUnit
+
+on: [push, pull_request]
+
+jobs:
+  build-test:
+    name: PHP ${{ matrix.php-versions }} Tests
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest']
+        php-versions: ['7.4', '8.0', '8.1']
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, memcache, intl
+          ini-values: post_max_size=256M
+
+      - name: Install Memcache
+        run: sudo apt-get install -y memcached
+
+      - name: Check PHP version
+        run: php -v
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Composer install
+        run: composer install
+
+      - name: Run PHP linter
+        run: ./vendor/bin/phplint
+
+      - name: Run PHP_CodeSniffer
+        run: ./vendor/bin/phpcs -p ./
+
+      - name: Setup encryption key
+        run: openssl rand -base64 32 > .ENCRYPTION_KEY
+
+      - name: Run tests
+        run: ./vendor/bin/phpunit tests/

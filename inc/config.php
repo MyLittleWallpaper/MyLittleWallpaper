@@ -1,15 +1,23 @@
 <?php
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
 
-define("FILE_FOLDER", 'files/');
-define("DBNAME", '');
-define("DBUSER", '');
-define("DBPASS", '');
-define("DBHOST", 'localhost');
+declare(strict_types=1);
 
-define("HASHKEY", '');
-define("SESSIONPREFIX", '');
+use Dotenv\Dotenv;
+use Dotenv\Repository\Adapter\EnvConstAdapter;
+use Dotenv\Repository\RepositoryBuilder;
 
-define("RECAPTCHA_PUBLIC", "");
-define("RECAPTCHA_PRIVATE", "");
+$repository = RepositoryBuilder::createWithNoAdapters()
+    ->addAdapter(EnvConstAdapter::class)
+    ->immutable()->make();
+
+$dotenv = Dotenv::create($repository, dirname(__DIR__));
+$dotenv->load();
+$dotenv->required(
+    [
+        'FILE_FOLDER',
+        'DBHOST',
+        'DBNAME',
+        'DBUSER',
+        'DBPASS',
+    ]
+);

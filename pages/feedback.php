@@ -1,7 +1,10 @@
 <?php
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
+
+declare(strict_types=1);
+
 global $user;
+
+// phpcs:disable
 
 // @todo Rewrite
 /*$visits = $db->getRecord('visits', Array('field' => 'id', 'value' => 1));
@@ -27,12 +30,6 @@ $redirect = false;
 $error = false;
 //if ($banned) exit();
 if (isset($_POST['name']) && !$banned) {
-	if ($user->getIsAnonymous()) {
-		$resp = recaptcha_check_answer (RECAPTCHA_PRIVATE, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
-		if (!$resp->is_valid) {
-			$error = 'Invalid captcha.';
-		}
-	}
 	if (!$error) {
 		if (!empty($_POST['feedback'])) {
 			$phpmailer = new PHPMailer();
@@ -86,10 +83,6 @@ if (!$banned) {
 	echo '<div><label>Contact:</label><input type="text" autocomplete="off" name="contact" style="width:300px;" value="'.(!empty($_POST['contact']) ? Format::htmlEntities($_POST['contact']) : '').'" /></div>';
 	echo '<div><label style="float:left;padding-top:6px;">Feedback:<br /></label><textarea name="feedback" style="width:300px;height:80px;"></textarea><br /></div>';
 	
-	if ($user->getIsAnonymous()) {
-		echo recaptcha_get_html(RECAPTCHA_PUBLIC);
-	}
-
 	echo '<br /><input type="submit" value="Send feedback" />';
 	echo '</form>';
 } else {

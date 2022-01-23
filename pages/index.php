@@ -1,19 +1,16 @@
 <?php
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
 
-require_once(ROOT_DIR . 'classes/output/WallpaperList.php');
+declare(strict_types=1);
 
-define('ACTIVE_PAGE', 'index');
+use MyLittleWallpaper\classes\output\WallpaperList;
+use MyLittleWallpaper\classes\Response;
 
-/*if (!empty($_COOKIE['pageless']) && $_COOKIE['pageless'] == 'true') {
-	$pageless = true;
-} else $pageless = true;*/
+const ACTIVE_PAGE = 'index';
 
 $wallpaper_list = new WallpaperList();
 $wallpaper_list->loadSearchFromRequest();
 if (CATEGORY_ID > 0) {
-	$wallpaper_list->setCategory(CATEGORY_ID);
+    $wallpaper_list->setCategory(CATEGORY_ID);
 }
 $wallpaper_list->loadWallpapers();
 

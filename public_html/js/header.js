@@ -1,10 +1,22 @@
 /* <![CDATA[ */
-$(document).ready(function(){
-
+jQuery(function(){
+  if (window.document.documentMode) {
+    var warningBox = jQuery("<div/>").addClass("warning").css("width", "calc(100% - 300px)").
+      html(
+        "It looks like you are using Internet Explorer or Internet Explorer compatibility mode in Microsoft Edge.<br><br>" +
+        "Please note that Internet Explorer is <strong>not supported</strong> and several parts of this webiste might not function properly.<br><br>" +
+        "We recommend using a more modern browser such as " +
+        "<a href=\"https://www.mozilla.org/en-US/firefox/\" target=\"_blank\">Mozilla Firefox</a>, " +
+        "<a href=\"https://www.google.com/chrome/\" target=\"_blank\">Google Chrome</a> or " +
+        "<a href=\"https://www.microsoft.com/en-us/edge\" target=\"_blank\">Microsoft Edge</a>."
+      );
+    jQuery(".basic_page_container").prepend(warningBox);
+    jQuery("#galleryimages").prepend(warningBox.clone().css({"margin-left": "10px", "margin-right": "10px"}));
+  }
 });
 
 function change_category(el, pageURI) {
-	if ($(el).val() != '0') {
+	if ($(el).val() !== '0') {
 		window.location.href = '/c/' + $(el).val() + '/' + pageURI;
 	} else {
 		window.location.href = '/c/all/' + pageURI;
@@ -98,8 +110,4 @@ function extractLast( term ) {
 	return split( term ).pop();
 }
 
-var RecaptchaOptions = {
-	lang : 'en',
-	theme : 'clean'
-};
 /* ]]> */

@@ -1,17 +1,14 @@
 <?php
-/**
- * Wallpaper list template.
- * @author Petri Haikonen <sharkmachine@ecxol.net>
- * @package MyLittleWallpaper
- * @subpackage DefaultTemplate
- */
-// Check that correct entry point was used
-if (!defined('INDEX')) {
-	exit();
-}
+
+declare(strict_types=1);
+
+use MyLittleWallpaper\classes\Format;
+use MyLittleWallpaper\classes\output\WallpaperList;
 
 global $response, $user;
 
+// @todo fix
+// phpcs:disable Generic.Files.LineLength.TooLong
 echo "\n" . '		<!-- Wallpaper edit dialog -->' . "\n";
 echo '		<div id="wallpaper_edit" style="display:none;" title="Edit wallpaper information">' . "\n";
 echo '			<form class="labelForm" id="wallpaper_edit_form" method="post" accept-charset="utf-8" action="' . PUB_PATH_CAT . 'ajax/wallpaper_edit" style="padding-top:10px;">' . "\n";
@@ -20,15 +17,11 @@ echo '				<div><label>Name:</label><input type="hidden" name="id" id="wallid" va
 echo '				<div><label>Author(s):</label><input type="text" autocomplete="off" name="author" id="author" style="width:300px;" value="" /></div>' . "\n";
 echo '				<div><label>Tags:</label><input type="text" autocomplete="off" name="tags" id="tags" style="width:300px;" value="" /></div>' . "\n";
 if ($user->getIsAdmin()) {
-	echo '				<div><label>Don\'t show resolution</label><input type="checkbox" value="1" name="no_resolution" id="no_resolution" /></div>' . "\n";
+    echo '				<div><label>Don\'t show resolution</label><input type="checkbox" value="1" name="no_resolution" id="no_resolution" /></div>' . "\n";
 }
 echo '				<div><label>Platform:</label><input type="text" autocomplete="off" name="platform" id="platform" style="width:300px;" value="" /></div>' . "\n";
 echo '				<div><label>Source URL:</label><input type="text" autocomplete="off" name="url" id="url" style="width:300px;" value="" /></div>' . "\n";
 echo '				<div><label style="float:left;padding-top:6px;">Edit reason:<br /><span style="font-size:11px;">Not required, but<br />please provide one</span></label><textarea id="reason" name="reason" style="width:300px;height:80px;"></textarea><br /></div>' . "\n";
-
-if ($user->getIsAnonymous()) {
-	echo recaptcha_get_html(RECAPTCHA_PUBLIC);
-}
 
 echo '			</form>' . "\n";
 echo '		</div>' . "\n";
@@ -46,9 +39,9 @@ echo '				<div id="basicSearch">' . "\n";
 echo '					<div id="sort">' . "\n";
 echo '						<label>Sort by: </label><br />' . "\n";
 echo '						<select name="sort">' . "\n";
-$sorts = array(WallpaperList::ORDER_DATE_ADDED, WallpaperList::ORDER_POPULARITY);
+$sorts = [WallpaperList::ORDER_DATE_ADDED, WallpaperList::ORDER_POPULARITY];
 foreach ($sorts as $sort) {
-	echo '							<option value="' . $sort . '"' . (isset($_GET['sort']) && $_GET['sort'] == $sort ? ' selected="selected"' : '') . '>' . Format::htmlEntities(WallpaperList::GET_ORDER_TITLE($sort)) . '</option>' . "\n";
+    echo '							<option value="' . $sort . '"' . (isset($_GET['sort']) && $_GET['sort'] == $sort ? ' selected="selected"' : '') . '>' . Format::htmlEntities(WallpaperList::getOrderTitle($sort)) . '</option>' . "\n";
 }
 echo '						</select>' . "\n";
 echo '					</div>' . "\n";
@@ -56,9 +49,17 @@ echo '					<div id="res">' . "\n";
 echo '						<label>Resolution: </label><br />' . "\n";
 echo '						<select name="size">' . "\n";
 echo '							<option value="0">All sizes</option>' . "\n";
-$resolutions = array(WallpaperList::RESOLUTION_3840X2160, WallpaperList::RESOLUTION_2560X1600, WallpaperList::RESOLUTION_2560X1440, WallpaperList::RESOLUTION_1920X1200, WallpaperList::RESOLUTION_1920X1080, WallpaperList::RESOLUTION_1680X1050, WallpaperList::RESOLUTION_1366X768);
+$resolutions = [
+    WallpaperList::RESOLUTION_3840X2160,
+    WallpaperList::RESOLUTION_2560X1600,
+    WallpaperList::RESOLUTION_2560X1440,
+    WallpaperList::RESOLUTION_1920X1200,
+    WallpaperList::RESOLUTION_1920X1080,
+    WallpaperList::RESOLUTION_1680X1050,
+    WallpaperList::RESOLUTION_1366X768
+];
 foreach ($resolutions as $resolution) {
-	echo '							<option value="' . $resolution . '"' . (isset($_GET['size']) && $_GET['size'] == $resolution ? ' selected="selected"' : '') . '>' . WallpaperList::GET_RESOLUTION_TITLE($resolution) . '</option>' . "\n";
+    echo '							<option value="' . $resolution . '"' . (isset($_GET['size']) && $_GET['size'] == $resolution ? ' selected="selected"' : '') . '>' . WallpaperList::getResolutionTitle($resolution) . '</option>' . "\n";
 }
 echo '						</select>' . "\n";
 echo '					</div>' . "\n";
@@ -70,9 +71,9 @@ echo '							<a class="taglist" href="' . PUB_PATH_CAT . 'colours" onclick="retu
 echo '						</div>' . "\n";
 echo '					</div>' . "\n";
 if (!empty($_GET['searchAny']) || !empty($_GET['searchExclude'])) {
-	$advancedSearch = true;
+    $advancedSearch = true;
 } else {
-	$advancedSearch = false;
+    $advancedSearch = false;
 }
 
 echo '					<input id="toggleAdvanced" type="button" value="' . ($advancedSearch ? 'Hide' : 'Show') . ' advanced search" />';
@@ -92,21 +93,24 @@ echo '				</div>' . "\n";
 echo '				<div id="submit">&nbsp;<br /><input type="submit" id="searchsubmit" value="Search" /> &nbsp;<input type="button" id="searchclear" value="Clear" onclick="window.location.href=\'' . PUB_PATH_CAT . '\';" /></div>' . "\n";
 echo '			</form>' . "\n";
 echo '			<div style="position:absolute;bottom:16px;right:16px;font-size:11px;"><img src="' . PUB_PATH . THEME . '/images/fin.png" alt="Finland" /> &nbsp; Made in Finland</div>' . "\n";
-echo '			<div style="position:absolute;top:16px;right:16px;"><label id="rss">RSS' . ($response->responseVariables->rss_search != '' ? ' for this search' : '') . ':</label> <a href="' . PUB_PATH_CAT . 'feed/' . $response->responseVariables->rss_search . '">link</a></div>' . "\n";
-echo '			<p><a href="https://www.ssllabs.com/ssltest/analyze.html?d=www.mylittlewallpaper.com" target="_blank">TLS</a> has been enabled and there might be a few parts of the site that won\'t work properly.<br />Please file <a href="https://github.com/MyLittleWallpaper/MyLittleWallpaper/issues" target="_blank">a bug report</a> or send an email in case you have problems.</p>';
-echo '			<p>Help needed with tagging and adding new wallpapers! If you\'re interested, come to #mylittlewallpaper @ Freenode.</p>' . "\n";
+echo '			<div style="position:absolute;top:16px;right:16px;"><label id="rss">RSS' . ($response->getResponseVariables()->rss_search != '' ? ' for this search' : '') . ':</label> <a href="' . PUB_PATH_CAT . 'feed/' . $response->getResponseVariables()->rss_search . '">link</a></div>' . "\n";
+echo '			<p>Account registration has been fixed. You can register an account <a href="' . PUB_PATH_CAT . 'register">here</a></p>';
+$phpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+echo sprintf(
+    '			<p>Tasty PHP %s & MySQL 8.0 with <a href="%s" target="_blank">TLS 1.3</a></p>',
+    $phpVersion,
+    'https://www.ssllabs.com/ssltest/analyze.html?d=www.mylittlewallpaper.com'
+);
 echo '			<div style="clear:both;"></div>' . "\n";
 echo '		</div>' . "\n";
-
-//echo $pager;
 
 echo '		<div style="clear:both;"></div>' . "\n\n";
 echo '		<!-- Wallpapers -->' . "\n";
 echo '		<div id="galleryimages">' . "\n";
-if ($response->responseVariables->maxJoinAmountExceeded) {
-	echo '			<div class="warning">Search too complex, please remove tags from the search.</div>';
+if ($response->getResponseVariables()->maxJoinAmountExceeded) {
+    echo '			<div class="search-warning">Search too complex, please remove tags from the search.</div>';
 }
-echo '			<div class="wallpapercount">' . $response->responseVariables->wallpaper_count . ' wallpaper' . ($response->responseVariables->wallpaper_count != 1 ? 's' : '') . ' found.</div>';
+echo '			<div class="wallpapercount">' . $response->getResponseVariables()->wallpaper_count . ' wallpaper' . ($response->getResponseVariables()->wallpaper_count != 1 ? 's' : '') . ' found.</div>';
 
 include(DOC_DIR . THEME . '/wallpaper_list_wallpapers.php');
 

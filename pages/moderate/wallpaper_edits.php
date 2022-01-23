@@ -1,10 +1,11 @@
 <?php
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
-global $user;
+
+declare(strict_types=1);
+
+// phpcs:disable
 
 // @todo Rewrite
-/*$time_start = microtime(true);
+/*
 define('INDEX', true);
 
 // We want all possible errors, but not to show them
@@ -13,6 +14,7 @@ ini_set('display_errors', '0');
 ini_set('log_errors', true);
 
 // Conficuration and initialization
+require_once('../vendor/autoload.php');
 require_once('../config.php');
 require_once('../lib/db.inc.php');
 $db = new Database(DBUSER, DBPASS, DBNAME, DBHOST);

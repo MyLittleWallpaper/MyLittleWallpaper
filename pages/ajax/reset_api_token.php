@@ -1,15 +1,19 @@
 <?php
-// Check that correct entry point was used
-if (!defined('INDEX')) exit();
+
+declare(strict_types=1);
+
 global $response, $user;
 
-require_once(ROOT_DIR . 'classes/output/BasicJSON.php');
+use MyLittleWallpaper\classes\Database;
+use MyLittleWallpaper\classes\output\BasicJSON;
+use MyLittleWallpaper\classes\Response;
 
+$db     = Database::getInstance();
 $return = ['token' => null];
 if (!$user->getIsAnonymous()) {
-	$user->setToken(uid());
-	$db->saveArray('user', ['token' => $user->getToken()], $user->getId());
-	$return['token'] = $user->getToken();
+    $user->setToken(uid());
+    $db->saveArray('user', ['token' => $user->getToken()], $user->getId());
+    $return['token'] = $user->getToken();
 }
 
 $tokenChangeResult = new BasicJSON($return);
