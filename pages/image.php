@@ -39,16 +39,20 @@ if (!empty($image)) {
                 } else {
                     header('Content-Disposition: inline; filename="' . $file['filename'] . '"');
                 }
-                readfile(ROOT_DIR . $_ENV['FILE_FOLDER'] . $file['file']);
+                $filename = ROOT_DIR . $_ENV['FILE_FOLDER'] . $file['file'];
+                header('Content-Length: ' . filesize($filename));
+                readfile($filename);
             } elseif (file_exists(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb1_' . $file['file'])) {
                 header('Content-Type: image/jpeg');
                 if ($resize == '2') {
-                    readfile(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb2_' . $file['file']);
+                    $filename = ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb2_' . $file['file'];
                 } elseif ($resize == '3') {
-                    readfile(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb3_' . $file['file']);
+                    $filename = ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb3_' . $file['file'];
                 } else {
-                    readfile(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb1_' . $file['file']);
+                    $filename = ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb1_' . $file['file'];
                 }
+                header('Content-Length: ' . filesize($filename));
+                readfile($filename);
             } else {
                 $image = new ImageResize(ROOT_DIR . $_ENV['FILE_FOLDER'] . $file['file']);
                 $image->resizeToBestFit(200, 150);
@@ -101,12 +105,14 @@ if (!empty($image)) {
                 header('Content-Type: image/jpeg');
 
                 if ($resize == '2') {
-                    readfile(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb2_' . $file['file']);
+                    $filename = ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb2_' . $file['file'];
                 } elseif ($resize == '3') {
-                    readfile(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb3_' . $file['file']);
+                    $filename = ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb3_' . $file['file'];
                 } else {
-                    readfile(ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb1_' . $file['file']);
+                    $filename = ROOT_DIR . $_ENV['FILE_FOLDER'] . 'thumb/thumb1_' . $file['file'];
                 }
+                header('Content-Length: ' . filesize($filename));
+                readfile($filename);
             }
         } else {
             Session::startSession();
