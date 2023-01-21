@@ -6,6 +6,7 @@
             "check-description",
             "check-license",
             "check-abandoned",
+            "white-list:fgrosse/phpasn1",
             "white-list:symfony/error-handler",
 
             "accept-license:Apache-1.0",
@@ -32,7 +33,7 @@
         ]
     },
     "require": {
-        "php": "^7.4 || ~8.0.0 || 8.1.0",
+        "php": "^7.4 || >=8.0",
         "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-curl": "*",
