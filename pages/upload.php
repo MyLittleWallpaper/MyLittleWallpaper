@@ -592,6 +592,10 @@ if (CATEGORY === 'all') {
         $pageContents .= '<ul><li><strong>Imake must be in JPEG or PNG format.</strong></li>';
         $pageContents .= sprintf(
             '<li><strong>%s</strong></li>',
+            'Do not submit AI generated art.',
+        );
+        $pageContents .= sprintf(
+            '<li><strong>%s</strong></li>',
             'Upload the full-size image (even if the size is huge, like 10000x5625).',
         );
         $pageContents .= '<li><strong>The image size for desktop wallpapers must be at least 1366x768.</strong></li>';
