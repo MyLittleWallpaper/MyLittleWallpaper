@@ -588,12 +588,12 @@ if (CATEGORY === 'all') {
 
         $pageContents .= '<h1>Submit a wallpaper</h1>';
         $pageContents .= '<div class="success">Only the image and source are required</div>';
-        $pageContents .= '<br />Read the instructions below before submitting:';
-        $pageContents .= '<ul><li><strong>Imake must be in JPEG or PNG format.</strong></li>';
+        $pageContents .= '<br />Read the instructions below before submitting:<ul>';
         $pageContents .= sprintf(
             '<li><strong>%s</strong></li>',
             'Do not submit AI generated art.',
         );
+        $pageContents .= '<li><strong>Imake must be in JPEG or PNG format.</strong></li>';
         $pageContents .= sprintf(
             '<li><strong>%s</strong></li>',
             'Upload the full-size image (even if the size is huge, like 10000x5625).',
