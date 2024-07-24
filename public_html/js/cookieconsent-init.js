@@ -17,7 +17,7 @@ cc.run({
     'en': {
       consent_modal: {
         title: 'Much cookies, nom nom!',
-        description: 'Hi, this website uses essential cookies to ensure its proper operation. No 3rd party cookies or tracking cookies are used.',
+        description: 'Hi, this website uses essential cookies to ensure its proper operation. No 3rd party cookies or tracking cookies are used. The only cookies used are for accepting necessary cookies and for authentication.',
         primary_btn: {
           text: 'Accept necessary',
           role: 'accept_necessary'
