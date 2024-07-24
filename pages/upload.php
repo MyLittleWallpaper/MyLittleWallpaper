@@ -598,7 +598,7 @@ if (CATEGORY === 'all') {
             '<li><strong>%s</strong></li>',
             'Upload the full-size image (even if the size is huge, like 10000x5625).',
         );
-        $pageContents .= '<li><strong>The image size for desktop wallpapers must be at least 1366x768.</strong></li>';
+        $pageContents .= '<li><strong>The image size for desktop wallpapers must be at least 1092x1080.</strong></li>';
         $pageContents .= sprintf(
             '<li>%s %s</li>',
             'Author(s) -field autocomplete to existing artists to make entering artist easier.',
