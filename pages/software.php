@@ -17,7 +17,7 @@ $html .= '<p>Any software that supports Media RSS should work, just copy & paste
 
 $html .= '<h3 style="margin-top:40px;">Variety support</h3>';
 $html .= '<p>My Little Wallpaper supports Variety through Media RSS. At the moment you can only get a RSS feed ' .
-    'for search of your choice. There is no RSS feed for favourites at the moment.</p>';
+    'for search of your choice.</p>';
 $html .= '<p style="font-size:20px;">You can find more information about Variety <b>' .
     '<a href="http://peterlevi.com/variety/" target="_blank">here</a></b>.</p>';
 
