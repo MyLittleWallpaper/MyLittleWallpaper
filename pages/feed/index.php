@@ -8,9 +8,13 @@ use MyLittleWallpaper\classes\output\WallpaperList;
 use MyLittleWallpaper\classes\Response;
 
 $wallpaperList = new WallpaperList();
-$wallpaperList->loadSearchFromRequest();
-if (CATEGORY_ID > 0) {
-    $wallpaperList->setCategory(CATEGORY_ID);
+if (!empty($_GET['favourites-token'])) {
+    $wallpaperList->setSearchFavouritesUserToken($_GET['favourites-token']);
+} else {
+    $wallpaperList->loadSearchFromRequest();
+    if (CATEGORY_ID > 0) {
+        $wallpaperList->setCategory(CATEGORY_ID);
+    }
 }
 $wallpaperList->setWallpapersPerPage(150);
 $wallpaperList->loadWallpapers();

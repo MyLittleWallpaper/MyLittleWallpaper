@@ -19,7 +19,7 @@ $wallpaper_list->setWallpapersPerPage(25);
 $wallpaper_list->setSearchFavouritesUserId($user->getId());
 $wallpaper_list->loadWallpapers();
 $wallpaper_list->setLargeWallpaperThumbs(true);
-$wallpaper_list->setCustomTemplate('wallpaper_list_featured.php');
+$wallpaper_list->setCustomTemplate('wallpaper_list_favourites.php');
 $wallpaper_list->setAjaxLoadMorePage('favourites');
 $wallpaper_list->setPageTitleAddition('Favourites');
 

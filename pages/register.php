@@ -87,6 +87,7 @@ if (!$user->getIsAnonymous()) {
                         'username' => trim($_POST['username']),
                         'password' => Password::hashPassword($_POST['password']),
                         'email'    => $_POST['email'],
+                        'token'    => uid(),
                     ];
                     $db->saveArray('user', $saveData);
                     $_SESSION['success'] = true;

@@ -1942,4 +1942,22 @@ class WallpaperList extends Output
             $this->searchFavouritesUserId = (int)$searchFavouritesUserId;
         }
     }
+
+    /**
+     * @param string|null $token
+     *
+     * @return void
+     */
+    public function setSearchFavouritesUserToken(?string $token): void
+    {
+        $tokenUser = $this->db->query(
+            "SELECT id FROM `user` WHERE token = ?",
+            [$_GET['favourites-token']]
+        )->fetchColumn();
+        if ($token) {
+            $this->searchFavouritesUserId = $tokenUser;
+        } else {
+            $this->searchFavouritesUserId = 0;
+        }
+    }
 }
