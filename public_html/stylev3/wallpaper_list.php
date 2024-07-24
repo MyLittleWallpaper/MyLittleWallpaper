@@ -94,7 +94,7 @@ echo '				<div id="submit">&nbsp;<br /><input type="submit" id="searchsubmit" va
 echo '			</form>' . "\n";
 echo '			<div style="position:absolute;bottom:16px;right:16px;font-size:11px;"><img src="' . PUB_PATH . THEME . '/images/fin.png" alt="Finland" /> &nbsp; Made in Finland</div>' . "\n";
 echo '			<div style="position:absolute;top:16px;right:16px;"><label id="rss">RSS' . ($response->getResponseVariables()->rss_search != '' ? ' for this search' : '') . ':</label> <a href="' . PUB_PATH_CAT . 'feed/' . $response->getResponseVariables()->rss_search . '">link</a></div>' . "\n";
-echo '			<p>Initial support for favourites RSS added. You can copy the RSS link from your favourites page after logging in. You can reset the token used from your <a href="/c/' . CATEGORY . '/account">account page</a>.</p>';
+echo '			<p>Initial support for favourites RSS added. You can copy the RSS link from your favourites page after logging in. You can reset the token used from your <a href="/c/' . CATEGORY . '/account">account page</a>.<br>Favourites will display all regardless of selected category for now.</p>';
 echo '			<p>Account registration has been fixed. You can register an account <a href="' . PUB_PATH_CAT . 'register">here</a></p>';
 $phpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
 echo sprintf(
